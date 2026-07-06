@@ -363,11 +363,8 @@ html.lenis-scrolling .hero-glass-card {
 }
 
 .nav-link-underline {
-  position: absolute;
-  bottom: 0.35rem;
-  left: 50%;
   height: 1px;
-  transform: translateX(-50%);
+  flex-shrink: 0;
   background: linear-gradient(90deg, transparent, #2ec4e8, transparent);
   box-shadow: 0 0 8px rgba(46, 196, 232, 0.6);
 }

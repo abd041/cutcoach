@@ -26,12 +26,6 @@ export function Footer() {
             <div className="mt-6">
               <AppStoreBadge />
             </div>
-            <a
-              href={`mailto:${siteConfig.supportEmail}`}
-              className="mt-4 inline-block text-sm text-white/45 transition-colors hover:text-[#4DDFFF]"
-            >
-              {siteConfig.supportEmail}
-            </a>
           </div>
 
           <div>

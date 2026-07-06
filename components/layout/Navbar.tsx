@@ -122,15 +122,24 @@ export function Navbar() {
                       aria-hidden
                     />
                     <span className="relative z-10">{link.label}</span>
-                    {isActive ? (
-                      <motion.span
-                        layoutId="nav-underline"
-                        className="nav-link-underline w-[65%]"
-                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      />
-                    ) : (
-                      <span className="nav-link-underline w-0 opacity-0 transition-all duration-300 ease-out group-hover:w-[50%] group-hover:opacity-70" />
-                    )}
+                    <span
+                      className="pointer-events-none absolute inset-x-0 bottom-[0.35rem] flex justify-center"
+                      aria-hidden
+                    >
+                      {isActive ? (
+                        <motion.span
+                          layoutId="nav-underline"
+                          className="nav-link-underline w-[65%]"
+                          transition={{
+                            type: "spring",
+                            stiffness: 380,
+                            damping: 30,
+                          }}
+                        />
+                      ) : (
+                        <span className="nav-link-underline w-0 opacity-0 transition-all duration-300 ease-out group-hover:w-[50%] group-hover:opacity-70" />
+                      )}
+                    </span>
                     <span className="sr-only">{`, section ${String(index + 1).padStart(2, "0")}`}</span>
                   </Link>
                 );
