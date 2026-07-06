@@ -21,8 +21,8 @@ export default function Home() {
         <HeroTrustBar />
         <FeatureHighlights />
         <HowItWorks />
-        <Pricing />
         <PlatformCompatibility />
+        <Pricing />
         <Testimonials />
         <FAQ />
         <FinalCTA />

@@ -5,6 +5,7 @@ import { siteConfig } from "@/lib/data/content";
 import { images } from "@/lib/images";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
+import { LenisProvider } from "@/components/providers/LenisProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -85,6 +86,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+        <LenisProvider>
         <SmoothScroll />
         <a
           href="#main-content"
@@ -93,6 +95,7 @@ export default function RootLayout({
           Skip to content
         </a>
         {children}
+        </LenisProvider>
       </body>
     </html>
   );

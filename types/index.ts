@@ -8,14 +8,27 @@ export interface Feature {
   description: string;
   image: string;
   bgImage?: string;
+  highlights?: string[];
+  callouts?: {
+    label: string;
+    value: string;
+    live?: boolean;
+  }[];
 }
 
 export interface Step {
   number: string;
+  phase: string;
   title: string;
   description: string;
+  highlights: string[];
   tags: string[];
   icon: string;
+  callouts?: {
+    label: string;
+    value: string;
+    live?: boolean;
+  }[];
 }
 
 export interface PricingPlan {

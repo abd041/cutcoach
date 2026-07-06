@@ -14,6 +14,8 @@ interface CinematicSectionProps {
   className?: string;
   id?: string;
   bleed?: boolean;
+  /** When false, keeps section fully rendered (required for sticky children). */
+  pin?: boolean;
 }
 
 const moodLights: Record<SectionMood, string> = {
@@ -31,12 +33,14 @@ export function CinematicSection({
   className,
   id,
   bleed = false,
+  pin = false,
 }: CinematicSectionProps) {
   return (
     <section
       id={id}
       className={cn(
         "section-breath relative isolate overflow-hidden",
+        !pin && "section-defer",
         bleed && "section-bleed",
         className
       )}
@@ -49,7 +53,10 @@ export function CinematicSection({
         aria-hidden
       />
       <div className="vignette pointer-events-none absolute inset-0" aria-hidden />
-      <div className="noise-overlay pointer-events-none absolute inset-0 opacity-30" aria-hidden />
+      <div
+        className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.16]"
+        aria-hidden
+      />
       {children}
     </section>
   );

@@ -13,7 +13,7 @@ interface ButtonProps {
   className?: string;
   external?: boolean;
   showArrow?: boolean;
-  size?: "default" | "large";
+  size?: "default" | "large" | "nav";
 }
 
 export function MagneticButton({
@@ -39,6 +39,7 @@ export function MagneticButton({
   const sizes = {
     default: "h-[48px] px-6 text-sm rounded-2xl",
     large: "h-[56px] px-8 text-base rounded-2xl sm:h-[60px]",
+    nav: "h-9 gap-2 rounded-xl px-4 text-[13px] font-semibold tracking-[0.01em] sm:h-10 sm:px-5",
   };
 
   const content = (
@@ -48,14 +49,16 @@ export function MagneticButton({
       whileHover={{ scale: variant === "primary" ? 1 : 1.03 }}
       whileTap={{ scale: 0.97 }}
       className={cn(
-        "relative inline-flex items-center justify-center gap-2.5 font-medium transition-transform duration-300",
+        "relative inline-flex items-center justify-center gap-2.5 whitespace-nowrap font-medium transition-transform duration-300",
         className?.includes("w-full") && "w-full",
         variants[variant],
         sizes[size],
         className
       )}
     >
-      <span className="relative z-10">{children}</span>
+      <span className="relative z-10 inline-flex items-center gap-[0.45em] leading-none">
+        {children}
+      </span>
       {showArrow && variant !== "ghost" && (
         <>
           {variant === "primary" ? (

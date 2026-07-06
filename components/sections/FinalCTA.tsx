@@ -13,9 +13,10 @@ import { images } from "@/lib/images";
 
 export function FinalCTA() {
   return (
-    <CinematicSection mood="climax" className="section-py pb-8">
+    <CinematicSection mood="climax" className="section-divider section-py -mt-6 pb-8 sm:-mt-8">
       <Container>
-        <div className="hero-glass-card relative overflow-hidden rounded-[1.75rem] lg:rounded-[2rem]">
+        <div className="final-cta-shell relative overflow-hidden rounded-[1.75rem] p-px lg:rounded-[2rem]">
+          <div className="hero-glass-card relative overflow-hidden rounded-[1.72rem] lg:rounded-[1.97rem]">
           <div className="pointer-events-none absolute inset-0">
             <Image
               src={images.ctaBackground}
@@ -35,7 +36,7 @@ export function FinalCTA() {
               transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-6"
             >
-              <h2 className="font-display text-[clamp(2.25rem,5.5vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.03em] text-white">
+              <h2 className="font-display text-[clamp(2rem,8.5vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.03em] text-white sm:leading-[0.95]">
                 {finalCta.heading}
                 <span className="hero-premium-accent-line mt-1 block sm:mt-2">
                   {finalCta.headingAccent}
@@ -85,6 +86,7 @@ export function FinalCTA() {
                 />
               </div>
             </motion.div>
+          </div>
           </div>
         </div>
       </Container>

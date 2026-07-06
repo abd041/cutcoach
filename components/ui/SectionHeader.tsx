@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
+import { TextReveal } from "@/components/ui/TextReveal";
 
 interface SectionHeaderProps {
   tag?: string;
@@ -12,6 +13,8 @@ interface SectionHeaderProps {
   align?: "left" | "center";
   className?: string;
   size?: "default" | "large";
+  premium?: boolean;
+  pills?: string[];
 }
 
 export function SectionHeader({
@@ -22,6 +25,8 @@ export function SectionHeader({
   align = "center",
   className,
   size = "default",
+  premium = false,
+  pills,
 }: SectionHeaderProps) {
   return (
     <motion.div
@@ -45,13 +50,54 @@ export function SectionHeader({
             : "text-[1.625rem] leading-[1.08] sm:text-4xl lg:text-5xl"
         )}
       >
-        <span className="block">{heading}</span>
-        {headingAccent && (
-          <span className="hero-premium-accent-line mt-1 block sm:mt-2">
-            {headingAccent}
-          </span>
+        {premium ? (
+          <>
+            <span className="block">
+              <TextReveal as="span" delay={0.08}>
+                {heading}
+              </TextReveal>
+            </span>
+            {headingAccent && (
+              <span className="mt-1 block sm:mt-2">
+                <TextReveal
+                  as="span"
+                  delay={0.28}
+                  className="hero-premium-gradient-text"
+                >
+                  {headingAccent}
+                </TextReveal>
+              </span>
+            )}
+          </>
+        ) : (
+          <>
+            <span className="block">{heading}</span>
+            {headingAccent && (
+              <span className="hero-premium-accent-line mt-1 block sm:mt-2">
+                {headingAccent}
+              </span>
+            )}
+          </>
         )}
       </h2>
+
+      {pills && pills.length > 0 && (
+        <div
+          className={cn(
+            "mt-5 flex flex-wrap gap-2 sm:mt-6",
+            align === "center" && "justify-center"
+          )}
+        >
+          {pills.map((pill) => (
+            <span
+              key={pill}
+              className="rounded-full border border-white/[0.08] bg-white/[0.04] px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45 sm:px-3 sm:py-1 sm:text-[10px] sm:tracking-[0.16em]"
+            >
+              {pill}
+            </span>
+          ))}
+        </div>
+      )}
 
       {description && (
         <p

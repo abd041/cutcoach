@@ -56,37 +56,58 @@ export const featureSection = {
   heading: "AI Coaching that Elevates",
   headingAccent: "Every Haircut",
   description:
-    "CutCoach gives barbers real-time structure, performance feedback, and pacing intelligence\nso every client session becomes a training opportunity.",
+    "Real-time structure, performance feedback, and pacing intelligence — so every client session becomes a training opportunity.",
+  pillars: ["Performance", "Pacing", "Confidence"],
 };
 
 export const features: Feature[] = [
   {
     title: "Performance Awareness",
     description:
-      "CutCoach tracks pacing, workflow rhythm, and technical consistency so barbers understand how they actually perform - not how they think they perform",
+      "Understand how you actually perform behind the chair — not how you think you perform.",
+    highlights: [
+      "Tracks pacing and workflow rhythm",
+      "Surfaces technical consistency gaps",
+      "Turns every cut into measurable feedback",
+    ],
     image: images.liveAiSupport,
     bgImage: images.featureBg1,
+    callouts: [
+      { label: "Session score", value: "87" },
+      { label: "Pacing", value: "On track", live: true },
+    ],
   },
   {
     title: "Live Cut Guidance",
     description:
-      "Real-time cues help barbers stay on schedule, maintain structure, and reduce hesitation during complex sections of a haircut",
+      "Stay on schedule and in control during complex sections with subtle, hands-free cues.",
+    highlights: [
+      "Real-time pacing through smart glasses",
+      "Structure reminders per section",
+      "Less hesitation, smoother flow",
+    ],
     image: images.liveCutGuidance,
     bgImage: images.featureBg2,
+    callouts: [
+      { label: "Fade left", value: "4:12" },
+      { label: "Cue", value: "Active", live: true },
+    ],
   },
   {
     title: "Guided Session Activation",
     description:
-      "Start a CutCoach session before the haircut begins and receive structured timing guidance designed to keep your workflow efficient and professional.",
+      "Start a session in under two minutes and get a clear plan before the first clip.",
+    highlights: [
+      "One-tap session launch on iOS",
+      "Structured timing from the first section",
+      "Professional workflow from minute one",
+    ],
     image: images.guidedSession,
     bgImage: images.leftCard,
-  },
-  {
-    title: "Live AI Cut Support",
-    description:
-      "Receive subtle real-time cues that help you move through each section of the haircut with confidence, reduce hesitation, and maintain professional pacing.",
-    image: images.liveAiSupport,
-    bgImage: images.rightCard,
+    callouts: [
+      { label: "Status", value: "Live", live: true },
+      { label: "Start time", value: "2 min" },
+    ],
   },
 ];
 
@@ -95,33 +116,64 @@ export const howItWorksSection = {
   heading: "Train Faster on",
   headingAccent: "Real Clients",
   description:
-    "CutCoach guides your haircut from start to finish using real-time pacing cues, structured workflow reminders, and AI performance feedback after every session.",
+    "Three phases. One workflow. Coaching from first clip to final mirror check.",
+  pillars: ["Before", "During", "After"],
 };
 
 export const steps: Step[] = [
   {
     number: "Step 01",
+    phase: "Before the cut",
     title: "Start a Guided Session",
     description:
-      "Activate CutCoach before the haircut begins to receive timing structure and workflow direction designed to keep you efficient and confident.",
+      "Launch a session in under two minutes with a clear plan before the first clip.",
+    highlights: [
+      "One-tap activation on iOS",
+      "Structured section timing from the start",
+      "Confidence before the client sits down",
+    ],
     tags: ["Begin Session", "View Session Plan"],
     icon: images.step1Icon,
+    callouts: [
+      { label: "Session plan", value: "Ready", live: true },
+      { label: "Setup", value: "2 min" },
+    ],
   },
   {
     number: "Step 02",
+    phase: "During the cut",
     title: "Cut with Live AI Guidance",
     description:
-      "During the haircut, CutCoach delivers subtle pacing cues and workflow reminders through your smart glasses so you stay structured, efficient, and confident in every section.",
+      "Stay on pace with subtle, hands-free cues through every section of the cut.",
+    highlights: [
+      "Live pacing through smart glasses",
+      "Workflow reminders per section",
+      "Less hesitation, smoother flow",
+    ],
     tags: ["Stay On Pace", "View Live Metrics"],
     icon: images.step2Icon,
+    callouts: [
+      { label: "Fade left", value: "4:12" },
+      { label: "Cue", value: "Active", live: true },
+    ],
   },
   {
     number: "Step 03",
-    title: "Review Your Performance & Improve",
+    phase: "After the cut",
+    title: "Analyze Performance & Level Up",
     description:
-      "After the haircut, CutCoach analyzes your timing efficiency, workflow decisions, and technical consistency - helping you identify mistakes, build confidence, and improve with every real client.",
+      "Review timing, workflow, and consistency — then improve with every real client.",
+    highlights: [
+      "Session score and pacing breakdown",
+      "Clear notes on what slowed you down",
+      "Actionable feedback after every cut",
+    ],
     tags: ["View Session Report", "Track Skill Progress"],
     icon: images.step3Icon,
+    callouts: [
+      { label: "Session score", value: "87" },
+      { label: "Insights", value: "Ready", live: true },
+    ],
   },
 ];
 
@@ -182,6 +234,7 @@ export const compatibilitySection = {
   headingAccent: "Across All Platforms",
   description:
     "CutCoach works with the tools barbers already use — effortless integration across your devices and shop setup.",
+  pillars: ["iOS", "Smart Glasses", "Pro Tools", "Cloud"],
 };
 
 export const compatibilityPlatforms = [
@@ -208,24 +261,31 @@ export const testimonialsSection = {
   heading: "Barbers Are Already",
   headingAccent: "Training Smarter",
   description:
-    "Early access barbers are testing CutCoach in real shops. Full stories and video reviews launch with our next release.",
+    "Early access barbers are testing CutCoach in real shops. These are the outcomes they're tracking — full video stories launch with our next release.",
+  pillars: ["Speed", "Consistency", "Confidence"],
 };
 
 export const testimonialPreviewThemes = [
   {
     title: "Faster Sessions",
-    description: "Barbers tracking pacing improvements across back-to-back client days.",
+    description:
+      "Barbers tracking pacing improvements across back-to-back client days — less downtime between sections, smoother flow.",
     metric: "Speed",
+    outcome: "Pacing tracked per section",
   },
   {
     title: "Consistent Structure",
-    description: "Structured workflow cues helping barbers stay on schedule every cut.",
+    description:
+      "Structured workflow cues helping barbers stay on schedule every cut — same rhythm, every client.",
     metric: "Consistency",
+    outcome: "Workflow cues on every cut",
   },
   {
     title: "Shop Confidence",
-    description: "Real-time guidance building confidence behind the chair with live clients.",
+    description:
+      "Real-time guidance building confidence behind the chair with live clients — less hesitation, more control.",
     metric: "Confidence",
+    outcome: "Live guidance during cuts",
   },
 ];
 
@@ -235,6 +295,8 @@ export const pricingSection = {
   headingAccent: "Your CutCoach Plan",
   description:
     "Start improving your haircut speed, structure, and consistency with AI coaching built for real client sessions.",
+  pillars: ["Free Start", "Pro Plan", "Credit Packs"],
+  footnote: "All plans include secure session storage and iOS access.",
 };
 
 export const pricingPlans: PricingPlan[] = [
@@ -288,6 +350,7 @@ export const faqSection = {
   heading: "Everything Barbers",
   headingAccent: "Want To Know",
   description: "Real answers about how CutCoach works during real haircuts.",
+  pillars: ["Getting Started", "Privacy", "Billing"],
 };
 
 export const faqItems: FAQItem[] = [
@@ -349,3 +412,17 @@ export const stats = [
   { value: 150, suffix: "", label: "Monthly Credits" },
   { value: 2, suffix: " min", label: "To Start Training" },
 ];
+
+export const trustBar = {
+  columnStart: "Get started",
+  columnMetrics: "What you get",
+  columnProof: "Who it's for",
+  iosPill: "Free on iOS",
+  downloadNote: "No card required · First sessions free",
+  trustedLabel: "Barber Trusted",
+  quote: "Finally training that matches shop pace.",
+  mission:
+    "Built for shop-floor pressure — real clients, real pacing, real confidence behind the chair.",
+  earlyAccess: "Join barbers training smarter with CutCoach early access.",
+  avatars: ["JM", "TD", "KR", "AL"],
+};
