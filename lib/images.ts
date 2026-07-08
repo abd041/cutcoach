@@ -15,8 +15,6 @@ export const images = {
   leftCard: `${CDN}/69b0a5bf386620e60b7876ef_left%20card.webp`,
   rightCard: `${CDN}/69b0a5bf386620e60b7876f0_Right%20card.webp`,
   priceGlow: `${CDN}/69b0a5bf386620e60b7876e1_Frame%204.webp`,
-  babyliss: `${CDN}/6a39f8e7010fbda3111e1966_babyliss-pro_7949713957.png`,
-  andis: `${CDN}/6a39f9cd045c6e0d486ea617_andis-logo.png`,
   integrationCenter: `${CDN}/69b0a5bf386620e60b787674_Group%202087329781.svg`,
   checkIcon: `${CDN}/69b0a5bf386620e60b7876a6_Group%2014.svg`,
   step1Icon: `${CDN}/69b0a5bf386620e60b787682_Simplification%20(6).svg`,

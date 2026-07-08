@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
+import { useEntranceReady } from "@/lib/entrance/EntranceProvider";
 
 interface TextRevealProps {
   children: string;
@@ -16,6 +17,7 @@ export function TextReveal({
   delay = 0,
   as: Tag = "span",
 }: TextRevealProps) {
+  const ready = useEntranceReady();
   const words = children.split(" ");
 
   return (
@@ -25,7 +27,11 @@ export function TextReveal({
           <motion.span
             className="inline-block"
             initial={{ y: "110%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            animate={
+              ready
+                ? { y: 0, opacity: 1 }
+                : { y: "110%", opacity: 0 }
+            }
             transition={{
               duration: 0.55,
               delay: delay + i * 0.04,

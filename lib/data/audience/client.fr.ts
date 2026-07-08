@@ -16,14 +16,31 @@ export const clientContentFr: AudienceContentPack = {
     { label: "Histoires clients", href: "#testimonials" },
   ],
   hero: {
-    headline: "N'expliquez plus jamais votre coupe",
-    headlineAccent: "Depuis le début.",
+    headline: "Obtenez la coupe que vous avez demandée.",
+    headlineAccent: "À chaque fois.",
     subtext:
-      "Votre Client Passport enregistre vos préférences de coupe, photos, historique et notes du barber pour que chaque barber commence avec clarté.",
+      "Votre Client Passport se souvient de tout ce que votre barber devrait savoir : préférences, historique de coupes, photos d’inspiration, notes et plus encore.",
     cta: "Créez votre Client Passport gratuit",
     secondaryCta: "Voir comment ça marche",
-    eyebrow: "Plus jamais de mauvaise coupe",
+    eyebrow: "Client Passport",
     eyebrowSecondary: "Gratuit pour toujours · Sans carte",
+    screens: [
+      { src: images.liveAiSupport, alt: "Préférences Client Passport" },
+      { src: images.performanceAwareness, alt: "Historique et notes de coupe" },
+      { src: images.guidedSession, alt: "Photos d’inspiration enregistrées" },
+    ],
+    sideScreens: [
+      {
+        src: images.performanceAwareness,
+        alt: "Historique de coupes",
+        side: "left",
+      },
+      {
+        src: images.guidedSession,
+        alt: "Inspiration enregistrée",
+        side: "right",
+      },
+    ],
   },
   trustBar: {
     columnStart: "Commencer",
@@ -167,29 +184,31 @@ export const clientContentFr: AudienceContentPack = {
     },
   ],
   compatibilitySection: {
-    tag: "Fonctionne avec vos visites",
-    heading: "Partagez clairement,",
-    headingAccent: "Gardez le contrôle",
+    tag: "Conçu pour de vraies visites",
+    heading: "Fonctionne avec les outils",
+    headingAccent: "que vous utilisez déjà",
     description:
-      "Client Passport vit sur iOS avec un profil QR que vous contrôlez — préférences et photos voyagent avec vous, pas en captures éparpillées.",
-    pillars: ["iOS", "Profil QR", "Privé", "Cloud"],
+      "CutCoach est neutre vis-à-vis des marques et s’intègre naturellement au flux de travail de tout barber, quels que soient les outils qu’il préfère.",
+    pillars: ["Passport", "QR", "Photos", "Cloud"],
   },
   compatibilityPlatforms: [
     {
-      label: "App iOS",
-      description: "Créez et mettez à jour votre passport depuis votre iPhone.",
+      label: "Application mobile",
+      description: "Créez et mettez à jour votre Client Passport depuis votre iPhone.",
     },
     {
       label: "Profil QR",
-      description: "Partagez vos préférences avec n'importe quel barber en un scan.",
+      description: "Partagez vos préférences avec n’importe quel barber en un scan.",
     },
     {
-      label: "Privé par défaut",
-      description: "Les détails de votre coupe restent les vôtres — partagez uniquement quand vous le choisissez.",
+      label: "Résumés IA",
+      description:
+        "Des résumés de préférences clairs pour une communication plus fluide à chaque visite.",
     },
     {
       label: "Cloud sécurisé",
-      description: "Stockage chiffré pour préférences, photos et notes.",
+      description:
+        "Stockage chiffré pour préférences, photos et notes — sans dépendance à une marque de tondeuse.",
     },
   ],
   testimonialsSection: {
@@ -289,16 +308,16 @@ export const clientContentFr: AudienceContentPack = {
     },
   ],
   finalCta: {
-    heading: "N'expliquez plus jamais",
-    headingAccent: "Depuis le début",
+    heading: "Obtenez la coupe",
+    headingAccent: "demandée",
     primaryCta: "Créez votre Client Passport gratuit",
     secondaryCta: "Voir comment ça marche",
   },
   footerDescription:
-    "Client Passport garde préférences, photos, historique et notes du barber prêts — pour que chaque barber commence avec clarté.",
+    "Client Passport mémorise préférences, historique, photos d’inspiration et notes — pour que chaque barber commence avec clarté.",
   mobileHighlights: [
-    { title: "Client Passport", subtitle: "Gratuit pour toujours", live: true },
-    { title: "Profil QR", subtitle: "N'importe quel barber" },
-    { title: "Préférences", subtitle: "Photos + Notes" },
+    { title: "Préférences", subtitle: "Toujours mémorisées", live: true },
+    { title: "Historique", subtitle: "Photos d’inspiration" },
+    { title: "Notes", subtitle: "Chaque visite" },
   ],
 };

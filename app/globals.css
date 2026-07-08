@@ -1114,20 +1114,30 @@ a:hover .logo-prominent,
   );
 }
 
-.compat-partner-chip--babyliss:hover,
-.compat-partner-chip--babyliss.compat-partner-chip--active {
-  border-color: rgba(220, 38, 38, 0.35);
+.compat-tool-chip {
+  border-color: rgba(77, 223, 255, 0.18);
+  background: linear-gradient(
+    165deg,
+    rgba(77, 223, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
   box-shadow:
-    0 22px 52px -18px rgba(0, 0, 0, 0.72),
-    0 0 40px -10px rgba(220, 38, 38, 0.28);
+    0 16px 40px -18px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-.compat-partner-chip--andis:hover,
-.compat-partner-chip--andis.compat-partner-chip--active {
-  border-color: rgba(148, 163, 184, 0.35);
+.compat-tool-chip--active,
+.compat-tool-chip:hover {
+  border-color: rgba(77, 223, 255, 0.45);
+  color: #4ddfff;
   box-shadow:
     0 22px 52px -18px rgba(0, 0, 0, 0.72),
-    0 0 36px -10px rgba(148, 163, 184, 0.22);
+    0 0 40px -10px rgba(77, 223, 255, 0.35);
+}
+
+.compat-tool-chip--active .compat-partner-chip-glow,
+.compat-tool-chip:hover .compat-partner-chip-glow {
+  opacity: 1;
 }
 
 .compat-partner-chip--cutcoach {
@@ -1827,3 +1837,151 @@ a:hover .logo-prominent,
     0 0 0 2px var(--background),
     0 0 0 4px rgba(46, 196, 232, 0.45);
 }
+
+/* ── Site entrance (Apple / Tesla-grade, ~2s) ── */
+html.entrance-locked,
+html.entrance-locked body {
+  overflow: hidden;
+  touch-action: none;
+}
+
+.entrance-overlay {
+  will-change: opacity, transform, filter;
+}
+
+.entrance-vignette {
+  background:
+    radial-gradient(ellipse 75% 65% at 50% 48%, transparent 28%, rgba(3, 5, 8, 0.55) 72%, rgba(3, 5, 8, 0.92) 100%),
+    radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.35) 100%);
+}
+
+.entrance-grid {
+  background-image:
+    linear-gradient(rgba(77, 223, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77, 223, 255, 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center center;
+  mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, black 15%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse 55% 50% at 50% 50%, black 15%, transparent 72%);
+  transform: perspective(900px) rotateX(12deg) scale(1.08);
+  transform-origin: center 60%;
+}
+
+.entrance-corner {
+  position: absolute;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-color: rgba(77, 223, 255, 0.55);
+  border-style: solid;
+}
+
+.entrance-corner--tl {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+
+.entrance-corner--tr {
+  top: 0;
+  right: 0;
+  border-width: 1px 1px 0 0;
+}
+
+.entrance-corner--bl {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 1px 1px;
+}
+
+.entrance-corner--br {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
+
+.entrance-guideline {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(77, 223, 255, 0.55),
+    transparent
+  );
+  transform-origin: left center;
+}
+
+.entrance-guideline--a {
+  top: 18%;
+  left: -12%;
+  width: 124%;
+  transform: rotate(-8deg);
+}
+
+.entrance-guideline--b {
+  bottom: 22%;
+  left: -8%;
+  width: 116%;
+  transform: rotate(5deg);
+}
+
+.entrance-scan {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(77, 223, 255, 0.15) 20%,
+    rgba(77, 223, 255, 0.95) 50%,
+    rgba(77, 223, 255, 0.15) 80%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 18px 2px rgba(77, 223, 255, 0.55),
+    0 0 48px 6px rgba(0, 200, 255, 0.25);
+}
+
+.entrance-mote {
+  filter: blur(0.5px);
+  opacity: 0;
+  animation: entrance-mote-drift 2.4s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(77, 223, 255, 0.65);
+}
+
+@keyframes entrance-mote-drift {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0) scale(0.7);
+  }
+  30% {
+    opacity: 0.55;
+  }
+  60% {
+    opacity: 0.35;
+    transform: translate3d(0, -10px, 0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entrance-overlay,
+  .entrance-mote,
+  .entrance-grid {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .entrance-mote {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .entrance-grid {
+    background-size: 36px 36px;
+  }
+
+  .entrance-corner {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+}
+

@@ -8,17 +8,22 @@ import { TextReveal } from "@/components/ui/TextReveal";
 import { AudienceModeToggle } from "@/components/ui/AudienceModeToggle";
 import { useAudienceContent, useAudienceMode } from "@/lib/audience/AudienceModeProvider";
 import { siteConfig } from "@/lib/data/content";
-import { heroFadeUp, heroStagger } from "@/components/hero/hero-motion";
+import {
+  heroFadeUp,
+  heroStagger,
+  useHeroEntranceReady,
+} from "@/components/hero/hero-motion";
 
 export function HeroCopy() {
   const { mode } = useAudienceMode();
   const { hero } = useAudienceContent();
+  const ready = useHeroEntranceReady();
 
   return (
     <motion.div
       variants={heroStagger}
       initial="hidden"
-      animate="show"
+      animate={ready ? "show" : "hidden"}
       className="relative z-10 max-w-[640px] lg:pt-2"
     >
       <motion.div variants={heroFadeUp} className="mb-5 sm:mb-6 lg:hidden">
@@ -31,7 +36,11 @@ export function HeroCopy() {
         <motion.div
           key={mode}
           initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={
+            ready
+              ? { opacity: 1, y: 0 }
+              : { opacity: 0, y: 12 }
+          }
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
         >

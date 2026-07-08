@@ -7,54 +7,50 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CinematicSection } from "@/components/ui/CinematicSection";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import {
+  TOOL_ICON_MAP,
+  type ToolIconId,
+} from "@/components/ui/ToolIcons";
 import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import { useUi } from "@/lib/i18n/LocaleProvider";
 import { cn } from "@/lib/cn";
-import { images } from "@/lib/images";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 const ORBIT_RADIUS = 38;
 
-type PartnerId = "babyliss" | "andis";
+type ToolUiKey =
+  | "toolClippers"
+  | "toolTrimmers"
+  | "toolGuards"
+  | "toolShears"
+  | "toolComb"
+  | "toolGlasses"
+  | "toolMobile"
+  | "toolAi"
+  | "toolCloud";
 
-type OrbitPartner = {
-  id: PartnerId;
-  name: string;
-  descriptor: string;
+/** Brand-neutral tool orbit — no manufacturer names or logos. */
+const ORBIT_TOOLS: {
+  id: ToolIconId;
+  uiKey: ToolUiKey;
   angle: number;
-  glow: string;
-  logo: string;
-  logoClass: string;
-};
-
-const orbitPartners: OrbitPartner[] = [
-  {
-    id: "babyliss",
-    name: "BaByliss PRO",
-    descriptor: "Clipper-ready",
-    angle: -48,
-    logo: images.babyliss,
-    logoClass:
-      "h-9 w-auto max-w-[4.75rem] object-contain drop-shadow-[0_2px_12px_rgba(220,38,38,0.25)] sm:h-10 sm:max-w-[5.25rem]",
-    glow: "rgba(220, 38, 38, 0.42)",
-  },
-  {
-    id: "andis",
-    name: "Andis",
-    descriptor: "Shop-standard",
-    angle: 132,
-    logo: images.andis,
-    logoClass:
-      "h-8 w-auto max-w-[4rem] object-contain opacity-95 sm:h-9 sm:max-w-[4.5rem]",
-    glow: "rgba(148, 163, 184, 0.45)",
-  },
+}[] = [
+  { id: "clippers", uiKey: "toolClippers", angle: -90 },
+  { id: "trimmers", uiKey: "toolTrimmers", angle: -50 },
+  { id: "guards", uiKey: "toolGuards", angle: -10 },
+  { id: "shears", uiKey: "toolShears", angle: 30 },
+  { id: "comb", uiKey: "toolComb", angle: 70 },
+  { id: "glasses", uiKey: "toolGlasses", angle: 110 },
+  { id: "mobile", uiKey: "toolMobile", angle: 150 },
+  { id: "ai", uiKey: "toolAi", angle: 190 },
+  { id: "cloud", uiKey: "toolCloud", angle: 230 },
 ];
 
-function partnerPosition(angle: number) {
+function toolPosition(angle: number) {
   const rad = (angle * Math.PI) / 180;
   return {
     x: 50 + ORBIT_RADIUS * Math.cos(rad),
@@ -63,7 +59,7 @@ function partnerPosition(angle: number) {
 }
 
 function connectorPath(angle: number) {
-  const { x, y } = partnerPosition(angle);
+  const { x, y } = toolPosition(angle);
   const midX = (50 + x) / 2;
   const midY = (50 + y) / 2;
   const rad = (angle * Math.PI) / 180;
@@ -72,11 +68,7 @@ function connectorPath(angle: number) {
   return `M 50 50 Q ${cpX} ${cpY} ${x} ${y}`;
 }
 
-function ConnectorLines({
-  activePartner,
-}: {
-  activePartner: PartnerId | null;
-}) {
+function ConnectorLines({ activeTool }: { activeTool: ToolIconId | null }) {
   return (
     <svg
       className="pointer-events-none absolute inset-0 h-full w-full"
@@ -84,12 +76,24 @@ function ConnectorLines({
       aria-hidden
     >
       <defs>
-        <linearGradient id="compat-connector-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <linearGradient
+          id="compat-connector-gradient"
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="0%"
+        >
           <stop offset="0%" stopColor="rgba(77, 223, 255, 0.15)" />
           <stop offset="45%" stopColor="rgba(77, 223, 255, 0.75)" />
           <stop offset="100%" stopColor="rgba(77, 223, 255, 0.35)" />
         </linearGradient>
-        <filter id="compat-connector-glow" x="-50%" y="-50%" width="200%" height="200%">
+        <filter
+          id="compat-connector-glow"
+          x="-50%"
+          y="-50%"
+          width="200%"
+          height="200%"
+        >
           <feGaussianBlur stdDeviation="0.6" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
@@ -98,17 +102,17 @@ function ConnectorLines({
         </filter>
       </defs>
 
-      {orbitPartners.map((partner, index) => {
-        const isActive = activePartner === partner.id;
-        const isDimmed = activePartner !== null && !isActive;
+      {ORBIT_TOOLS.map((tool, index) => {
+        const isActive = activeTool === tool.id;
+        const isDimmed = activeTool !== null && !isActive;
 
         return (
-          <g key={partner.id}>
+          <g key={tool.id}>
             <path
-              d={connectorPath(partner.angle)}
+              d={connectorPath(tool.angle)}
               fill="none"
               stroke="url(#compat-connector-gradient)"
-              strokeWidth={isActive ? 0.55 : 0.38}
+              strokeWidth={isActive ? 0.55 : 0.32}
               strokeLinecap="round"
               filter="url(#compat-connector-glow)"
               className={cn(
@@ -116,12 +120,12 @@ function ConnectorLines({
                 isActive && "compat-connector-path--active",
                 isDimmed && "compat-connector-path--dimmed"
               )}
-              style={{ animationDelay: `${index * 0.35}s` }}
+              style={{ animationDelay: `${index * 0.12}s` }}
             />
             <circle
-              cx={partnerPosition(partner.angle).x}
-              cy={partnerPosition(partner.angle).y}
-              r={isActive ? 0.85 : 0.55}
+              cx={toolPosition(tool.angle).x}
+              cy={toolPosition(tool.angle).y}
+              r={isActive ? 0.85 : 0.45}
               className={cn(
                 "compat-connector-node transition-all duration-500",
                 isActive && "compat-connector-node--active",
@@ -135,46 +139,54 @@ function ConnectorLines({
   );
 }
 
-function PartnerOrbitChip({
-  partner,
+function ToolOrbitChip({
+  toolId,
   isActive,
   isDimmed,
 }: {
-  partner: OrbitPartner;
+  toolId: ToolIconId;
   isActive: boolean;
   isDimmed: boolean;
 }) {
+  const Icon = TOOL_ICON_MAP[toolId];
+
   return (
     <div
       className={cn(
-        "compat-partner-chip relative flex h-[4.5rem] w-[4.5rem] items-center justify-center transition-all duration-500 sm:h-20 sm:w-20",
-        `compat-partner-chip--${partner.id}`,
-        isActive && "compat-partner-chip--active",
+        "compat-partner-chip compat-tool-chip relative flex h-[3.6rem] w-[3.6rem] items-center justify-center text-[#4DDFFF] transition-all duration-500 sm:h-16 sm:w-16",
+        isActive && "compat-partner-chip--active compat-tool-chip--active",
         isDimmed && "compat-partner-chip--dimmed"
       )}
-      style={
-        isActive
-          ? ({ "--partner-glow": partner.glow } as React.CSSProperties)
-          : undefined
-      }
     >
       <div
-        className="compat-partner-chip-glow pointer-events-none absolute inset-2 rounded-[1rem] opacity-0 transition-opacity duration-500"
+        className="compat-partner-chip-glow pointer-events-none absolute inset-1.5 rounded-[0.9rem] opacity-0 transition-opacity duration-500"
+        style={
+          {
+            "--partner-glow": "rgba(77, 223, 255, 0.4)",
+          } as React.CSSProperties
+        }
         aria-hidden
       />
-      <Image
-        src={partner.logo}
-        alt={partner.name}
-        width={80}
-        height={80}
-        className={cn("relative z-10", partner.logoClass)}
-        unoptimized
-      />
+      <motion.div
+        animate={
+          isActive
+            ? { scale: [1, 1.06, 1], rotate: [0, -2, 2, 0] }
+            : { scale: 1, rotate: 0 }
+        }
+        transition={
+          isActive
+            ? { duration: 2.4, repeat: Infinity, ease: "easeInOut" }
+            : { duration: 0.3 }
+        }
+        className="relative z-10"
+      >
+        <Icon className="h-6 w-6 sm:h-7 sm:w-7" />
+      </motion.div>
     </div>
   );
 }
 
-function IntegrationHub() {
+function IntegrationHub({ liveLabel }: { liveLabel: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.88 }}
@@ -208,7 +220,7 @@ function IntegrationHub() {
         />
         <span className="relative z-10 mt-2 inline-flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#4DDFFF]/85">
           <span className="compat-live-dot h-1.5 w-1.5 rounded-full bg-[#4DDFFF]" />
-          Live Sync
+          {liveLabel}
         </span>
       </div>
     </motion.div>
@@ -216,7 +228,8 @@ function IntegrationHub() {
 }
 
 function OrbitDiagram() {
-  const [activePartner, setActivePartner] = useState<PartnerId | null>(null);
+  const ui = useUi();
+  const [activeTool, setActiveTool] = useState<ToolIconId | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -224,6 +237,9 @@ function OrbitDiagram() {
   const springY = useSpring(mouseY, { stiffness: 90, damping: 22, mass: 0.5 });
   const parallaxX = useTransform(springX, [-1, 1], [-10, 10]);
   const parallaxY = useTransform(springY, [-1, 1], [-8, 8]);
+
+  const labelFor = (uiKey: (typeof ORBIT_TOOLS)[number]["uiKey"]) =>
+    ui[uiKey];
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const rect = stageRef.current?.getBoundingClientRect();
@@ -237,7 +253,7 @@ function OrbitDiagram() {
   const handleMouseLeave = () => {
     mouseX.set(0);
     mouseY.set(0);
-    setActivePartner(null);
+    setActiveTool(null);
   };
 
   return (
@@ -245,7 +261,7 @@ function OrbitDiagram() {
       ref={stageRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative mx-auto flex aspect-square max-h-[min(88vw,360px)] w-full max-w-[min(88vw,360px)] items-center justify-center sm:max-h-[440px] sm:max-w-[440px]"
+      className="relative mx-auto flex aspect-square max-h-[min(92vw,400px)] w-full max-w-[min(92vw,400px)] items-center justify-center sm:max-h-[480px] sm:max-w-[480px]"
     >
       <motion.div
         style={{ x: parallaxX, y: parallaxY }}
@@ -259,79 +275,65 @@ function OrbitDiagram() {
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        <ConnectorLines activePartner={activePartner} />
+        <ConnectorLines activeTool={activeTool} />
 
-        {orbitPartners.map((partner, index) => {
-          const { x, y } = partnerPosition(partner.angle);
-          const isActive = activePartner === partner.id;
-          const isDimmed = activePartner !== null && !isActive;
+        {ORBIT_TOOLS.map((tool, index) => {
+          const { x, y } = toolPosition(tool.angle);
+          const isActive = activeTool === tool.id;
+          const isDimmed = activeTool !== null && !isActive;
 
           return (
             <motion.div
-              key={partner.id}
+              key={tool.id}
               initial={{ opacity: 0, scale: 0.82, y: 8 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{
-                delay: 0.45 + index * 0.12,
-                duration: 0.65,
+                delay: 0.2 + index * 0.05,
+                duration: 0.55,
                 ease,
               }}
-              className={cn(
-                "absolute z-20 w-[5.5rem] -translate-x-1/2 -translate-y-1/2 sm:w-[6.25rem]"
-              )}
+              className="absolute z-20 w-[4.75rem] -translate-x-1/2 -translate-y-1/2 sm:w-[5.5rem]"
               style={{
                 left: `${x}%`,
                 top: `${y}%`,
               }}
-              onMouseEnter={() => setActivePartner(partner.id)}
+              onMouseEnter={() => setActiveTool(tool.id)}
               onClick={() =>
-                setActivePartner((prev) =>
-                  prev === partner.id ? null : partner.id
-                )
+                setActiveTool((prev) => (prev === tool.id ? null : tool.id))
               }
             >
               <div
                 className={cn(
-                  "flex flex-col items-center gap-2 transition-all duration-500",
-                  isDimmed && "scale-[0.96] opacity-45"
+                  "flex flex-col items-center gap-1.5 transition-all duration-500",
+                  isDimmed && "scale-[0.96] opacity-40"
                 )}
               >
-              <motion.div
-                whileHover={{ scale: 1.04 }}
-                transition={{ duration: 0.35, ease }}
-                className="rounded-[1.35rem]"
-              >
-                <PartnerOrbitChip
-                  partner={partner}
-                  isActive={isActive}
-                  isDimmed={isDimmed}
-                />
-              </motion.div>
-              <div className="flex flex-col items-center gap-0.5 text-center">
+                <motion.div
+                  whileHover={{ scale: 1.06 }}
+                  transition={{ duration: 0.3, ease }}
+                  className="rounded-[1.2rem]"
+                >
+                  <ToolOrbitChip
+                    toolId={tool.id}
+                    isActive={isActive}
+                    isDimmed={isDimmed}
+                  />
+                </motion.div>
                 <span
                   className={cn(
-                    "text-[10px] font-semibold uppercase leading-tight tracking-[0.16em] transition-colors duration-500 sm:text-[10px] sm:tracking-[0.18em]",
-                    isActive ? "text-white/80" : "text-white/65"
+                    "text-center text-[9px] font-semibold uppercase leading-tight tracking-[0.14em] transition-colors duration-500 sm:text-[10px]",
+                    isActive ? "text-white/85" : "text-white/55"
                   )}
                 >
-                  {partner.name}
+                  {labelFor(tool.uiKey)}
                 </span>
-                <span
-                  className={cn(
-                    "text-[9px] font-medium tracking-[0.08em] transition-colors duration-500 sm:text-[9px]",
-                    isActive ? "text-[#4DDFFF]/70" : "text-white/35"
-                  )}
-                >
-                  {partner.descriptor}
-                </span>
-              </div>
               </div>
             </motion.div>
           );
         })}
 
-        <IntegrationHub />
+        <IntegrationHub liveLabel={ui.liveSync} />
       </motion.div>
     </div>
   );
@@ -364,13 +366,19 @@ export function PlatformCompatibility() {
           transition={{ duration: 0.75, ease }}
           className="compat-stage-shell mx-auto mt-4 max-w-4xl overflow-hidden rounded-[1.75rem] p-px sm:mt-6"
         >
-          <div className="relative overflow-hidden rounded-[1.72rem] bg-[#060a10]/94 px-4 py-12 backdrop-blur-2xl sm:px-10 sm:py-14 lg:py-16">
+          <div className="relative overflow-hidden rounded-[1.72rem] bg-[#060a10]/94 px-3 py-12 backdrop-blur-2xl sm:px-10 sm:py-14 lg:py-16">
             <div
               className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_72%_62%_at_50%_42%,rgba(77,223,255,0.16),transparent_70%)]"
               aria-hidden
             />
-            <div className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.35]" aria-hidden />
-            <div className="compat-stage-vignette pointer-events-none absolute inset-0" aria-hidden />
+            <div
+              className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.35]"
+              aria-hidden
+            />
+            <div
+              className="compat-stage-vignette pointer-events-none absolute inset-0"
+              aria-hidden
+            />
 
             <OrbitDiagram />
           </div>

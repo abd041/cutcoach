@@ -13,6 +13,7 @@ import { LanguageSelector } from "@/components/ui/LanguageSelector";
 import { siteConfig } from "@/lib/data/content";
 import { useAudienceContent, useAudienceMode } from "@/lib/audience/AudienceModeProvider";
 import { useUi } from "@/lib/i18n/LocaleProvider";
+import { useEntranceReady } from "@/lib/entrance/EntranceProvider";
 import { useNavScrollSpy } from "@/hooks/useNavScrollSpy";
 import { useScrollSubscription } from "@/hooks/useScrollSubscription";
 import { cn } from "@/lib/cn";
@@ -24,6 +25,7 @@ export function Navbar() {
   const content = useAudienceContent();
   const { mode } = useAudienceMode();
   const ui = useUi();
+  const entranceReady = useEntranceReady();
   const navLinks = content.navLinks;
   const navCta = mode === "client" ? ui.getPassport : ui.tryFree;
   const sectionIds = useMemo(
@@ -57,7 +59,10 @@ export function Navbar() {
   return (
     <motion.header
       initial={{ y: -24, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      animate={{
+        y: entranceReady ? 0 : -24,
+        opacity: entranceReady ? 1 : 0,
+      }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       className="pointer-events-none fixed inset-x-0 top-0 z-50 px-4 pt-[calc(0.85rem+var(--safe-top))] sm:px-8 lg:px-10 lg:pt-[calc(1.25rem+var(--safe-top))]"
     >

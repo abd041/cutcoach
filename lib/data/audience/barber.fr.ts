@@ -24,6 +24,15 @@ export const barberContentFr: AudienceContentPack = {
     secondaryCta: "Voir comment ça marche",
     eyebrow: "Coaching de coupe IA",
     eyebrowSecondary: "iOS + Lunettes connectées",
+    screens: [
+      { src: images.guidedSession, alt: "Écran de séance guidée" },
+      { src: images.liveCutGuidance, alt: "Guidage de coupe en direct" },
+      { src: images.liveAiSupport, alt: "Support de coaching IA" },
+    ],
+    sideScreens: [
+      { src: images.liveCutGuidance, alt: "Guidage de coupe en direct", side: "left" },
+      { src: images.liveAiSupport, alt: "Support IA en direct", side: "right" },
+    ],
   },
   trustBar: {
     columnStart: "Commencer",
@@ -167,29 +176,33 @@ export const barberContentFr: AudienceContentPack = {
     },
   ],
   compatibilitySection: {
-    tag: "Compatibilité réelle avec vos outils",
-    heading: "Un guidage fiable",
-    headingAccent: "Sur toutes les plateformes",
+    tag: "Compatible avec n’importe quelle marque",
+    heading: "Fonctionne avec les outils",
+    headingAccent: "que vous utilisez déjà",
     description:
-      "CutCoach fonctionne avec les outils que les barbers utilisent déjà — iOS, lunettes connectées, outils pro et cloud sécurisé.",
-    pillars: ["iOS", "Lunettes connectées", "Outils pro", "Cloud"],
+      "CutCoach est neutre vis-à-vis des marques et s’intègre naturellement au flux de travail de tout barber, quels que soient les outils qu’il préfère.",
+    pillars: ["Tondeuses", "Ciseaux", "Lunettes", "IA"],
   },
   compatibilityPlatforms: [
     {
-      label: "App iOS",
-      description: "Lancez des séances de coaching depuis votre iPhone en moins de 2 minutes.",
+      label: "Outils du salon",
+      description:
+        "Tondeuses, finition, sabots, ciseaux et peignes — ce que vous utilisez déjà au quotidien.",
     },
     {
       label: "Lunettes connectées",
-      description: "Repères de rythme en direct pendant que vous coupez — les mains restent sur le client.",
+      description:
+        "Repères de rythme en direct pendant que vous coupez — les mains restent sur le client.",
     },
     {
-      label: "Marques d'outils pro",
-      description: "Conçu pour les tondeuses et setups déjà en place dans les salons.",
+      label: "Application mobile",
+      description:
+        "Lancez des séances de coaching depuis votre iPhone en moins de 2 minutes.",
     },
     {
-      label: "Cloud sécurisé",
-      description: "Séances privées, analyses et résumés Client Passport.",
+      label: "IA + cloud sécurisé",
+      description:
+        "Séances privées, analyses et résumés Client Passport — neutre par conception.",
     },
   ],
   testimonialsSection: {

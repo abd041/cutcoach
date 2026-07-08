@@ -1,9 +1,13 @@
+"use client";
+
+import { useEntranceReady } from "@/lib/entrance/EntranceProvider";
+
 export const heroEase = [0.16, 1, 0.3, 1] as const;
 
 export const heroStagger = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.05 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.08 },
   },
 };
 
@@ -23,6 +27,11 @@ export const heroFadeUpLate = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 1, ease: heroEase, delay: 0.35 },
+    transition: { duration: 1, ease: heroEase, delay: 0.2 },
   },
 };
+
+/** Wait for entrance overlay before running hero Framer sequences. */
+export function useHeroEntranceReady() {
+  return useEntranceReady();
+}

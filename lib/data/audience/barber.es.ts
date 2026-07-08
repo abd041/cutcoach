@@ -24,6 +24,15 @@ export const barberContentEs: AudienceContentPack = {
     secondaryCta: "Mira cómo funciona",
     eyebrow: "Coaching de cortes con IA",
     eyebrowSecondary: "iOS + Lentes inteligentes",
+    screens: [
+      { src: images.guidedSession, alt: "Pantalla de sesión guiada" },
+      { src: images.liveCutGuidance, alt: "Guía de corte en vivo" },
+      { src: images.liveAiSupport, alt: "Soporte de coaching con IA" },
+    ],
+    sideScreens: [
+      { src: images.liveCutGuidance, alt: "Guía de corte en vivo", side: "left" },
+      { src: images.liveAiSupport, alt: "Soporte de IA en vivo", side: "right" },
+    ],
   },
   trustBar: {
     columnStart: "Empieza",
@@ -167,29 +176,31 @@ export const barberContentEs: AudienceContentPack = {
     },
   ],
   compatibilitySection: {
-    tag: "Compatibilidad real con tus herramientas",
-    heading: "Guía confiable",
-    headingAccent: "En todas las plataformas",
+    tag: "Flujo compatible con cualquier marca",
+    heading: "Funciona con las herramientas",
+    headingAccent: "que ya usas",
     description:
-      "CutCoach funciona con las herramientas que los barberos ya usan — iOS, lentes inteligentes, herramientas pro y nube segura.",
-    pillars: ["iOS", "Lentes inteligentes", "Herramientas pro", "Nube"],
+      "CutCoach es neutro en marcas y está diseñado para integrarse de forma natural en el flujo de cualquier barbero, sin importar las herramientas que prefiera.",
+    pillars: ["Máquinas", "Tijeras", "Lentes", "IA"],
   },
   compatibilityPlatforms: [
     {
-      label: "App iOS",
-      description: "Inicia sesiones de coaching desde tu iPhone en menos de 2 minutos.",
+      label: "Herramientas de la barbería",
+      description:
+        "Máquinas, perfiladoras, peines guía, tijeras y peines — lo que ya usas en el piso.",
     },
     {
       label: "Lentes inteligentes",
       description: "Señales de ritmo en vivo mientras cortas — manos en el cliente.",
     },
     {
-      label: "Marcas de herramientas pro",
-      description: "Hecho para las máquinas y setups que ya usan las barberías.",
+      label: "App móvil",
+      description: "Inicia sesiones de coaching desde tu iPhone en menos de 2 minutos.",
     },
     {
-      label: "Nube segura",
-      description: "Sesiones privadas, análisis y resúmenes de Client Passport.",
+      label: "IA + nube segura",
+      description:
+        "Sesiones privadas, análisis y resúmenes de Client Passport — neutro en marcas por diseño.",
     },
   ],
   testimonialsSection: {

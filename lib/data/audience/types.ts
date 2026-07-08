@@ -50,6 +50,10 @@ export interface AudienceContentPack {
     secondaryCta?: string;
     eyebrow: string;
     eyebrowSecondary: string;
+    /** Featured phone carousel screens for this mode */
+    screens: { src: string; alt: string }[];
+    /** Background flanking phones (desktop) */
+    sideScreens: { src: string; alt: string; side: "left" | "right" }[];
   };
   trustBar: {
     columnStart: string;

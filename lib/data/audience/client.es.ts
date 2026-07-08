@@ -16,14 +16,27 @@ export const clientContentEs: AudienceContentPack = {
     { label: "Historias de clientes", href: "#testimonials" },
   ],
   hero: {
-    headline: "Nunca vuelvas a explicar tu corte",
-    headlineAccent: "Desde cero.",
+    headline: "Consigue el corte que pediste.",
+    headlineAccent: "Cada vez.",
     subtext:
-      "Tu Client Passport guarda tus preferencias de corte, fotos, historial y notas del barbero para que cada barbero empiece con claridad.",
+      "Tu Client Passport recuerda todo lo que tu barbero debería saber: preferencias, historial de cortes, fotos de inspiración, notas y más.",
     cta: "Crea tu Client Passport gratis",
     secondaryCta: "Mira cómo funciona",
-    eyebrow: "Nunca más un mal corte",
+    eyebrow: "Client Passport",
     eyebrowSecondary: "Gratis para siempre · Sin tarjeta",
+    screens: [
+      { src: images.liveAiSupport, alt: "Preferencias de Client Passport" },
+      { src: images.performanceAwareness, alt: "Historial y notas del corte" },
+      { src: images.guidedSession, alt: "Fotos de inspiración guardadas" },
+    ],
+    sideScreens: [
+      {
+        src: images.performanceAwareness,
+        alt: "Historial de cortes",
+        side: "left",
+      },
+      { src: images.guidedSession, alt: "Inspiración guardada", side: "right" },
+    ],
   },
   trustBar: {
     columnStart: "Empieza",
@@ -167,29 +180,31 @@ export const clientContentEs: AudienceContentPack = {
     },
   ],
   compatibilitySection: {
-    tag: "Funciona con tus visitas",
-    heading: "Comparte con claridad,",
-    headingAccent: "Mantén el control",
+    tag: "Hecho para visitas reales",
+    heading: "Funciona con las herramientas",
+    headingAccent: "que ya usas",
     description:
-      "Client Passport vive en iOS con un perfil QR que controlas tú — preferencias y fotos viajan contigo, no en capturas sueltas.",
-    pillars: ["iOS", "Perfil QR", "Privado", "Nube"],
+      "CutCoach es neutro en marcas y está diseñado para integrarse de forma natural en el flujo de cualquier barbero, sin importar las herramientas que prefiera.",
+    pillars: ["Passport", "QR", "Fotos", "Nube"],
   },
   compatibilityPlatforms: [
     {
-      label: "App iOS",
-      description: "Crea y actualiza tu passport desde tu iPhone.",
+      label: "App móvil",
+      description: "Crea y actualiza tu Client Passport desde tu iPhone.",
     },
     {
       label: "Perfil QR",
       description: "Comparte preferencias con cualquier barbero en un escaneo.",
     },
     {
-      label: "Privado por defecto",
-      description: "Los detalles de tu corte son tuyos — comparte solo cuando quieras.",
+      label: "Resúmenes con IA",
+      description:
+        "Resúmenes claros de preferencias para que la comunicación empiece mejor en cada visita.",
     },
     {
       label: "Nube segura",
-      description: "Almacenamiento cifrado para preferencias, fotos y notas.",
+      description:
+        "Almacenamiento cifrado para preferencias, fotos y notas — sin depender de marcas de máquinas.",
     },
   ],
   testimonialsSection: {
@@ -289,16 +304,16 @@ export const clientContentEs: AudienceContentPack = {
     },
   ],
   finalCta: {
-    heading: "Nunca más explicar",
-    headingAccent: "Desde cero",
+    heading: "Consigue el corte",
+    headingAccent: "que pediste",
     primaryCta: "Crea tu Client Passport gratis",
     secondaryCta: "Mira cómo funciona",
   },
   footerDescription:
-    "Client Passport mantiene preferencias, fotos, historial y notas del barbero listas — para que cada barbero empiece con claridad.",
+    "Client Passport recuerda preferencias, historial, fotos de inspiración y notas — para que cada barbero empiece con claridad.",
   mobileHighlights: [
-    { title: "Client Passport", subtitle: "Gratis para siempre", live: true },
-    { title: "Perfil QR", subtitle: "Cualquier barbero" },
-    { title: "Preferencias", subtitle: "Fotos + Notas" },
+    { title: "Preferencias", subtitle: "Siempre recordadas", live: true },
+    { title: "Historial", subtitle: "Fotos de inspiración" },
+    { title: "Notas", subtitle: "Cada visita" },
   ],
 };

@@ -22,11 +22,7 @@ export const siteConfig = {
   ],
 };
 
-export const trustedBrands = [
-  { name: "BaByliss PRO", logo: images.babyliss },
-  { name: "Andis", logo: images.andis },
-  { name: "CutCoach", logo: images.logo },
-];
+export const trustedBrands: { name: string; logo: string }[] = [];
 
 export const legalLinks = [
   { label: "Privacy Policy", href: "/privacy" },

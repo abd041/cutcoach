@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -10,32 +10,23 @@ import {
 } from "framer-motion";
 import Image from "next/image";
 import { Gauge, Sparkles, Users } from "lucide-react";
-import { images } from "@/lib/images";
 import { HeroFloatingCard } from "@/components/hero/HeroFloatingCard";
-import { heroFadeUpLate } from "@/components/hero/hero-motion";
-import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import {
+  heroFadeUpLate,
+  useHeroEntranceReady,
+} from "@/components/hero/hero-motion";
+import {
+  useAudienceContent,
+  useAudienceMode,
+} from "@/lib/audience/AudienceModeProvider";
 import { cn } from "@/lib/cn";
 
-const phoneScreens = [
-  { src: images.guidedSession, alt: "Guided session screen" },
-  { src: images.liveCutGuidance, alt: "Live cut guidance" },
-  { src: images.liveAiSupport, alt: "Live AI support" },
-] as const;
-
-const sidePhones = [
-  {
-    src: images.liveCutGuidance,
-    alt: "Live cut guidance",
-    className: "left-[2%] top-[6%] z-10 hidden w-[36%] -rotate-[11deg] sm:block",
-  },
-  {
-    src: images.liveAiSupport,
-    alt: "Live AI support",
-    className: "right-[0%] top-[10%] z-10 hidden w-[34%] rotate-[10deg] sm:block",
-  },
-] as const;
-
 const highlightIcons = [Sparkles, Users, Gauge] as const;
+
+const sideLayouts = {
+  left: "left-[2%] top-[6%] z-10 hidden w-[36%] -rotate-[11deg] sm:block",
+  right: "right-[0%] top-[10%] z-10 hidden w-[34%] rotate-[10deg] sm:block",
+} as const;
 
 function PhoneFrame({
   src,
@@ -82,11 +73,7 @@ function PhoneFrame({
             priority={priority}
             unoptimized
           />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/[0.07] via-transparent to-transparent" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-white/[0.1] to-transparent" />
-          {!featured && (
-            <div className="pointer-events-none absolute inset-0 bg-[#05070a]/15" aria-hidden />
-          )}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/[0.06] via-transparent to-transparent" />
         </div>
       </motion.div>
     </div>
@@ -105,16 +92,17 @@ function CarouselDot({
   return (
     <button
       type="button"
-      onClick={onClick}
       aria-label={label}
-      className="flex h-11 w-11 items-center justify-center rounded-full"
+      aria-current={isActive ? "true" : undefined}
+      onClick={onClick}
+      className="flex h-11 w-11 items-center justify-center"
     >
       <span
         className={cn(
-          "block rounded-full transition-all duration-300",
+          "rounded-full transition-all duration-300",
           isActive
-            ? "h-1.5 w-8 bg-[#4DDFFF] shadow-[0_0_16px_rgba(77,223,255,0.55)]"
-            : "h-1.5 w-2 bg-white/25"
+            ? "h-2 w-5 bg-[#4DDFFF] shadow-[0_0_12px_rgba(77,223,255,0.6)]"
+            : "h-2 w-2 bg-white/35"
         )}
       />
     </button>
@@ -122,7 +110,9 @@ function CarouselDot({
 }
 
 export function HeroPhones() {
-  const { mobileHighlights } = useAudienceContent();
+  const ready = useHeroEntranceReady();
+  const { mode } = useAudienceMode();
+  const { hero, mobileHighlights } = useAudienceContent();
   const [activeScreen, setActiveScreen] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -132,18 +122,32 @@ export function HeroPhones() {
   const parallaxX = useTransform(springX, [-1, 1], [-10, 10]);
   const parallaxY = useTransform(springY, [-1, 1], [-7, 7]);
 
+  const phoneScreens = hero.screens;
+  const sidePhones = useMemo(
+    () =>
+      hero.sideScreens.map((screen) => ({
+        ...screen,
+        className: sideLayouts[screen.side],
+      })),
+    [hero.sideScreens]
+  );
+
   const cards = mobileHighlights.map((item, index) => ({
     ...item,
     icon: highlightIcons[index] ?? Sparkles,
   }));
 
+  useEffect(() => {
+    setActiveScreen(0);
+  }, [mode]);
 
   useEffect(() => {
+    if (phoneScreens.length <= 1) return;
     const interval = window.setInterval(() => {
       setActiveScreen((prev) => (prev + 1) % phoneScreens.length);
     }, 6000);
     return () => window.clearInterval(interval);
-  }, []);
+  }, [phoneScreens.length, mode]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = ref.current?.getBoundingClientRect();
@@ -159,12 +163,12 @@ export function HeroPhones() {
     mouseY.set(0);
   };
 
-  const active = phoneScreens[activeScreen];
+  const active = phoneScreens[activeScreen] ?? phoneScreens[0];
 
   return (
     <motion.div
       initial="hidden"
-      animate="show"
+      animate={ready ? "show" : "hidden"}
       variants={heroFadeUpLate}
       className="relative mx-auto w-full max-w-[min(100%,380px)] sm:max-w-[440px] lg:mx-0 lg:max-w-none lg:-translate-y-10 lg:self-center"
     >
@@ -187,16 +191,27 @@ export function HeroPhones() {
             aria-hidden
           />
 
-          {sidePhones.map((phone, index) => (
-            <PhoneFrame
-              key={phone.alt}
-              src={phone.src}
-              alt={phone.alt}
-              className={phone.className}
-              floatDelay={index * 0.3}
-              floatDuration={9 + index}
-            />
-          ))}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${mode}-sides`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="contents"
+            >
+              {sidePhones.map((phone, index) => (
+                <PhoneFrame
+                  key={`${mode}-${phone.alt}-${phone.side}`}
+                  src={phone.src}
+                  alt={phone.alt}
+                  className={phone.className}
+                  floatDelay={index * 0.3}
+                  floatDuration={9 + index}
+                />
+              ))}
+            </motion.div>
+          </AnimatePresence>
 
           <div className="absolute left-1/2 top-[-2%] z-30 w-[58%] -translate-x-1/2 sm:top-[-6%] sm:w-[54%]">
             <motion.div
@@ -211,21 +226,23 @@ export function HeroPhones() {
               <div className="hero-phone-featured relative overflow-hidden rounded-[1.5rem] border border-white/[0.16] bg-[#0a1016] sm:rounded-[1.85rem]">
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={active.src}
-                    initial={{ opacity: 0, scale: 1.03 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.98 }}
-                    transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                    key={`${mode}-${active?.src ?? "empty"}`}
+                    initial={{ opacity: 0, scale: 1.03, y: 8 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.98, y: -6 }}
+                    transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <Image
-                      src={active.src}
-                      alt={active.alt}
-                      width={280}
-                      height={606}
-                      className="block h-auto w-full"
-                      priority
-                      unoptimized
-                    />
+                    {active && (
+                      <Image
+                        src={active.src}
+                        alt={active.alt}
+                        width={280}
+                        height={606}
+                        className="block h-auto w-full"
+                        priority
+                        unoptimized
+                      />
+                    )}
                   </motion.div>
                 </AnimatePresence>
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/[0.08] via-transparent to-transparent" />
@@ -234,7 +251,7 @@ export function HeroPhones() {
                 <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-0 sm:bottom-3 sm:gap-1.5">
                   {phoneScreens.map((screen, index) => (
                     <CarouselDot
-                      key={screen.src}
+                      key={`${mode}-${screen.src}`}
                       isActive={index === activeScreen}
                       label={`Show ${screen.alt}`}
                       onClick={() => setActiveScreen(index)}
@@ -245,36 +262,47 @@ export function HeroPhones() {
             </motion.div>
           </div>
 
-          {cards[0] && (
-            <HeroFloatingCard
-              title={cards[0].title}
-              subtitle={cards[0].subtitle}
-              live={cards[0].live}
-              icon={<Sparkles className="h-3.5 w-3.5" />}
-              className="left-[0%] top-[48%] hidden sm:left-[2%] sm:block"
-              delay={0}
-            />
-          )}
-          {cards[1] && (
-            <HeroFloatingCard
-              title={cards[1].title}
-              subtitle={cards[1].subtitle}
-              live={cards[1].live}
-              icon={<Users className="h-3.5 w-3.5" />}
-              className="right-[0%] top-[4%] hidden sm:right-[-2%] sm:block"
-              delay={0.15}
-            />
-          )}
-          {cards[2] && (
-            <HeroFloatingCard
-              title={cards[2].title}
-              subtitle={cards[2].subtitle}
-              live={cards[2].live}
-              icon={<Gauge className="h-3.5 w-3.5" />}
-              className="bottom-[8%] right-[6%] hidden md:block"
-              delay={0.3}
-            />
-          )}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${mode}-cards`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="contents"
+            >
+              {cards[0] && (
+                <HeroFloatingCard
+                  title={cards[0].title}
+                  subtitle={cards[0].subtitle}
+                  live={cards[0].live}
+                  icon={<Sparkles className="h-3.5 w-3.5" />}
+                  className="left-[0%] top-[48%] hidden sm:left-[2%] sm:block"
+                  delay={0}
+                />
+              )}
+              {cards[1] && (
+                <HeroFloatingCard
+                  title={cards[1].title}
+                  subtitle={cards[1].subtitle}
+                  live={cards[1].live}
+                  icon={<Users className="h-3.5 w-3.5" />}
+                  className="right-[0%] top-[4%] hidden sm:right-[-2%] sm:block"
+                  delay={0.15}
+                />
+              )}
+              {cards[2] && (
+                <HeroFloatingCard
+                  title={cards[2].title}
+                  subtitle={cards[2].subtitle}
+                  live={cards[2].live}
+                  icon={<Gauge className="h-3.5 w-3.5" />}
+                  className="bottom-[8%] right-[6%] hidden md:block"
+                  delay={0.3}
+                />
+              )}
+            </motion.div>
+          </AnimatePresence>
         </motion.div>
       </div>
 
@@ -283,7 +311,7 @@ export function HeroPhones() {
           const Icon = item.icon;
           return (
             <div
-              key={item.title}
+              key={`${mode}-${item.title}`}
               className="hero-glass-card flex items-center gap-3 px-3.5 py-3"
             >
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04] text-[#4DDFFF]">

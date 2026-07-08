@@ -16,14 +16,27 @@ export const clientContent: AudienceContentPack = {
     { label: "Client Stories", href: "#testimonials" },
   ],
   hero: {
-    headline: "Never Explain Your Haircut",
-    headlineAccent: "From Scratch Again.",
+    headline: "Get The Cut You Asked For.",
+    headlineAccent: "Every Time.",
     subtext:
-      "Your Client Passport stores your haircut preferences, photos, history, and barber notes so every barber starts with clarity.",
+      "Your Client Passport remembers everything your barber should know—preferences, haircut history, inspiration photos, notes, and more.",
     cta: "Create Your Free Client Passport",
     secondaryCta: "See How It Works",
-    eyebrow: "Never Get a Bad Haircut Again",
+    eyebrow: "Client Passport",
     eyebrowSecondary: "Free Forever · No Card",
+    screens: [
+      { src: images.liveAiSupport, alt: "Client Passport preferences" },
+      { src: images.performanceAwareness, alt: "Haircut history and notes" },
+      { src: images.guidedSession, alt: "Inspiration photos saved" },
+    ],
+    sideScreens: [
+      {
+        src: images.performanceAwareness,
+        alt: "Haircut history",
+        side: "left",
+      },
+      { src: images.guidedSession, alt: "Saved inspiration", side: "right" },
+    ],
   },
   trustBar: {
     columnStart: "Get started",
@@ -167,29 +180,31 @@ export const clientContent: AudienceContentPack = {
     },
   ],
   compatibilitySection: {
-    tag: "Works With Your Visits",
-    heading: "Share Clearly,",
-    headingAccent: "Stay in Control",
+    tag: "Built For Real Visits",
+    heading: "Works With The Tools",
+    headingAccent: "You Already Use",
     description:
-      "Client Passport lives on iOS with a QR profile you control — preferences and photos travel with you, not scattered screenshots.",
-    pillars: ["iOS", "QR Profile", "Private", "Cloud"],
+      "CutCoach is brand-neutral and built to fit naturally into any barber’s workflow, regardless of the tools they prefer.",
+    pillars: ["Passport", "QR", "Photos", "Cloud"],
   },
   compatibilityPlatforms: [
     {
-      label: "iOS App",
-      description: "Create and update your passport from your iPhone.",
+      label: "Mobile App",
+      description: "Create and update your Client Passport from your iPhone.",
     },
     {
       label: "QR Profile",
       description: "Share preferences with any barber in one scan.",
     },
     {
-      label: "Private by Default",
-      description: "Your cut details stay yours — share only when you choose.",
+      label: "AI Summaries",
+      description:
+        "Clear preference summaries so communication starts smarter every visit.",
     },
     {
       label: "Secure Cloud",
-      description: "Encrypted storage for preferences, photos, and notes.",
+      description:
+        "Encrypted storage for preferences, photos, and notes — no clipper brand required.",
     },
   ],
   testimonialsSection: {
@@ -289,16 +304,16 @@ export const clientContent: AudienceContentPack = {
     },
   ],
   finalCta: {
-    heading: "Never Explain From",
-    headingAccent: "Scratch Again",
+    heading: "Get The Cut You",
+    headingAccent: "Asked For",
     primaryCta: "Create Your Free Client Passport",
     secondaryCta: "See How It Works",
   },
   footerDescription:
-    "Client Passport keeps preferences, photos, history, and barber notes ready — so every barber starts with clarity.",
+    "Client Passport remembers preferences, history, inspiration photos, and notes — so every barber starts with clarity.",
   mobileHighlights: [
-    { title: "Client Passport", subtitle: "Free Forever", live: true },
-    { title: "QR Profile", subtitle: "Any Barber" },
-    { title: "Preferences", subtitle: "Photos + Notes" },
+    { title: "Preferences", subtitle: "Always Remembered", live: true },
+    { title: "Cut History", subtitle: "Inspiration Photos" },
+    { title: "Barber Notes", subtitle: "Every Visit" },
   ],
 };

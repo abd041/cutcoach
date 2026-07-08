@@ -24,6 +24,15 @@ export const barberContent: AudienceContentPack = {
     secondaryCta: "See How It Works",
     eyebrow: "AI Haircut Coaching",
     eyebrowSecondary: "iOS + Smart Glasses",
+    screens: [
+      { src: images.guidedSession, alt: "Guided session screen" },
+      { src: images.liveCutGuidance, alt: "Live cut guidance" },
+      { src: images.liveAiSupport, alt: "Live AI coaching support" },
+    ],
+    sideScreens: [
+      { src: images.liveCutGuidance, alt: "Live cut guidance", side: "left" },
+      { src: images.liveAiSupport, alt: "Live AI support", side: "right" },
+    ],
   },
   trustBar: {
     columnStart: "Get started",
@@ -167,29 +176,31 @@ export const barberContent: AudienceContentPack = {
     },
   ],
   compatibilitySection: {
-    tag: "Real Tool Compatibility",
-    heading: "Guidance Security",
-    headingAccent: "Across All Platforms",
+    tag: "Brand-Neutral Workflow",
+    heading: "Works With The Tools",
+    headingAccent: "You Already Use",
     description:
-      "CutCoach works with the tools barbers already use — iOS, smart glasses, pro tools, and secure cloud.",
-    pillars: ["iOS", "Smart Glasses", "Pro Tools", "Cloud"],
+      "CutCoach is brand-neutral and built to fit naturally into any barber’s workflow, regardless of the tools they prefer.",
+    pillars: ["Clippers", "Shears", "Glasses", "AI"],
   },
   compatibilityPlatforms: [
     {
-      label: "iOS App",
-      description: "Start coaching sessions from your iPhone in under 2 minutes.",
+      label: "Shop Tools",
+      description:
+        "Clippers, trimmers, guards, shears, and combs — whatever you already run on the floor.",
     },
     {
       label: "Smart Glasses",
       description: "Live pacing cues while you cut — hands stay on the client.",
     },
     {
-      label: "Pro Tool Brands",
-      description: "Built for the clippers and setups shops already run.",
+      label: "Mobile App",
+      description: "Start coaching sessions from your iPhone in under 2 minutes.",
     },
     {
-      label: "Secure Cloud",
-      description: "Private sessions, analysis, and Client Passport summaries.",
+      label: "AI + Secure Cloud",
+      description:
+        "Private sessions, analysis, and Client Passport summaries — brand-neutral by design.",
     },
   ],
   testimonialsSection: {

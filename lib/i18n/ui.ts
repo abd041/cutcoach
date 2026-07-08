@@ -36,6 +36,16 @@ export interface UiCopy {
   privacyPolicy: string;
   termsOfService: string;
   toggleYearlyBilling: string;
+  liveSync: string;
+  toolClippers: string;
+  toolTrimmers: string;
+  toolGuards: string;
+  toolShears: string;
+  toolComb: string;
+  toolGlasses: string;
+  toolMobile: string;
+  toolAi: string;
+  toolCloud: string;
 }
 
 export const uiCopy: Record<Locale, UiCopy> = {
@@ -74,6 +84,16 @@ export const uiCopy: Record<Locale, UiCopy> = {
     privacyPolicy: "Privacy Policy",
     termsOfService: "Terms of Service",
     toggleYearlyBilling: "Toggle yearly billing",
+    liveSync: "Live Sync",
+    toolClippers: "Clippers",
+    toolTrimmers: "Trimmers",
+    toolGuards: "Guards",
+    toolShears: "Shears",
+    toolComb: "Comb",
+    toolGlasses: "Smart Glasses",
+    toolMobile: "Mobile App",
+    toolAi: "AI",
+    toolCloud: "Secure Cloud",
   },
   es: {
     language: "Idioma",
@@ -110,6 +130,16 @@ export const uiCopy: Record<Locale, UiCopy> = {
     privacyPolicy: "Política de privacidad",
     termsOfService: "Términos de servicio",
     toggleYearlyBilling: "Alternar facturación anual",
+    liveSync: "Sincronización en vivo",
+    toolClippers: "Máquinas",
+    toolTrimmers: "Perfiladoras",
+    toolGuards: "Peines guía",
+    toolShears: "Tijeras",
+    toolComb: "Peine",
+    toolGlasses: "Lentes inteligentes",
+    toolMobile: "App móvil",
+    toolAi: "IA",
+    toolCloud: "Nube segura",
   },
   fr: {
     language: "Langue",
@@ -146,6 +176,16 @@ export const uiCopy: Record<Locale, UiCopy> = {
     privacyPolicy: "Politique de confidentialité",
     termsOfService: "Conditions d’utilisation",
     toggleYearlyBilling: "Basculer la facturation annuelle",
+    liveSync: "Sync en direct",
+    toolClippers: "Tondeuses",
+    toolTrimmers: "Tondeuses de finition",
+    toolGuards: "Sabots",
+    toolShears: "Ciseaux",
+    toolComb: "Peigne",
+    toolGlasses: "Lunettes connectées",
+    toolMobile: "Application mobile",
+    toolAi: "IA",
+    toolCloud: "Cloud sécurisé",
   },
 };
 
