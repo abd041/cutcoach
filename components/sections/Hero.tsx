@@ -15,7 +15,7 @@ export function Hero() {
       <HeroBackground />
 
       <Container className="relative z-10">
-        <div className="grid items-center gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14 xl:gap-20">
+        <div className="grid items-stretch gap-10 sm:items-center sm:gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-14 xl:gap-20">
           <HeroCopy />
           <HeroPhones />
         </div>
