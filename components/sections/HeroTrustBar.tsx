@@ -11,15 +11,35 @@ import {
 import { Container } from "@/components/ui/Container";
 import { AppStoreBadge } from "@/components/ui/AppStoreBadge";
 import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
-import { stats, trustBar } from "@/lib/data/content";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import { useUi } from "@/lib/i18n/LocaleProvider";
 import { cn } from "@/lib/cn";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
+const fallbackStatIcons = [Gift, Coins, Clock] as const;
+
 const statIcons: Record<string, LucideIcon> = {
   "Free Sessions": Gift,
+  "Free Credits": Gift,
   "Monthly Credits": Coins,
   "To Start Training": Clock,
+  "Cost Forever": Gift,
+  "Passport Profile": Star,
+  "To Set Up": Clock,
+  "QR Profile": Star,
+  "Créditos gratis": Gift,
+  "Créditos mensuales": Coins,
+  "Para empezar a entrenar": Clock,
+  "Costo para siempre": Gift,
+  "Perfil QR": Star,
+  "Para configurarlo": Clock,
+  "Crédits gratuits": Gift,
+  "Crédits mensuels": Coins,
+  "Pour commencer l'entraînement": Clock,
+  "Coût pour toujours": Gift,
+  "Profil QR": Star,
+  "Pour configurer": Clock,
 };
 
 const containerVariants = {
@@ -70,7 +90,7 @@ function TrustStatTile({
   label: string;
   index: number;
 }) {
-  const Icon = statIcons[label] ?? Gift;
+  const Icon = statIcons[label] ?? fallbackStatIcons[index] ?? Gift;
 
   return (
     <motion.div
@@ -96,28 +116,37 @@ function TrustStatTile({
   );
 }
 
-function AvatarStack() {
+function AvatarStack({
+  avatars,
+  label,
+}: {
+  avatars: string[];
+  label: string;
+}) {
   return (
     <div className="flex items-center gap-3">
       <div className="flex -space-x-2.5">
-        {trustBar.avatars.map((initials, index) => (
+        {avatars.map((initials, index) => (
           <div
             key={initials}
             className="trust-avatar flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#060a10] text-[10px] font-semibold text-white/80"
-            style={{ zIndex: trustBar.avatars.length - index }}
+            style={{ zIndex: avatars.length - index }}
           >
             {initials}
           </div>
         ))}
       </div>
       <span className="text-[10px] font-medium uppercase tracking-[0.14em] text-white/35">
-        Early access barbers
+        {label}
       </span>
     </div>
   );
 }
 
 export function HeroTrustBar() {
+  const { stats, trustBar } = useAudienceContent();
+  const ui = useUi();
+
   return (
     <section
       aria-label="App download and social proof"
@@ -186,7 +215,7 @@ export function HeroTrustBar() {
                 <ColumnLabel>{trustBar.columnMetrics}</ColumnLabel>
 
                 <p className="mt-3 text-[10px] font-medium uppercase tracking-[0.18em] text-white/30 sm:hidden">
-                  Swipe for stats →
+                  {ui.swipeForStats}
                 </p>
 
                 <div className="trust-stats-scroll relative mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:mt-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:pb-0 [&::-webkit-scrollbar]:hidden">
@@ -236,7 +265,10 @@ export function HeroTrustBar() {
                   {trustBar.mission}
                 </p>
 
-                <AvatarStack />
+                <AvatarStack
+                  avatars={trustBar.avatars}
+                  label={trustBar.avatarLabel}
+                />
 
                 <p className="text-xs text-white/30">{trustBar.earlyAccess}</p>
               </motion.div>

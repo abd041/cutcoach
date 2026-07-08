@@ -8,17 +8,18 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { AppStoreBadge } from "@/components/ui/AppStoreBadge";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { CinematicSection } from "@/components/ui/CinematicSection";
-import {
-  siteConfig,
-  testimonialPreviewThemes,
-  testimonialsSection,
-} from "@/lib/data/content";
+import { siteConfig } from "@/lib/data/content";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import { useUi } from "@/lib/i18n/LocaleProvider";
+
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const themeIcons = {
   Speed: Gauge,
   Consistency: Layers,
   Confidence: Shield,
+  Clarity: Layers,
+  Control: Shield,
 } as const;
 
 const themeGlows = [
@@ -28,6 +29,9 @@ const themeGlows = [
 ];
 
 export function Testimonials() {
+  const { testimonialsSection, testimonialPreviewThemes } = useAudienceContent();
+  const ui = useUi();
+
   return (
     <CinematicSection
       id="testimonials"
@@ -36,6 +40,7 @@ export function Testimonials() {
     >
       <Container className="section-py relative overflow-visible">
         <SectionHeader
+          key={testimonialsSection.heading}
           tag={testimonialsSection.tag}
           heading={testimonialsSection.heading}
           headingAccent={testimonialsSection.headingAccent}
@@ -88,7 +93,7 @@ export function Testimonials() {
 
                   <div className="relative mt-6 border-t border-white/[0.06] pt-5">
                     <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/30">
-                      Early access outcome
+                      {ui.earlyAccessOutcome}
                     </p>
                     <p className="mt-1.5 flex items-center gap-2 text-sm font-medium text-white/65">
                       <span className="hero-live-dot h-1.5 w-1.5 shrink-0 rounded-full bg-[#4DDFFF]" />
@@ -112,7 +117,7 @@ export function Testimonials() {
             <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-3 gap-y-2">
               <span className="hidden h-px w-8 bg-[#4DDFFF]/60 sm:block sm:w-10" aria-hidden />
               <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45 sm:text-[11px] sm:tracking-[0.22em]">
-                Full Barber Stories — Coming Soon
+                {testimonialsSection.storiesComingSoon}
               </span>
               <span className="hidden h-px w-8 bg-[#4DDFFF]/60 sm:block sm:w-10" aria-hidden />
             </div>
@@ -124,7 +129,7 @@ export function Testimonials() {
                 size="large"
                 className="w-full justify-center sm:w-auto"
               >
-                Join Early Access
+                {testimonialsSection.cta}
               </MagneticButton>
               <Link
                 href={siteConfig.appStoreUrl}
@@ -132,7 +137,7 @@ export function Testimonials() {
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 text-sm font-medium text-white/50 transition-colors hover:text-white/85"
               >
-                View on App Store
+                {ui.viewOnAppStore}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </div>

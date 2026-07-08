@@ -36,6 +36,10 @@ export interface PricingPlan {
   description: string;
   monthlyPrice: string;
   yearlyPrice: string;
+  /** Shown under yearly price, e.g. "Equivalent to only $25.49/month" */
+  yearlyEquivalent?: string;
+  /** When true, free plan stays $0 with no "/ month" billing unit */
+  free?: boolean;
   features: string[];
   cta: string;
   highlighted?: boolean;

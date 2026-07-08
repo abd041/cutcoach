@@ -6,6 +6,9 @@ import { images } from "@/lib/images";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { LenisProvider } from "@/components/providers/LenisProvider";
+import { LocaleProvider } from "@/lib/i18n/LocaleProvider";
+import { AudienceModeProvider } from "@/lib/audience/AudienceModeProvider";
+import { SkipToContent } from "@/components/ui/SkipToContent";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -87,14 +90,13 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <LenisProvider>
+        <LocaleProvider>
+        <AudienceModeProvider>
         <SmoothScroll />
-        <a
-          href="#main-content"
-          className="focus-premium sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-[#05070a] focus:px-4 focus:py-2 focus:text-sm focus:text-white"
-        >
-          Skip to content
-        </a>
+        <SkipToContent />
         {children}
+        </AudienceModeProvider>
+        </LocaleProvider>
         </LenisProvider>
       </body>
     </html>

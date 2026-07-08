@@ -8,17 +8,28 @@ import { Menu, X, Smartphone } from "lucide-react";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { AppStoreBadge } from "@/components/ui/AppStoreBadge";
-import { navLinks, siteConfig } from "@/lib/data/content";
+import { AudienceModeToggle } from "@/components/ui/AudienceModeToggle";
+import { LanguageSelector } from "@/components/ui/LanguageSelector";
+import { siteConfig } from "@/lib/data/content";
+import { useAudienceContent, useAudienceMode } from "@/lib/audience/AudienceModeProvider";
+import { useUi } from "@/lib/i18n/LocaleProvider";
 import { useNavScrollSpy } from "@/hooks/useNavScrollSpy";
 import { useScrollSubscription } from "@/hooks/useScrollSubscription";
 import { cn } from "@/lib/cn";
-
-const sectionIds = navLinks.map((link) => link.href.replace("#", ""));
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
+  const content = useAudienceContent();
+  const { mode } = useAudienceMode();
+  const ui = useUi();
+  const navLinks = content.navLinks;
+  const navCta = mode === "client" ? ui.getPassport : ui.tryFree;
+  const sectionIds = useMemo(
+    () => navLinks.map((link) => link.href.replace("#", "")),
+    [navLinks]
+  );
   const activeSection = useNavScrollSpy(sectionIds);
   const isHome = pathname === "/";
 
@@ -106,7 +117,7 @@ export function Navbar() {
                     key={link.href}
                     href={link.href}
                     className={cn(
-                      "group relative rounded-xl px-4 py-2.5 text-[13px] font-semibold tracking-[0.02em] transition-colors duration-300 xl:px-5",
+                      "group relative rounded-xl px-3 py-2.5 text-[13px] font-semibold tracking-[0.02em] transition-colors duration-300 xl:px-4",
                       isActive
                         ? "text-foreground"
                         : "text-muted/90 hover:text-foreground"
@@ -146,7 +157,9 @@ export function Navbar() {
               })}
             </div>
 
-            <div className="hidden items-center justify-self-end lg:flex">
+            <div className="hidden items-center justify-self-end gap-2.5 xl:gap-3 lg:flex">
+              <LanguageSelector />
+              <AudienceModeToggle />
               <MagneticButton
                 href={siteConfig.appStoreUrl}
                 external
@@ -159,57 +172,45 @@ export function Navbar() {
                   strokeWidth={2.25}
                   aria-hidden
                 />
-                Try Free
+                {navCta}
               </MagneticButton>
             </div>
 
             <div className="col-start-3 flex items-center justify-self-end gap-2 lg:hidden">
-              <MagneticButton
-                href={siteConfig.appStoreUrl}
-                external
-                showArrow={false}
-                size="nav"
-                className="nav-cta hidden shrink-0 sm:inline-flex"
-              >
-                <Smartphone
-                  className="h-3.5 w-3.5 shrink-0"
-                  strokeWidth={2.25}
-                  aria-hidden
-                />
-                Try Free
-              </MagneticButton>
+              <LanguageSelector />
+              <AudienceModeToggle className="scale-[0.92] sm:scale-100" />
 
-            <button
-              type="button"
-              onClick={() => setIsMobileOpen(!isMobileOpen)}
-              className="relative z-50 flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.1] bg-white/[0.04] transition-all duration-300 hover:border-accent/30 hover:bg-white/[0.08]"
-              aria-label={isMobileOpen ? "Close menu" : "Open menu"}
-              aria-expanded={isMobileOpen}
-            >
-              <AnimatePresence mode="wait">
-                {isMobileOpen ? (
-                  <motion.div
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                  >
-                    <X className="h-5 w-5" />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="menu"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                  >
-                    <Menu className="h-5 w-5" />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </button>
+              <button
+                type="button"
+                onClick={() => setIsMobileOpen(!isMobileOpen)}
+                className="relative z-50 flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.1] bg-white/[0.04] transition-all duration-300 hover:border-accent/30 hover:bg-white/[0.08]"
+                aria-label={isMobileOpen ? ui.closeMenu : ui.openMenu}
+                aria-expanded={isMobileOpen}
+              >
+                <AnimatePresence mode="wait">
+                  {isMobileOpen ? (
+                    <motion.div
+                      key="close"
+                      initial={{ rotate: -90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: 90, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                    >
+                      <X className="h-5 w-5" />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="menu"
+                      initial={{ rotate: 90, opacity: 0 }}
+                      animate={{ rotate: 0, opacity: 1 }}
+                      exit={{ rotate: -90, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                    >
+                      <Menu className="h-5 w-5" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </button>
             </div>
           </div>
         </div>
@@ -237,6 +238,17 @@ export function Navbar() {
               className="relative flex h-full flex-col justify-between px-6 pb-[calc(1.5rem+var(--safe-bottom))] pt-[calc(6.5rem+var(--safe-top))] sm:px-8"
             >
               <div>
+                <div className="mb-5">
+                  <LanguageSelector variant="menu" />
+                </div>
+
+                <div className="mb-6">
+                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">
+                    {ui.experience}
+                  </p>
+                  <AudienceModeToggle size="hero" className="w-full" />
+                </div>
+
                 {navLinks.map((link, i) => {
                   const isActive = activeHref === link.href;
 
@@ -283,7 +295,7 @@ export function Navbar() {
                 className="space-y-5 border-t border-white/[0.06] pt-8"
               >
                 <p className="text-xs leading-relaxed text-white/40">
-                  Free on iOS. Start your first sessions in under 2 minutes.
+                  {ui.freeOnIos}
                 </p>
                 <AppStoreBadge size="large" />
                 <MagneticButton
@@ -292,7 +304,7 @@ export function Navbar() {
                   size="large"
                   className="w-full justify-center"
                 >
-                  Try Free
+                  {navCta}
                 </MagneticButton>
               </motion.div>
             </motion.div>

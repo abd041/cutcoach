@@ -8,10 +8,12 @@ import { Container } from "@/components/ui/Container";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { AppStoreBadge } from "@/components/ui/AppStoreBadge";
 import { CinematicSection } from "@/components/ui/CinematicSection";
-import { finalCta, siteConfig } from "@/lib/data/content";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import { siteConfig } from "@/lib/data/content";
 import { images } from "@/lib/images";
 
 export function FinalCTA() {
+  const { finalCta } = useAudienceContent();
   return (
     <CinematicSection mood="climax" className="section-divider section-py -mt-6 pb-8 sm:-mt-8">
       <Container>

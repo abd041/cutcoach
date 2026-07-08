@@ -11,7 +11,9 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CinematicSection } from "@/components/ui/CinematicSection";
-import { howItWorksSection, steps } from "@/lib/data/content";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import { formatUi } from "@/lib/i18n/ui";
+import { useUi } from "@/lib/i18n/LocaleProvider";
 import { images } from "@/lib/images";
 import type { Step } from "@/types";
 import { cn } from "@/lib/cn";
@@ -248,15 +250,22 @@ function StepImageFrame({
 function MobileStepProgress({
   activeStep,
   onSelect,
+  steps,
 }: {
   activeStep: number;
   onSelect: (index: number) => void;
+  steps: Step[];
 }) {
+  const ui = useUi();
+
   return (
     <div className="mb-4 space-y-4 lg:hidden">
       <div className="flex items-center justify-between gap-4">
         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">
-          Step {activeStep + 1} of {steps.length}
+          {formatUi(ui.stepOf, {
+            current: activeStep + 1,
+            total: steps.length,
+          })}
         </p>
         <p className="text-[10px] font-medium text-[#4DDFFF]/70">
           {steps[activeStep]?.phase}
@@ -290,7 +299,13 @@ function MobileStepProgress({
   );
 }
 
-function StickyStepVisual({ activeStep }: { activeStep: number }) {
+function StickyStepVisual({
+  activeStep,
+  steps,
+}: {
+  activeStep: number;
+  steps: Step[];
+}) {
   return (
     <div className="relative hidden lg:block lg:order-2 lg:min-h-0">
       <div className="sticky top-[calc(6rem+var(--safe-top))] xl:top-32">
@@ -475,6 +490,7 @@ const ScrollStep = memo(function ScrollStep({
 });
 
 export function HowItWorks() {
+  const { howItWorksSection, steps } = useAudienceContent();
   const { activeStep, sectionRef, setStepRef, scrollToStep } =
     useStepScrollSpy(steps.length);
 
@@ -492,6 +508,7 @@ export function HowItWorks() {
 
       <Container className="section-py relative overflow-visible">
         <SectionHeader
+          key={howItWorksSection.heading}
           tag={howItWorksSection.tag}
           heading={howItWorksSection.heading}
           headingAccent={howItWorksSection.headingAccent}
@@ -504,6 +521,7 @@ export function HowItWorks() {
         <MobileStepProgress
           activeStep={activeStep}
           onSelect={scrollToStep}
+          steps={steps}
         />
 
         <div className="mb-8 lg:hidden">
@@ -539,7 +557,7 @@ export function HowItWorks() {
               <div className="space-y-6 lg:space-y-0">
                 {steps.map((step, index) => (
                   <ScrollStep
-                    key={step.number}
+                    key={`${step.number}-${step.title}`}
                     stepRef={setStepRef(index)}
                     step={step}
                     index={index}
@@ -552,7 +570,7 @@ export function HowItWorks() {
               </div>
             </div>
 
-            <StickyStepVisual activeStep={activeStep} />
+            <StickyStepVisual activeStep={activeStep} steps={steps} />
           </div>
         </div>
       </Container>

@@ -5,15 +5,24 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { AppStoreBadge } from "@/components/ui/AppStoreBadge";
 import { BrandLogo } from "@/components/ui/BrandLogo";
-import {
-  footerLinks,
-  legalLinks,
-  siteConfig,
-  socialLinks,
-} from "@/lib/data/content";
+import { legalLinks, siteConfig, socialLinks } from "@/lib/data/content";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import { useUi } from "@/lib/i18n/LocaleProvider";
 import { images } from "@/lib/images";
 
 export function Footer() {
+  const { footerLinks, footerDescription } = useAudienceContent();
+  const ui = useUi();
+  const localizedLegal = legalLinks.map((link) => ({
+    ...link,
+    label:
+      link.href === "/privacy"
+        ? ui.privacyPolicy
+        : link.href === "/terms"
+          ? ui.termsOfService
+          : link.label,
+  }));
+
   return (
     <footer className="section-divider border-t border-white/[0.06] bg-[#05070a] pt-[var(--section-pad)] pb-[calc(2rem+var(--safe-bottom))]">
       <Container>
@@ -21,7 +30,7 @@ export function Footer() {
           <div>
             <BrandLogo size="footer" />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/45">
-              {siteConfig.footerDescription}
+              {footerDescription}
             </p>
             <div className="mt-6">
               <AppStoreBadge />
@@ -30,9 +39,9 @@ export function Footer() {
 
           <div>
             <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
-              Navigation
+              {ui.navigation}
             </h4>
-            <nav className="flex flex-col gap-3" aria-label="Footer navigation">
+            <nav className="flex flex-col gap-3" aria-label={ui.navigation}>
               {footerLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -47,10 +56,10 @@ export function Footer() {
 
           <div>
             <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
-              Legal
+              {ui.legal}
             </h4>
-            <nav className="flex flex-col gap-3" aria-label="Legal links">
-              {legalLinks.map((link) => (
+            <nav className="flex flex-col gap-3" aria-label={ui.legal}>
+              {localizedLegal.map((link) => (
                 <Link
                   key={link.label}
                   href={link.href}
@@ -64,7 +73,7 @@ export function Footer() {
 
           <div>
             <h4 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
-              Social Media
+              {ui.socialMedia}
             </h4>
             <div className="flex gap-3">
               {socialLinks.map((social) => (
@@ -92,14 +101,14 @@ export function Footer() {
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/[0.06] pt-8 text-center sm:mt-12 sm:flex-row sm:text-left">
           <p className="text-xs text-white/35">{siteConfig.copyright}</p>
           <p className="text-xs text-white/30">
-            Available on{" "}
+            {ui.availableOn}{" "}
             <a
               href={siteConfig.appStoreUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-white/45 transition-colors hover:text-[#4DDFFF]"
             >
-              iOS App Store
+              {ui.iosAppStore}
             </a>
           </p>
         </div>

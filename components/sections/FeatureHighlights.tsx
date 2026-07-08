@@ -11,7 +11,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CinematicSection } from "@/components/ui/CinematicSection";
-import { featureSection, features } from "@/lib/data/content";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
 import type { Feature } from "@/types";
 import { cn } from "@/lib/cn";
 
@@ -151,10 +151,12 @@ function FeaturePanel({
   feature,
   layout,
   index,
+  isLast,
 }: {
   feature: Feature;
   layout: (typeof panelLayouts)[0];
   index: number;
+  isLast: boolean;
 }) {
   const isImageLeft = layout.imageSide === "left";
 
@@ -231,7 +233,7 @@ function FeaturePanel({
         </div>
       </Container>
 
-      {index < features.length - 1 && (
+      {!isLast && (
         <div className="feature-panel-glow pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#4DDFFF]/10 to-transparent" aria-hidden />
       )}
     </motion.article>
@@ -239,6 +241,8 @@ function FeaturePanel({
 }
 
 export function FeatureHighlights() {
+  const { featureSection, features } = useAudienceContent();
+
   return (
     <CinematicSection
       id="features"
@@ -250,6 +254,7 @@ export function FeatureHighlights() {
       <div className="section-py relative">
         <Container className="relative mb-4 sm:mb-6">
           <SectionHeader
+            key={featureSection.heading}
             tag={featureSection.tag}
             heading={featureSection.heading}
             headingAccent={featureSection.headingAccent}
@@ -270,6 +275,7 @@ export function FeatureHighlights() {
                 feature={feature}
                 layout={panelLayouts[index]}
                 index={index}
+                isLast={index === features.length - 1}
               />
             ))}
           </div>

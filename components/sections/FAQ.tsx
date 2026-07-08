@@ -1,18 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CinematicSection } from "@/components/ui/CinematicSection";
-import { faqItems, faqSection } from "@/lib/data/content";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
 import { cn } from "@/lib/cn";
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export function FAQ() {
+  const { faqItems, faqSection } = useAudienceContent();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  useEffect(() => {
+    setOpenIndex(0);
+  }, [faqSection.heading]);
 
   return (
     <CinematicSection
@@ -22,6 +27,7 @@ export function FAQ() {
     >
       <Container className="section-py relative overflow-visible">
         <SectionHeader
+          key={faqSection.heading}
           tag={faqSection.tag}
           heading={faqSection.heading}
           headingAccent={faqSection.headingAccent}

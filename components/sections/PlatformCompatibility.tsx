@@ -12,11 +12,8 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CinematicSection } from "@/components/ui/CinematicSection";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
 import { cn } from "@/lib/cn";
-import {
-  compatibilityPlatforms,
-  compatibilitySection,
-} from "@/lib/data/content";
 import { images } from "@/lib/images";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -341,6 +338,8 @@ function OrbitDiagram() {
 }
 
 export function PlatformCompatibility() {
+  const { compatibilitySection, compatibilityPlatforms } = useAudienceContent();
+
   return (
     <CinematicSection
       id="compatibility"
@@ -349,6 +348,7 @@ export function PlatformCompatibility() {
     >
       <Container className="section-py relative overflow-visible">
         <SectionHeader
+          key={compatibilitySection.heading}
           tag={compatibilitySection.tag}
           heading={compatibilitySection.heading}
           headingAccent={compatibilitySection.headingAccent}

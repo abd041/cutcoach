@@ -13,6 +13,7 @@ import { Gauge, Sparkles, Users } from "lucide-react";
 import { images } from "@/lib/images";
 import { HeroFloatingCard } from "@/components/hero/HeroFloatingCard";
 import { heroFadeUpLate } from "@/components/hero/hero-motion";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
 import { cn } from "@/lib/cn";
 
 const phoneScreens = [
@@ -34,11 +35,7 @@ const sidePhones = [
   },
 ] as const;
 
-const mobileHighlights = [
-  { title: "AI Feedback", subtitle: "Live Coaching", icon: Sparkles, live: true },
-  { title: "Real Clients", subtitle: "Live Sessions", icon: Users, live: false },
-  { title: "Smart Pace", subtitle: "Shop-Floor Ready", icon: Gauge, live: false },
-] as const;
+const highlightIcons = [Sparkles, Users, Gauge] as const;
 
 function PhoneFrame({
   src,
@@ -125,6 +122,7 @@ function CarouselDot({
 }
 
 export function HeroPhones() {
+  const { mobileHighlights } = useAudienceContent();
   const [activeScreen, setActiveScreen] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -133,6 +131,12 @@ export function HeroPhones() {
   const springY = useSpring(mouseY, { stiffness: 120, damping: 24, mass: 0.4 });
   const parallaxX = useTransform(springX, [-1, 1], [-10, 10]);
   const parallaxY = useTransform(springY, [-1, 1], [-7, 7]);
+
+  const cards = mobileHighlights.map((item, index) => ({
+    ...item,
+    icon: highlightIcons[index] ?? Sparkles,
+  }));
+
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -241,33 +245,41 @@ export function HeroPhones() {
             </motion.div>
           </div>
 
-          <HeroFloatingCard
-            title="AI Feedback"
-            subtitle="Live Coaching"
-            live
-            icon={<Sparkles className="h-3.5 w-3.5" />}
-            className="left-[0%] top-[48%] hidden sm:left-[2%] sm:block"
-            delay={0}
-          />
-          <HeroFloatingCard
-            title="Real Clients"
-            subtitle="Live Sessions"
-            icon={<Users className="h-3.5 w-3.5" />}
-            className="right-[0%] top-[4%] hidden sm:right-[-2%] sm:block"
-            delay={0.15}
-          />
-          <HeroFloatingCard
-            title="Smart Pace"
-            subtitle="Shop-Floor Ready"
-            icon={<Gauge className="h-3.5 w-3.5" />}
-            className="bottom-[8%] right-[6%] hidden md:block"
-            delay={0.3}
-          />
+          {cards[0] && (
+            <HeroFloatingCard
+              title={cards[0].title}
+              subtitle={cards[0].subtitle}
+              live={cards[0].live}
+              icon={<Sparkles className="h-3.5 w-3.5" />}
+              className="left-[0%] top-[48%] hidden sm:left-[2%] sm:block"
+              delay={0}
+            />
+          )}
+          {cards[1] && (
+            <HeroFloatingCard
+              title={cards[1].title}
+              subtitle={cards[1].subtitle}
+              live={cards[1].live}
+              icon={<Users className="h-3.5 w-3.5" />}
+              className="right-[0%] top-[4%] hidden sm:right-[-2%] sm:block"
+              delay={0.15}
+            />
+          )}
+          {cards[2] && (
+            <HeroFloatingCard
+              title={cards[2].title}
+              subtitle={cards[2].subtitle}
+              live={cards[2].live}
+              icon={<Gauge className="h-3.5 w-3.5" />}
+              className="bottom-[8%] right-[6%] hidden md:block"
+              delay={0.3}
+            />
+          )}
         </motion.div>
       </div>
 
       <div className="mt-5 grid grid-cols-1 gap-2 sm:hidden">
-        {mobileHighlights.map((item) => {
+        {cards.map((item) => {
           const Icon = item.icon;
           return (
             <div
