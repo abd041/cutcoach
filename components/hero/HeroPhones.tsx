@@ -72,6 +72,7 @@ function PhoneFrame({
             height={featured ? 606 : 476}
             className="block h-auto w-full"
             priority={priority}
+            unoptimized={src.startsWith("/images/")}
             sizes={featured ? "(max-width: 1024px) 58vw, 280px" : "220px"}
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/[0.06] via-transparent to-transparent" />
@@ -254,6 +255,7 @@ export function HeroPhones() {
                         height={606}
                         className="block h-auto w-full"
                         priority
+                        unoptimized={active.src.startsWith("/images/")}
                         sizes="(max-width: 1024px) 58vw, 280px"
                       />
                     )}

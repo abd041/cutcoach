@@ -10,7 +10,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="hero-premium relative isolate overflow-x-hidden pb-14 pt-[calc(6.25rem+var(--safe-top))] sm:pb-16 sm:pt-[calc(7rem+var(--safe-top))] lg:pb-20 lg:pt-[calc(8.5rem+var(--safe-top))]"
+      className="hero-premium relative isolate overflow-x-clip pb-14 pt-[calc(6.25rem+var(--safe-top))] sm:pb-16 sm:pt-[calc(7rem+var(--safe-top))] lg:pb-20 lg:pt-[calc(8.5rem+var(--safe-top))]"
     >
       <HeroBackground />
 

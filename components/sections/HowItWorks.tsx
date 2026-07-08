@@ -225,6 +225,7 @@ function StepImageFrame({
               fill
               className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.015]"
               sizes="(min-width: 1024px) 40vw, 100vw"
+              unoptimized={src.startsWith("/images/")}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#05070a]/82 via-transparent to-white/[0.02]" />
             {step.callouts && <StepCallouts callouts={step.callouts} />}
@@ -293,7 +294,7 @@ function MobileStepProgress({
               {String(index + 1).padStart(2, "0")}
             </span>
             <span className="mt-0.5 line-clamp-1 text-[9px] font-medium uppercase tracking-[0.08em] opacity-80">
-              {step.phase.replace(" the cut", "")}
+              {step.phase.split(/\s+/)[0]}
             </span>
           </button>
         ))}

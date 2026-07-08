@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, ChevronDown, Languages } from "lucide-react";
 import {
@@ -10,6 +17,7 @@ import {
   type Locale,
 } from "@/lib/i18n/types";
 import { useLocale } from "@/lib/i18n/LocaleProvider";
+import { useScrollSubscription } from "@/hooks/useScrollSubscription";
 import { cn } from "@/lib/cn";
 
 interface LanguageSelectorProps {
@@ -18,21 +26,107 @@ interface LanguageSelectorProps {
   variant?: "nav" | "menu";
 }
 
+type MenuPosition = {
+  top: number;
+  left: number;
+  minWidth: number;
+};
+
+function LanguageOption({
+  option,
+  active,
+  onSelect,
+}: {
+  option: Locale;
+  active: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="option"
+      aria-selected={active}
+      onClick={onSelect}
+      className={cn(
+        "flex w-full min-h-11 items-center justify-between gap-3 rounded-lg px-3 py-3 text-left transition-colors",
+        active
+          ? "bg-[#4DDFFF]/12 text-white"
+          : "text-white/65 hover:bg-white/[0.05] hover:text-white"
+      )}
+    >
+      <span className="flex flex-col">
+        <span className="text-[12px] font-bold tracking-[0.08em]">
+          {LOCALE_LABELS[option]}
+        </span>
+        <span className="text-[10px] text-white/40">{LOCALE_NAMES[option]}</span>
+      </span>
+      {active && <Check className="h-3.5 w-3.5 text-[#4DDFFF]" aria-hidden />}
+    </button>
+  );
+}
+
 export function LanguageSelector({
   className,
   variant = "nav",
 }: LanguageSelectorProps) {
   const { locale, setLocale, ui } = useLocale();
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [menuPosition, setMenuPosition] = useState<MenuPosition | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const updateMenuPosition = useCallback(() => {
+    const button = buttonRef.current;
+    if (!button) return;
+
+    const rect = button.getBoundingClientRect();
+    const minWidth = 168;
+
+    setMenuPosition({
+      top: rect.bottom + 6,
+      left: Math.max(8, rect.right - minWidth),
+      minWidth: Math.max(minWidth, rect.width),
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!open) return;
+    updateMenuPosition();
+  }, [open, updateMenuPosition]);
+
+  useScrollSubscription(() => {
+    if (open) updateMenuPosition();
+  });
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onResize = () => updateMenuPosition();
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, [open, updateMenuPosition]);
 
   useEffect(() => {
     if (!open) return;
 
     const onPointerDown = (event: MouseEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) {
-        setOpen(false);
+      const target = event.target as Node;
+      if (
+        rootRef.current?.contains(target) ||
+        menuRef.current?.contains(target)
+      ) {
+        return;
       }
+      setOpen(false);
     };
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
@@ -86,9 +180,51 @@ export function LanguageSelector({
     );
   }
 
+  const menu =
+    mounted && menuPosition
+      ? createPortal(
+          <AnimatePresence>
+            {open ? (
+              <motion.div
+                key="language-menu"
+                ref={menuRef}
+                initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 4, scale: 0.98 }}
+                transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                role="listbox"
+                aria-label={ui.language}
+                style={{
+                  position: "fixed",
+                  top: menuPosition.top,
+                  left: menuPosition.left,
+                  minWidth: menuPosition.minWidth,
+                  zIndex: 120,
+                }}
+                className="overflow-hidden rounded-xl border border-white/[0.1] bg-[#060a10]/96 p-1 shadow-[0_20px_48px_-20px_rgba(0,0,0,0.85)] backdrop-blur-xl"
+              >
+                {LOCALES.map((option) => (
+                  <LanguageOption
+                    key={option}
+                    option={option}
+                    active={locale === option}
+                    onSelect={() => {
+                      setLocale(option);
+                      setOpen(false);
+                    }}
+                  />
+                ))}
+              </motion.div>
+            ) : null}
+          </AnimatePresence>,
+          document.body
+        )
+      : null;
+
   return (
     <div ref={rootRef} className={cn("relative", className)}>
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((prev) => !prev)}
         aria-haspopup="listbox"
@@ -106,65 +242,7 @@ export function LanguageSelector({
           aria-hidden
         />
       </button>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 6, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 4, scale: 0.98 }}
-            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            role="listbox"
-            aria-label={ui.language}
-            className="absolute right-0 top-[calc(100%+0.4rem)] z-[60] min-w-[10.5rem] overflow-hidden rounded-xl border border-white/[0.1] bg-[#060a10]/96 p-1 shadow-[0_20px_48px_-20px_rgba(0,0,0,0.85)] backdrop-blur-xl"
-          >
-            {LOCALES.map((option) => (
-              <LanguageOption
-                key={option}
-                option={option}
-                active={locale === option}
-                onSelect={() => {
-                  setLocale(option);
-                  setOpen(false);
-                }}
-              />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {menu}
     </div>
-  );
-}
-
-function LanguageOption({
-  option,
-  active,
-  onSelect,
-}: {
-  option: Locale;
-  active: boolean;
-  onSelect: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      role="option"
-      aria-selected={active}
-      onClick={onSelect}
-      className={cn(
-        "flex w-full min-h-11 items-center justify-between gap-3 rounded-lg px-3 py-3 text-left transition-colors",
-        active
-          ? "bg-[#4DDFFF]/12 text-white"
-          : "text-white/65 hover:bg-white/[0.05] hover:text-white"
-      )}
-    >
-      <span className="flex flex-col">
-        <span className="text-[12px] font-bold tracking-[0.08em]">
-          {LOCALE_LABELS[option]}
-        </span>
-        <span className="text-[10px] text-white/40">{LOCALE_NAMES[option]}</span>
-      </span>
-      {active && <Check className="h-3.5 w-3.5 text-[#4DDFFF]" aria-hidden />}
-    </button>
   );
 }

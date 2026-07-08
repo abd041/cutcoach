@@ -12,12 +12,11 @@ export const heroStagger = {
 };
 
 export const heroFadeUp = {
-  hidden: { opacity: 0, y: 28, scale: 0.98 },
+  hidden: { opacity: 0, y: 18 },
   show: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: { duration: 0.85, ease: heroEase },
+    transition: { duration: 0.75, ease: heroEase },
   },
 };
 

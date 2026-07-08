@@ -31,8 +31,12 @@ export const barberContentFr: AudienceContentPack = {
       { src: images.liveAiSupport, alt: "Support de coaching IA" },
     ],
     sideScreens: [
-      { src: images.liveCutGuidance, alt: "Guidage de coupe en direct", side: "left" },
-      { src: images.liveAiSupport, alt: "Support IA en direct", side: "right" },
+      {
+        src: images.clientPassportScan,
+        alt: "Scanner le QR Client Passport",
+        side: "left",
+      },
+      { src: images.liveCutGuidance, alt: "Guidage de coupe en direct", side: "right" },
     ],
   },
   trustBar: {
@@ -72,7 +76,7 @@ export const barberContentFr: AudienceContentPack = {
         "Repères de workflow via lunettes connectées",
         "Apprentissage étudiant intégré à chaque coupe",
       ],
-      image: images.liveAiSupport,
+      image: images.liveCutGuidance,
       bgImage: images.featureBg1,
       callouts: [
         { label: "Score de séance", value: "87" },
@@ -88,7 +92,7 @@ export const barberContentFr: AudienceContentPack = {
         "Rappels de structure section par section",
         "Moins d'hésitation, flux plus fluide",
       ],
-      image: images.liveCutGuidance,
+      image: images.guidedSession,
       bgImage: images.featureBg2,
       callouts: [
         { label: "Fade gauche", value: "4:12" },
@@ -104,7 +108,7 @@ export const barberContentFr: AudienceContentPack = {
         "Analyse vidéo uploadée et suivi de progression",
         "Résumés IA Client Passport",
       ],
-      image: images.guidedSession,
+      image: images.liveAiSupport,
       bgImage: images.leftCard,
       callouts: [
         { label: "Analyse", value: "Prête", live: true },
@@ -134,6 +138,7 @@ export const barberContentFr: AudienceContentPack = {
       ],
       tags: ["Démarrer la séance", "Voir le plan de séance"],
       icon: images.step1Icon,
+      screen: images.guidedSession,
       callouts: [
         { label: "Plan de séance", value: "Prêt", live: true },
         { label: "Configuration", value: "2 min" },
@@ -152,6 +157,7 @@ export const barberContentFr: AudienceContentPack = {
       ],
       tags: ["Garder le rythme", "Voir les métriques live"],
       icon: images.step2Icon,
+      screen: images.liveCutGuidance,
       callouts: [
         { label: "Fade gauche", value: "4:12" },
         { label: "Repère", value: "Actif", live: true },
@@ -170,6 +176,7 @@ export const barberContentFr: AudienceContentPack = {
       ],
       tags: ["Voir l'analyse", "Suivre la progression"],
       icon: images.step3Icon,
+      screen: images.liveAiSupport,
       callouts: [
         { label: "Score de séance", value: "87" },
         { label: "Insights", value: "Prêts", live: true },

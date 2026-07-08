@@ -190,7 +190,7 @@ export function Navbar() {
 
             <div className="nav-pill-actions relative z-[2] hidden items-center justify-self-end gap-2.5 xl:gap-3 lg:flex">
               <LanguageSelector />
-              <AudienceModeToggle />
+              <AudienceModeToggle layoutId="audience-mode-pill-nav" />
               <MagneticButton
                 href={siteConfig.appStoreUrl}
                 external
@@ -274,7 +274,11 @@ export function Navbar() {
                   <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">
                     {ui.experience}
                   </p>
-                  <AudienceModeToggle size="hero" className="w-full" />
+                  <AudienceModeToggle
+                    size="hero"
+                    layoutId="audience-mode-pill-drawer"
+                    className="w-full"
+                  />
                 </div>
 
                 {navLinks.map((link, i) => {

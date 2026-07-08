@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { HeroEyebrow } from "@/components/hero/HeroEyebrow";
 import { HeroPlatformIntro } from "@/components/hero/HeroPlatformIntro";
-import { TextReveal } from "@/components/ui/TextReveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useAudienceContent, useAudienceMode } from "@/lib/audience/AudienceModeProvider";
 import { siteConfig } from "@/lib/data/content";
@@ -35,12 +34,9 @@ export function HeroCopy() {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={mode}
-          initial={audienceModeVariants(mode, "fade").initial}
-          animate={
-            ready
-              ? audienceModeVariants(mode, "fade").animate
-              : audienceModeVariants(mode, "fade").initial
-          }
+          variants={heroStagger}
+          initial="hidden"
+          animate={ready ? "show" : "hidden"}
           exit={audienceModeVariants(mode, "fade").exit}
           transition={audienceModeTransition()}
         >
@@ -48,28 +44,23 @@ export function HeroCopy() {
             variants={heroFadeUp}
             className="hero-premium-heading font-display font-extrabold tracking-[-0.03em] text-white"
           >
-            <span className="block pb-1">
-              <TextReveal as="span" delay={0.08} key={`${mode}-h1`}>
-                {hero.headline}
-              </TextReveal>
-            </span>
-            <span className="block pb-1">
-              <TextReveal
-                as="span"
-                delay={0.22}
-                className="hero-premium-gradient-text"
-                key={`${mode}-h1a`}
-              >
-                {hero.headlineAccent}
-              </TextReveal>
+            <span className="block">{hero.headline}</span>
+            <span className="hero-premium-gradient-text block">
+              {hero.headlineAccent}
             </span>
           </motion.h1>
 
-          <p className="mt-6 max-w-[520px] text-[15px] leading-[1.75] text-white/55 sm:mt-8 sm:text-base sm:leading-[1.8] lg:mt-10 lg:text-[17px]">
+          <motion.p
+            variants={heroFadeUp}
+            className="mt-6 max-w-[520px] text-[15px] leading-[1.75] text-white/55 sm:mt-8 sm:text-base sm:leading-[1.8] lg:mt-10 lg:text-[17px]"
+          >
             {hero.subtext.replace("--", "—")}
-          </p>
+          </motion.p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 lg:mt-11">
+          <motion.div
+            variants={heroFadeUp}
+            className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 lg:mt-11"
+          >
             <MagneticButton
               href={siteConfig.appStoreUrl}
               external
@@ -88,7 +79,7 @@ export function HeroCopy() {
               </span>
               <ArrowRight className="h-4 w-4 opacity-50 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:opacity-90" />
             </Link>
-          </div>
+          </motion.div>
         </motion.div>
       </AnimatePresence>
     </motion.div>

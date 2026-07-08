@@ -46,7 +46,7 @@ export function CinematicSection({
       aria-labelledby={ariaLabelledBy}
       className={cn(
         "section-breath relative isolate overflow-hidden",
-        !pin && "section-defer",
+        !pin && "section-defer-safe",
         bleed && "section-bleed",
         className
       )}

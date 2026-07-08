@@ -147,6 +147,7 @@ function FeatureImagePanel({ feature }: { feature: Feature }) {
                   fill
                   className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
                   sizes="(max-width: 1024px) 100vw, 480px"
+                  unoptimized={feature.image.startsWith("/images/")}
                 />
               </motion.div>
             </AnimatePresence>
@@ -262,12 +263,12 @@ export function FeatureHighlights() {
       id="features"
       mood="horizon"
       aria-labelledby="features-heading"
-      className="section-divider -mt-6 sm:-mt-8"
+      className="section-divider -mt-6 !overflow-visible sm:-mt-8"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(ellipse_70%_80%_at_50%_0%,rgba(77,223,255,0.08),transparent_70%)]" aria-hidden />
 
       <div className="section-py relative">
-        <Container className="relative section-header-gap">
+        <Container className="relative">
           <AudienceModeTransition variant="fade">
             <SectionHeader
               headingId="features-heading"

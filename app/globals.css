@@ -148,9 +148,19 @@ html.lenis-scrolling .hero-glass-card {
   contain-intrinsic-size: auto 520px;
 }
 
+/* Keep section headers paintable — avoids scroll-reveal state bugs with content-visibility. */
+.section-defer-safe {
+  contain-intrinsic-size: auto 520px;
+}
+
 #hero,
 #how-it-works,
-#platform {
+#platform,
+#features,
+#compatibility,
+#pricing,
+#testimonials,
+#faq {
   content-visibility: visible;
 }
 
@@ -612,7 +622,7 @@ a:hover .logo-prominent,
 
 .hero-premium-heading {
   font-size: clamp(2.25rem, 9vw, 5.5rem);
-  line-height: 1.04;
+  line-height: 1.08;
   letter-spacing: -0.03em;
   font-weight: 800;
   text-wrap: balance;
@@ -621,14 +631,14 @@ a:hover .logo-prominent,
 @media (min-width: 640px) {
   .hero-premium-heading {
     font-size: clamp(2.85rem, 8.5vw, 5.5rem);
-    line-height: 0.9;
+    line-height: 1.06;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-premium-heading {
     font-size: clamp(4rem, 5.2vw, 6.5rem);
-    line-height: 0.88;
+    line-height: 1.04;
   }
 }
 

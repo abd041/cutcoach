@@ -96,7 +96,7 @@ export const clientContentFr: AudienceContentPack = {
         "Photos avant & après",
         "Des notes du barber que vous conservez",
       ],
-      image: images.clientPassportPreferences,
+      image: images.clientPassportWelcome,
       bgImage: images.featureBg2,
       callouts: [
         { label: "Historique", value: "Au dossier" },
@@ -113,7 +113,7 @@ export const clientContentFr: AudienceContentPack = {
         "Configuration gratuite — sans abonnement",
       ],
       image: images.clientPassportMyQr,
-      bgImage: images.featureBg1,
+      bgImage: images.leftCard,
       callouts: [
         { label: "Profil QR", value: "Prêt", live: true },
         { label: "Coût", value: "Gratuit" },

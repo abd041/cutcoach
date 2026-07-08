@@ -1,15 +1,17 @@
 const CDN = "https://cdn.prod.website-files.com/69b0a5be386620e60b7874ef";
 
 export const images = {
-  logo: "/images/cutcoach-logo.svg",
+  logo: "/images/cutcoach-logo.png",
   seo: `${CDN}/6929822a7d848669f78740c9/695232241a7c1e461a7deb20_seo%20image.webp`,
   arrow: `${CDN}/69b0a5bf386620e60b7876a2_Frame%20(2).svg`,
   phoneMockup: `${CDN}/69b0a5bf386620e60b7876e0_Frame%202147238324%20(1).webp`,
   ctaBackground: `${CDN}/69b0a5bf386620e60b7876e5_Frame%202147238348%20(1).webp`,
-  performanceAwareness: `${CDN}/69b78a6e2e370b1dab358fb4_Untitled%20design%20-%208.PNG`,
-  liveCutGuidance: `${CDN}/69b78ae588851f59ec10b59b_Untitled%20design%20-%2020.PNG`,
-  guidedSession: `${CDN}/69b78da83ca1a998b259909b_Untitled%20design%20-%2025.PNG`,
-  liveAiSupport: `${CDN}/69b78d7d651b5cf535514666_Untitled%20design%20-%2014.PNG`,
+  /** Barber app screens — local assets for barber audience mode. */
+  guidedSession: "/images/barber/screen-practice-session.png",
+  liveCutGuidance: "/images/barber/screen-live-coaching.png",
+  liveAiSupport: "/images/barber/screen-session-history.png",
+  clientPassportScan: "/images/barber/screen-client-passport-scan.png",
+  performanceAwareness: "/images/barber/screen-session-history.png",
   featureBg1: `${CDN}/69b0a5bf386620e60b7876dd_Frame%202147227399.webp`,
   featureBg2: `${CDN}/69b0a5bf386620e60b7876dc_Frame%202147227404.webp`,
   leftCard: `${CDN}/69b0a5bf386620e60b7876ef_left%20card.webp`,
@@ -25,9 +27,9 @@ export const images = {
   socialX: `${CDN}/69b0a5bf386620e60b7876cc_Frame%20(1).svg`,
   socialLinkedin: `${CDN}/69b0a5bf386620e60b7876cb_Frame.svg`,
   /** Client Passport app screens — local assets for client audience mode only. */
-  clientPassportWelcome: "/images/client-passport/passport-welcome.png",
-  clientPassportMyQr: "/images/client-passport/passport-my-qr.png",
-  clientPassportPreferences: "/images/client-passport/passport-preferences.png",
+  clientPassportWelcome: "/images/client-passport/screen-sign-in.png",
+  clientPassportMyQr: "/images/client-passport/screen-my-passport.png",
+  clientPassportPreferences: "/images/client-passport/screen-preferences.png",
 } as const;
 
 export const APP_STORE_URL =

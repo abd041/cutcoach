@@ -31,4 +31,7 @@ var locale=(langParam==="en"||langParam==="es"||langParam==="fr")?langParam
 setCookie(modeKey,mode);
 setCookie(localeKey,locale);
 try{localStorage.setItem(modeKey,mode);localStorage.setItem(localeKey,locale);}catch(e){}
+var htmlLang={en:"en",es:"es",fr:"fr"}[locale]||"en";
+document.documentElement.setAttribute("data-audience-mode",mode);
+document.documentElement.setAttribute("lang",htmlLang);
 }catch(e){}})();`;

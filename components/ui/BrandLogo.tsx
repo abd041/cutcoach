@@ -5,28 +5,29 @@ import { images } from "@/lib/images";
 
 type BrandLogoSize = "nav" | "footer" | "legal" | "orbit";
 
+/** Intrinsic asset size: 1250×1390 */
 const sizeMap: Record<
   BrandLogoSize,
   { width: number; height: number; className: string }
 > = {
   nav: {
     width: 220,
-    height: 180,
+    height: 244,
     className: "brand-logo h-11 w-auto sm:h-14 lg:h-[3.75rem]",
   },
   footer: {
     width: 200,
-    height: 160,
+    height: 222,
     className: "brand-logo h-11 w-auto sm:h-12",
   },
   legal: {
     width: 180,
-    height: 140,
+    height: 200,
     className: "brand-logo h-10 w-auto",
   },
   orbit: {
     width: 120,
-    height: 96,
+    height: 133,
     className: "brand-logo h-10 w-auto sm:h-11",
   },
 };
@@ -54,6 +55,7 @@ export function BrandLogo({
       height={config.height}
       className={cn(config.className, className)}
       priority={priority}
+      unoptimized
     />
   );
 

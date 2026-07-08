@@ -31,8 +31,12 @@ export const barberContent: AudienceContentPack = {
       { src: images.liveAiSupport, alt: "Live AI coaching support" },
     ],
     sideScreens: [
-      { src: images.liveCutGuidance, alt: "Live cut guidance", side: "left" },
-      { src: images.liveAiSupport, alt: "Live AI support", side: "right" },
+      {
+        src: images.clientPassportScan,
+        alt: "Scan client QR passport",
+        side: "left",
+      },
+      { src: images.liveCutGuidance, alt: "Live coaching session", side: "right" },
     ],
   },
   trustBar: {
@@ -72,7 +76,7 @@ export const barberContent: AudienceContentPack = {
         "Smart glasses workflow cues",
         "Designed to support student learning during each cut",
       ],
-      image: images.liveAiSupport,
+      image: images.liveCutGuidance,
       bgImage: images.featureBg1,
       callouts: [
         { label: "Session score", value: "87" },
@@ -88,7 +92,7 @@ export const barberContent: AudienceContentPack = {
         "Section-by-section structure reminders",
         "Built to help reduce hesitation and support smoother flow",
       ],
-      image: images.liveCutGuidance,
+      image: images.guidedSession,
       bgImage: images.featureBg2,
       callouts: [
         { label: "Fade left", value: "4:12" },
@@ -104,7 +108,7 @@ export const barberContent: AudienceContentPack = {
         "Video upload analysis & progress tracking",
         "Client Passport AI summaries",
       ],
-      image: images.guidedSession,
+      image: images.liveAiSupport,
       bgImage: images.leftCard,
       callouts: [
         { label: "Analysis", value: "Ready", live: true },

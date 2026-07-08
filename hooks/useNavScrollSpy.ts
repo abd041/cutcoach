@@ -20,7 +20,7 @@ export function useNavScrollSpy(sectionIds: string[]) {
       if (!elements.length) return;
 
       const anchor = scrollY + window.innerHeight * 0.32;
-      let bestId = elements[0]?.id ?? "";
+      let bestId = "";
       let bestTop = -Infinity;
 
       for (const element of elements) {
@@ -29,6 +29,10 @@ export function useNavScrollSpy(sectionIds: string[]) {
           bestTop = top;
           bestId = element.id;
         }
+      }
+
+      if (scrollY < 120) {
+        bestId = "";
       }
 
       setActiveId((prev) => (prev === bestId ? prev : bestId));

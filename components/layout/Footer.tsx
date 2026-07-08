@@ -8,10 +8,12 @@ import { BrandLogo } from "@/components/ui/BrandLogo";
 import { AudienceModeToggle } from "@/components/ui/AudienceModeToggle";
 import { LanguageSelector } from "@/components/ui/LanguageSelector";
 import { legalLinks, siteConfig, socialLinks } from "@/lib/data/content";
+import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
 import { useUi } from "@/lib/i18n/LocaleProvider";
 
 export function Footer() {
   const ui = useUi();
+  const { footerDescription } = useAudienceContent();
   const contactHref = `mailto:${siteConfig.supportEmail}`;
 
   return (
@@ -26,7 +28,7 @@ export function Footer() {
           <div>
             <BrandLogo size="footer" />
             <p className="mt-5 max-w-md text-sm leading-relaxed text-white/45">
-              {ui.footerTagline}
+              {footerDescription}
             </p>
             <div className="mt-7">
               <AppStoreBadge />
@@ -38,7 +40,11 @@ export function Footer() {
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/40">
                 {ui.experience}
               </p>
-              <AudienceModeToggle size="hero" className="w-full max-w-sm" />
+              <AudienceModeToggle
+                size="hero"
+                layoutId="audience-mode-pill-footer"
+                className="w-full max-w-sm"
+              />
             </div>
 
             <div>

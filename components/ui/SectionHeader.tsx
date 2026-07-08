@@ -1,12 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
-import { TextReveal } from "@/components/ui/TextReveal";
-import { REVEAL_EASE } from "@/lib/motion";
-import { useScrollSubscription } from "@/hooks/useScrollSubscription";
 
 interface SectionHeaderProps {
   tag?: string;
@@ -34,40 +29,14 @@ export function SectionHeader({
   pills,
   headingId,
 }: SectionHeaderProps) {
-  const reduceMotion = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, {
-    once: true,
-    amount: 0.12,
-    margin: "0px 0px -40px 0px",
-  });
-  const [revealed, setRevealed] = useState(reduceMotion);
-
-  useEffect(() => {
-    if (inView) setRevealed(true);
-  }, [inView]);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.9 && rect.bottom > -40) {
-      setRevealed(true);
-    }
-  }, []);
-
-  useScrollSubscription(() => {
-    if (revealed) return;
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.9 && rect.bottom > -40) {
-      setRevealed(true);
-    }
-  });
-
-  const content = (
-    <>
+  return (
+    <div
+      className={cn(
+        "section-header-gap",
+        align === "center" && "mx-auto max-w-4xl text-center",
+        className
+      )}
+    >
       {tag && <SectionEyebrow align={align}>{tag}</SectionEyebrow>}
 
       <h2
@@ -81,20 +50,10 @@ export function SectionHeader({
       >
         {premium ? (
           <>
-            <span className="block">
-              <TextReveal as="span" delay={0.08}>
-                {heading}
-              </TextReveal>
-            </span>
+            <span className="block">{heading}</span>
             {headingAccent && (
-              <span className="mt-1 block sm:mt-2">
-                <TextReveal
-                  as="span"
-                  delay={0.28}
-                  className="hero-premium-gradient-text"
-                >
-                  {headingAccent}
-                </TextReveal>
+              <span className="hero-premium-gradient-text mt-1 block sm:mt-2">
+                {headingAccent}
               </span>
             )}
           </>
@@ -143,36 +102,6 @@ export function SectionHeader({
           ))}
         </p>
       )}
-    </>
-  );
-
-  if (reduceMotion) {
-    return (
-      <div
-        className={cn(
-          "section-header-gap",
-          align === "center" && "mx-auto max-w-4xl text-center",
-          className
-        )}
-      >
-        {content}
-      </div>
-    );
-  }
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={false}
-      animate={{ opacity: 1, y: revealed ? 0 : 18 }}
-      transition={{ duration: 0.65, ease: REVEAL_EASE }}
-      className={cn(
-        "section-header-gap",
-        align === "center" && "mx-auto max-w-4xl text-center",
-        className
-      )}
-    >
-      {content}
-    </motion.div>
+    </div>
   );
 }

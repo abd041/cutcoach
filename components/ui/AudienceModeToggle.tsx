@@ -11,11 +11,14 @@ const modes: AudienceMode[] = ["barber", "client"];
 interface AudienceModeToggleProps {
   className?: string;
   size?: "nav" | "hero";
+  /** Unique per mount — avoids Framer shared-layout conflicts when multiple toggles exist. */
+  layoutId?: string;
 }
 
 export function AudienceModeToggle({
   className,
   size = "nav",
+  layoutId = "audience-mode-pill",
 }: AudienceModeToggleProps) {
   const { mode, setMode } = useAudienceMode();
   const ui = useUi();
@@ -36,7 +39,7 @@ export function AudienceModeToggle({
       )}
     >
       <motion.span
-        layoutId="audience-mode-pill"
+        layoutId={layoutId}
         className="pointer-events-none absolute bottom-1 top-1 rounded-full bg-gradient-to-r from-[#4DDFFF] via-[#00c8ff] to-[#00e8c5] shadow-[0_0_24px_-6px_rgba(77,223,255,0.65)]"
         initial={false}
         animate={{

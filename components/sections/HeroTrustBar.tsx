@@ -160,7 +160,7 @@ export function HeroTrustBar() {
     <CinematicSection
       mood="depth"
       aria-label="App download and social proof"
-      className="section-divider relative z-10 -mt-8 sm:-mt-12"
+      className="section-divider relative z-0 -mt-6 sm:-mt-10"
     >
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4DDFFF]/25 to-transparent"

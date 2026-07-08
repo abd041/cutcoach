@@ -7,7 +7,7 @@ import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { LenisProvider } from "@/components/providers/LenisProvider";
 import { LocaleProvider } from "@/lib/i18n/LocaleProvider";
 import { AudienceModeProvider } from "@/lib/audience/AudienceModeProvider";
-import { preferenceBootstrapScript } from "@/lib/audience/bootstrap-script";
+import { PreferenceBootstrap } from "@/components/preferences/PreferenceBootstrap";
 import { SkipToContent } from "@/components/ui/SkipToContent";
 import { getServerAudienceMode } from "@/lib/preferences/server";
 import { getServerLocale } from "@/lib/preferences/server";
@@ -50,13 +50,9 @@ export default async function RootLayout({
       data-audience-mode={initialMode}
       className={`${inter.variable} ${urbanist.variable}`}
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{ __html: preferenceBootstrapScript }}
-        />
-        <JsonLd />
-      </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+        <PreferenceBootstrap />
+        <JsonLd />
         <LenisProvider>
         <LocaleProvider initialLocale={initialLocale}>
         <AudienceModeProvider initialMode={initialMode}>

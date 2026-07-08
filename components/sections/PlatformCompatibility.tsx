@@ -11,6 +11,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CinematicSection } from "@/components/ui/CinematicSection";
 import { AudienceModeTransition } from "@/components/ui/AudienceModeTransition";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import {
   TOOL_ICON_MAP,
   type ToolIconId,
@@ -204,15 +205,6 @@ function ToolOrbitChip({
   );
 }
 
-function HubBrandMark() {
-  return (
-    <p className="relative z-10 max-w-[5.25rem] text-center font-display text-[0.8125rem] font-extrabold leading-none tracking-[-0.04em] sm:max-w-[5.75rem] sm:text-[0.9rem]">
-      <span className="hero-premium-gradient-text">Cut</span>
-      <span className="text-white">Coach</span>
-    </p>
-  );
-}
-
 function IntegrationHub({ liveLabel }: { liveLabel: string }) {
   return (
     <motion.div
@@ -241,7 +233,7 @@ function IntegrationHub({ liveLabel }: { liveLabel: string }) {
           className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/[0.09] to-transparent"
           aria-hidden
         />
-        <HubBrandMark />
+        <BrandLogo size="orbit" className="relative z-10 max-h-[3rem] w-auto sm:max-h-[3.25rem]" />
         <span className="relative z-10 inline-flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.2em] text-[#4DDFFF]/85 sm:text-[9px]">
           <span className="compat-live-dot h-1.5 w-1.5 shrink-0 rounded-full bg-[#4DDFFF]" />
           {liveLabel}

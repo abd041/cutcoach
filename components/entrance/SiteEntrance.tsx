@@ -147,8 +147,9 @@ export function SiteEntrance() {
                   src={images.logo}
                   alt=""
                   width={280}
-                  height={220}
+                  height={311}
                   priority
+                  unoptimized
                   className="entrance-logo relative z-10 h-auto w-[min(58vw,12.5rem)] drop-shadow-[0_0_32px_rgba(77,223,255,0.28)] sm:w-[13.5rem]"
                 />
 

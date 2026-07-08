@@ -65,8 +65,8 @@ export const rootSiteMetadata: Metadata = {
   publisher: siteConfig.name,
   category: "technology",
   icons: {
-    icon: "/images/cutcoach-logo.svg",
-    apple: "/images/cutcoach-logo.svg",
+    icon: "/images/cutcoach-logo.png",
+    apple: "/images/cutcoach-logo.png",
   },
   alternates: {
     canonical: siteConfig.url,

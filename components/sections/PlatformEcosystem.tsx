@@ -55,9 +55,9 @@ export function PlatformEcosystem() {
       id="platform"
       mood="horizon"
       aria-labelledby="platform-ecosystem-heading"
-      className="section-divider relative -mt-4 sm:-mt-6"
+      className="section-divider relative z-[1]"
     >
-      <Container className="pb-[var(--section-pad)] pt-2 sm:pt-4">
+      <Container className="relative z-[1] pb-[var(--section-pad)] pt-2 sm:pt-4">
         <SectionHeader
           headingId="platform-ecosystem-heading"
           tag={ui.ecosystemTag}

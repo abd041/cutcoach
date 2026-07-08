@@ -22,7 +22,7 @@ export function FinalCTA() {
   const ctaScreen = hero.screens[0];
 
   return (
-    <CinematicSection mood="climax" className="section-divider -mt-6 sm:-mt-8">
+    <CinematicSection mood="climax" className="section-divider -mt-6 !overflow-visible sm:-mt-8">
       <Container className="section-py">
         <div className="final-cta-shell relative overflow-hidden rounded-[1.75rem] p-px lg:rounded-[2rem]">
           <div className="hero-glass-card relative overflow-hidden rounded-[1.72rem] lg:rounded-[1.97rem]">
