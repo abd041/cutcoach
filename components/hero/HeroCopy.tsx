@@ -4,10 +4,12 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { HeroEyebrow } from "@/components/hero/HeroEyebrow";
+import { HeroPlatformIntro } from "@/components/hero/HeroPlatformIntro";
 import { TextReveal } from "@/components/ui/TextReveal";
-import { AudienceModeToggle } from "@/components/ui/AudienceModeToggle";
+import { MagneticButton } from "@/components/ui/MagneticButton";
 import { useAudienceContent, useAudienceMode } from "@/lib/audience/AudienceModeProvider";
 import { siteConfig } from "@/lib/data/content";
+import { audienceModeTransition, audienceModeVariants } from "@/lib/audience-motion";
 import {
   heroFadeUp,
   heroStagger,
@@ -26,23 +28,21 @@ export function HeroCopy() {
       animate={ready ? "show" : "hidden"}
       className="relative z-10 max-w-[640px] lg:pt-2"
     >
-      <motion.div variants={heroFadeUp} className="mb-5 sm:mb-6 lg:hidden">
-        <AudienceModeToggle size="hero" />
-      </motion.div>
+      <HeroPlatformIntro />
 
       <HeroEyebrow />
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={mode}
-          initial={{ opacity: 0, y: 12 }}
+          initial={audienceModeVariants(mode, "fade").initial}
           animate={
             ready
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 12 }
+              ? audienceModeVariants(mode, "fade").animate
+              : audienceModeVariants(mode, "fade").initial
           }
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          exit={audienceModeVariants(mode, "fade").exit}
+          transition={audienceModeTransition()}
         >
           <motion.h1
             variants={heroFadeUp}
@@ -70,28 +70,23 @@ export function HeroCopy() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 lg:mt-11">
-            <Link
+            <MagneticButton
               href={siteConfig.appStoreUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hero-primary-cta group relative inline-flex h-[50px] w-full items-center justify-center gap-2.5 overflow-hidden rounded-2xl px-7 text-[15px] font-semibold text-[#041018] transition-transform duration-300 hover:-translate-y-0.5 sm:h-[52px] sm:w-auto sm:px-7 lg:h-[58px] lg:px-8 lg:text-base"
+              external
+              size="hero"
+              className="w-full sm:w-auto"
             >
-              <span
-                className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 group-hover:translate-x-full"
-                aria-hidden
-              />
-              <span className="relative z-10">{hero.cta}</span>
-              <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </Link>
+              {hero.cta}
+            </MagneticButton>
 
             <Link
               href="#how-it-works"
-              className="hero-secondary-cta group inline-flex h-[50px] w-full items-center justify-center gap-2 rounded-2xl px-6 text-[15px] font-semibold text-white/75 transition-all duration-300 hover:-translate-y-0.5 hover:text-white sm:h-[52px] sm:w-auto lg:h-[58px] lg:px-7 lg:text-base"
+              className="group inline-flex h-[50px] w-full items-center justify-center gap-2 text-[15px] font-medium text-white/55 transition-colors hover:text-white/90 sm:h-[52px] sm:w-auto sm:justify-start lg:h-[58px] lg:text-base"
             >
-              <span className="relative z-10">
+              <span className="border-b border-transparent pb-0.5 transition-colors group-hover:border-white/30">
                 {hero.secondaryCta ?? "See How It Works"}
               </span>
-              <ArrowRight className="relative z-10 h-4 w-4 opacity-60 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:opacity-100" />
+              <ArrowRight className="h-4 w-4 opacity-50 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:opacity-90" />
             </Link>
           </div>
         </motion.div>

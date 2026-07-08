@@ -6,6 +6,7 @@ import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { HomeShell } from "@/components/entrance/HomeShell";
 import { Hero } from "@/components/sections/Hero";
 import { HeroTrustBar } from "@/components/sections/HeroTrustBar";
+import { PlatformEcosystem } from "@/components/sections/PlatformEcosystem";
 import { FeatureHighlights } from "@/components/sections/FeatureHighlights";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { PlatformCompatibility } from "@/components/sections/PlatformCompatibility";
@@ -25,6 +26,7 @@ export function HomePage() {
       >
         <Hero />
         <HeroTrustBar />
+        <PlatformEcosystem />
         <FeatureHighlights />
         <HowItWorks />
         <PlatformCompatibility />

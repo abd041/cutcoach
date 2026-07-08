@@ -30,11 +30,22 @@ export function AudienceModeToggle({
       role="group"
       aria-label={ui.experience}
       className={cn(
-        "audience-mode-toggle relative inline-flex rounded-full border border-[#4DDFFF]/25 bg-[#05070a]/80 p-1 shadow-[0_0_28px_-10px_rgba(77,223,255,0.45)] backdrop-blur-md",
+        "audience-mode-toggle relative isolate inline-flex rounded-full border border-[#4DDFFF]/30 bg-[#0a1018]/90 p-1 shadow-[0_0_28px_-10px_rgba(77,223,255,0.45)] backdrop-blur-md",
         isHero && "w-full max-w-sm sm:w-auto",
         className
       )}
     >
+      <motion.span
+        layoutId="audience-mode-pill"
+        className="pointer-events-none absolute bottom-1 top-1 rounded-full bg-gradient-to-r from-[#4DDFFF] via-[#00c8ff] to-[#00e8c5] shadow-[0_0_24px_-6px_rgba(77,223,255,0.65)]"
+        initial={false}
+        animate={{
+          left: mode === "barber" ? "0.25rem" : "calc(50% + 0.125rem)",
+          width: "calc(50% - 0.375rem)",
+        }}
+        transition={{ type: "spring", stiffness: 420, damping: 34 }}
+        aria-hidden
+      />
       {modes.map((option) => {
         const isActive = mode === option;
 
@@ -45,22 +56,15 @@ export function AudienceModeToggle({
             onClick={() => setMode(option)}
             aria-pressed={isActive}
             className={cn(
-              "focus-premium relative z-10 min-h-9 min-w-[4.75rem] rounded-full px-4 text-[12px] font-bold tracking-[0.08em] transition-colors duration-300",
+              "focus-premium relative z-10 min-h-11 min-w-[4.75rem] flex-1 rounded-full px-4 text-[12px] font-bold tracking-[0.08em] transition-colors duration-300",
               isHero &&
                 "min-h-11 min-w-[6.5rem] flex-1 px-6 text-[13px] sm:flex-none sm:text-sm",
               isActive
-                ? "text-[#041018]"
-                : "text-white/55 hover:text-white/85"
+                ? "text-[#031018]"
+                : "text-white/72 hover:text-white/92"
             )}
           >
-            {isActive && (
-              <motion.span
-                layoutId="audience-mode-pill"
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-[#4DDFFF] via-[#00c8ff] to-[#00e8c5] shadow-[0_0_24px_-6px_rgba(77,223,255,0.65)]"
-                transition={{ type: "spring", stiffness: 420, damping: 34 }}
-              />
-            )}
-            <span className="relative z-10">{labels[option]}</span>
+            {labels[option]}
           </button>
         );
       })}

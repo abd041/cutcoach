@@ -1,9 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { TextReveal } from "@/components/ui/TextReveal";
+import { REVEAL_EASE } from "@/lib/motion";
+import { useScrollSubscription } from "@/hooks/useScrollSubscription";
 
 interface SectionHeaderProps {
   tag?: string;
@@ -15,6 +18,8 @@ interface SectionHeaderProps {
   size?: "default" | "large";
   premium?: boolean;
   pills?: string[];
+  /** Associates section landmark with this heading for screen readers. */
+  headingId?: string;
 }
 
 export function SectionHeader({
@@ -27,22 +32,46 @@ export function SectionHeader({
   size = "default",
   premium = false,
   pills,
+  headingId,
 }: SectionHeaderProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-      className={cn(
-        "section-header-gap",
-        align === "center" && "mx-auto max-w-4xl text-center",
-        className
-      )}
-    >
+  const reduceMotion = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, {
+    once: true,
+    amount: 0.12,
+    margin: "0px 0px -40px 0px",
+  });
+  const [revealed, setRevealed] = useState(reduceMotion);
+
+  useEffect(() => {
+    if (inView) setRevealed(true);
+  }, [inView]);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.9 && rect.bottom > -40) {
+      setRevealed(true);
+    }
+  }, []);
+
+  useScrollSubscription(() => {
+    if (revealed) return;
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.9 && rect.bottom > -40) {
+      setRevealed(true);
+    }
+  });
+
+  const content = (
+    <>
       {tag && <SectionEyebrow align={align}>{tag}</SectionEyebrow>}
 
       <h2
+        id={headingId}
         className={cn(
           "font-display font-bold leading-[0.95] tracking-[-0.03em] text-white",
           size === "large"
@@ -114,6 +143,36 @@ export function SectionHeader({
           ))}
         </p>
       )}
+    </>
+  );
+
+  if (reduceMotion) {
+    return (
+      <div
+        className={cn(
+          "section-header-gap",
+          align === "center" && "mx-auto max-w-4xl text-center",
+          className
+        )}
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={false}
+      animate={{ opacity: 1, y: revealed ? 0 : 18 }}
+      transition={{ duration: 0.65, ease: REVEAL_EASE }}
+      className={cn(
+        "section-header-gap",
+        align === "center" && "mx-auto max-w-4xl text-center",
+        className
+      )}
+    >
+      {content}
     </motion.div>
   );
 }

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" fill="none" role="img" aria-label="CutCoach">
+  <defs>
+    <linearGradient id="cc-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4DDFFF"/>
+      <stop offset="100%" stop-color="#00E8C5"/>
+    </linearGradient>
+  </defs>
+  <text x="0" y="34" font-family="Urbanist, Inter, system-ui, sans-serif" font-size="30" font-weight="800" letter-spacing="-0.04em" fill="url(#cc-accent)">Cut</text>
+  <text x="62" y="34" font-family="Urbanist, Inter, system-ui, sans-serif" font-size="30" font-weight="800" letter-spacing="-0.04em" fill="#F0F9FF">Coach</text>
+</svg>

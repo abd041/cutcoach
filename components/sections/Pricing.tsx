@@ -7,7 +7,10 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { CinematicSection } from "@/components/ui/CinematicSection";
-import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import { AudienceModeTransition } from "@/components/ui/AudienceModeTransition";
+import {
+  useAudienceContent,
+} from "@/lib/audience/AudienceModeProvider";
 import { siteConfig } from "@/lib/data/content";
 import { images } from "@/lib/images";
 import { usePricingToggle } from "@/hooks/usePricingToggle";
@@ -37,14 +40,6 @@ function PlanCard({
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 48 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{
-        duration: 0.65,
-        delay: index * 0.08,
-        ease,
-      }}
       className={cn(
         "relative flex w-full max-w-sm flex-col",
         plan.highlighted && "lg:z-10 lg:-mt-2 lg:mb-2"
@@ -108,13 +103,15 @@ function PlanCard({
               {billingUnit && (
                 <span className="ml-2 text-sm text-white/40">{billingUnit}</span>
               )}
-              {showYearly && plan.yearlyEquivalent && (
-                <p className="mt-2 text-sm font-medium text-[#4DDFFF]/85">
-                  {plan.yearlyEquivalent}
+              {showYearly && (
+                <p className="mt-2 text-sm font-semibold text-[#4DDFFF]">
+                  {ui.save15}
                 </p>
               )}
-              {showYearly && (
-                <p className="mt-1 text-xs text-white/35">{ui.save15VsMonthly}</p>
+              {showYearly && plan.yearlyEquivalent && (
+                <p className="mt-1 text-sm font-medium text-white/55">
+                  {plan.yearlyEquivalent}
+                </p>
               )}
             </div>
 
@@ -164,6 +161,7 @@ export function Pricing() {
     <CinematicSection
       id="pricing"
       mood="spotlight"
+      aria-labelledby="pricing-heading"
       className="section-divider -mt-6 !overflow-visible sm:-mt-8"
     >
       <div
@@ -172,17 +170,22 @@ export function Pricing() {
       />
 
       <Container className="section-py relative overflow-visible">
-        <SectionHeader
-          key={`${content.hero.cta}-pricing-header`}
-          tag={pricing.section.tag}
-          heading={pricing.section.heading}
-          headingAccent={pricing.section.headingAccent}
-          description={pricing.section.description}
-          pills={pricing.section.pillars}
-          premium
-        />
+        <AudienceModeTransition
+          variant="scale"
+          presenceMode="popLayout"
+          layout
+        >
+          <SectionHeader
+            headingId="pricing-heading"
+            tag={pricing.section.tag}
+            heading={pricing.section.heading}
+            headingAccent={pricing.section.headingAccent}
+            description={pricing.section.description}
+            pills={pricing.section.pillars}
+            premium
+          />
 
-        {pricing.showBillingToggle && (
+          {pricing.showBillingToggle && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -194,7 +197,7 @@ export function Pricing() {
               type="button"
               onClick={() => !isYearly || toggle()}
               className={cn(
-                "focus-premium min-h-11 rounded-xl px-3 py-2.5 text-sm tracking-wide transition-colors duration-300 sm:rounded-lg sm:px-2 sm:py-1",
+                "focus-premium min-h-11 rounded-xl px-3 py-2.5 text-sm tracking-wide transition-colors duration-300 lg:rounded-lg lg:px-2 lg:py-1",
                 !isYearly ? "text-white" : "text-white/45 hover:text-white/75"
               )}
             >
@@ -206,7 +209,7 @@ export function Pricing() {
               role="switch"
               aria-checked={isYearly}
               aria-label={ui.toggleYearlyBilling}
-              className="pricing-toggle focus-premium relative mx-auto h-11 w-[4.5rem] shrink-0 rounded-full border border-white/10 p-1 sm:mx-0 sm:h-9 sm:w-16"
+              className="pricing-toggle focus-premium relative mx-auto h-11 w-[4.5rem] shrink-0 rounded-full border border-white/10 p-1 lg:mx-0 lg:h-9 lg:w-16"
             >
               <motion.div
                 animate={{ x: isYearly ? 28 : 0 }}
@@ -216,14 +219,14 @@ export function Pricing() {
                   damping: 32,
                   mass: 0.7,
                 }}
-                className="h-9 w-9 rounded-full bg-accent shadow-glow-accent sm:h-7 sm:w-7"
+                className="h-9 w-9 rounded-full bg-accent shadow-glow-accent lg:h-7 lg:w-7"
               />
             </button>
             <button
               type="button"
               onClick={() => isYearly || toggle()}
               className={cn(
-                "focus-premium min-h-11 rounded-xl px-3 py-2.5 text-center text-sm tracking-wide transition-colors duration-300 sm:rounded-lg sm:px-2 sm:py-1",
+                "focus-premium min-h-11 rounded-xl px-3 py-2.5 text-center text-sm tracking-wide transition-colors duration-300 lg:rounded-lg lg:px-2 lg:py-1",
                 isYearly ? "text-[#4DDFFF]" : "text-white/45 hover:text-white/75"
               )}
             >
@@ -234,13 +237,7 @@ export function Pricing() {
         )}
 
         {pricing.freeProduct && (
-          <motion.article
-            initial={{ opacity: 0, y: 32 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.65, ease }}
-            className="mx-auto w-full max-w-lg"
-          >
+          <article className="mx-auto w-full max-w-lg">
             <div className="pricing-card-shell pricing-card-shell--featured relative overflow-hidden rounded-[1.35rem] p-px sm:rounded-[1.75rem]">
               <div className="relative overflow-hidden rounded-[1.32rem] bg-[#060a10]/95 p-6 sm:rounded-[1.72rem] sm:p-10">
                 <div className="pointer-events-none absolute inset-0">
@@ -264,9 +261,13 @@ export function Pricing() {
                 </p>
                 <div className="relative mt-8 border-b border-white/[0.06] pb-8">
                   <span className="font-display text-5xl font-bold tracking-tight text-white">
-                    $0
+                    {pricing.freeProduct.priceLabel ?? "$0"}
                   </span>
-                  <span className="ml-2 text-sm text-white/40">{ui.forever}</span>
+                  {!pricing.freeProduct.priceLabel && (
+                    <span className="ml-2 text-sm text-white/40">
+                      {ui.forever}
+                    </span>
+                  )}
                 </div>
                 <div className="relative mt-8">
                   <MagneticButton
@@ -292,7 +293,7 @@ export function Pricing() {
                 </ul>
               </div>
             </div>
-          </motion.article>
+          </article>
         )}
 
         {pricing.plans.length > 0 && (
@@ -309,13 +310,7 @@ export function Pricing() {
         )}
 
         {pricing.creditPacks && pricing.creditPacks.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.55, ease }}
-            className="mx-auto mt-12 max-w-3xl sm:mt-16"
-          >
+          <div className="mx-auto mt-12 max-w-3xl sm:mt-16">
             <div className="text-center">
               <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#4DDFFF]/70">
                 {ui.oneTimePurchases}
@@ -331,13 +326,9 @@ export function Pricing() {
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {pricing.creditPacks.map((pack, index) => (
-                <motion.div
+              {pricing.creditPacks.map((pack) => (
+                <div
                   key={pack.credits}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.06, duration: 0.45, ease }}
                   className="rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 text-center backdrop-blur-sm"
                 >
                   <p className="font-display text-2xl font-bold text-white">
@@ -350,23 +341,18 @@ export function Pricing() {
                     {pack.price}
                   </p>
                   <p className="mt-1 text-xs text-white/35">{ui.oneTime}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
 
         {pricing.section.footnote && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="mt-10 text-center text-sm text-white/35 sm:mt-12"
-          >
+          <p className="mt-10 text-center text-sm text-white/35 sm:mt-12">
             {pricing.section.footnote}
-          </motion.p>
+          </p>
         )}
+        </AudienceModeTransition>
       </Container>
     </CinematicSection>
   );

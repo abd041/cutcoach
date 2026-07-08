@@ -11,6 +11,9 @@ import {
 import { Container } from "@/components/ui/Container";
 import { AppStoreBadge } from "@/components/ui/AppStoreBadge";
 import { AnimatedCounter } from "@/components/ui/AnimatedCounter";
+import { CinematicSection } from "@/components/ui/CinematicSection";
+import { AudienceModeTransition } from "@/components/ui/AudienceModeTransition";
+import { TrustPillars } from "@/components/ui/TrustPillars";
 import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
 import { useUi } from "@/lib/i18n/LocaleProvider";
 import { cn } from "@/lib/cn";
@@ -84,11 +87,13 @@ function TrustStatTile({
   suffix,
   label,
   index,
+  display,
 }: {
   value: number;
   suffix: string;
   label: string;
   index: number;
+  display?: string;
 }) {
   const Icon = statIcons[label] ?? fallbackStatIcons[index] ?? Gift;
 
@@ -102,12 +107,16 @@ function TrustStatTile({
         <Icon className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
       </div>
       <p className="font-display text-xl font-bold tracking-tight sm:text-2xl">
-        <AnimatedCounter
-          value={value}
-          suffix={suffix}
-          duration={1.8}
-          className="trust-stat-value tabular-nums"
-        />
+        {display ? (
+          <span className="trust-stat-value tabular-nums">{display}</span>
+        ) : (
+          <AnimatedCounter
+            value={value}
+            suffix={suffix}
+            duration={1.8}
+            className="trust-stat-value tabular-nums"
+          />
+        )}
       </p>
       <p className="mt-1.5 text-[10px] font-semibold uppercase leading-tight tracking-[0.16em] text-white/45 sm:text-[10px] sm:tracking-[0.18em]">
         {label}
@@ -148,16 +157,17 @@ export function HeroTrustBar() {
   const ui = useUi();
 
   return (
-    <section
+    <CinematicSection
+      mood="depth"
       aria-label="App download and social proof"
-      className="relative -mt-4 bg-[#05070a] pb-10 pt-0 sm:-mt-6 sm:pb-14"
+      className="section-divider relative z-10 -mt-8 sm:-mt-12"
     >
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4DDFFF]/25 to-transparent"
         aria-hidden
       />
 
-      <Container>
+      <Container className="pb-[var(--section-pad)] pt-2 sm:pt-4">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -175,11 +185,11 @@ export function HeroTrustBar() {
               aria-hidden
             />
 
+            <AudienceModeTransition variant="fade">
             <motion.div
               variants={containerVariants}
               initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-40px" }}
+              animate="show"
               className="flex flex-col gap-8 px-5 py-7 sm:gap-10 sm:px-8 sm:py-9 lg:flex-row lg:items-stretch lg:gap-0 lg:px-0 lg:py-10"
             >
               {/* Get started */}
@@ -226,6 +236,7 @@ export function HeroTrustBar() {
                       suffix={stat.suffix}
                       label={stat.label}
                       index={index}
+                      display={stat.display}
                     />
                   ))}
                 </div>
@@ -241,22 +252,16 @@ export function HeroTrustBar() {
                 <ColumnLabel>{trustBar.columnProof}</ColumnLabel>
 
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                  <div className="flex items-center gap-0.5">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className="trust-star h-3.5 w-3.5 fill-[#4DDFFF] text-[#4DDFFF]"
-                        aria-hidden
-                      />
-                    ))}
-                  </div>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/50">
+                  <span className="inline-flex items-center rounded-full border border-[#4DDFFF]/20 bg-[#4DDFFF]/[0.06] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#4DDFFF]/80">
                     {trustBar.trustedLabel}
                   </span>
                 </div>
 
                 <blockquote className="border-l-2 border-[#4DDFFF]/35 pl-4">
-                  <p className="text-sm italic leading-relaxed text-white/55 sm:text-[15px]">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/30">
+                    {ui.illustrativePositioning}
+                  </p>
+                  <p className="mt-2 text-sm italic leading-relaxed text-white/55 sm:text-[15px]">
                     &ldquo;{trustBar.quote}&rdquo;
                   </p>
                 </blockquote>
@@ -273,9 +278,14 @@ export function HeroTrustBar() {
                 <p className="text-xs text-white/30">{trustBar.earlyAccess}</p>
               </motion.div>
             </motion.div>
+            </AudienceModeTransition>
+
+            <div className="border-t border-white/[0.06] px-5 py-5 sm:px-8 lg:px-10">
+              <TrustPillars />
+            </div>
           </div>
         </motion.div>
       </Container>
-    </section>
+    </CinematicSection>
   );
 }

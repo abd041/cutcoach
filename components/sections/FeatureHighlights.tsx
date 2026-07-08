@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import {
+  AnimatePresence,
   motion,
   useMotionValue,
   useSpring,
@@ -11,7 +12,9 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CinematicSection } from "@/components/ui/CinematicSection";
-import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import { AudienceModeTransition } from "@/components/ui/AudienceModeTransition";
+import { useAudienceContent, useAudienceMode } from "@/lib/audience/AudienceModeProvider";
+import { audienceModeTransition, audienceModeVariants } from "@/lib/audience-motion";
 import type { Feature } from "@/types";
 import { cn } from "@/lib/cn";
 
@@ -71,6 +74,7 @@ function FeatureCallouts({
 }
 
 function FeatureImagePanel({ feature }: { feature: Feature }) {
+  const { mode } = useAudienceMode();
   const ref = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -125,17 +129,27 @@ function FeatureImagePanel({ feature }: { feature: Feature }) {
                 fill
                 className="object-cover opacity-15"
                 aria-hidden
-                unoptimized
+                sizes="(max-width: 1024px) 100vw, 480px"
               />
             )}
-            <Image
-              src={feature.image}
-              alt={feature.title}
-              fill
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
-              sizes="(min-width: 1024px) 480px, 100vw"
-              unoptimized
-            />
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={`${mode}-${feature.image}`}
+                initial={audienceModeVariants(mode, "scale").initial}
+                animate={audienceModeVariants(mode, "scale").animate}
+                exit={audienceModeVariants(mode, "scale").exit}
+                transition={audienceModeTransition()}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={feature.image}
+                  alt={feature.title}
+                  fill
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+                  sizes="(max-width: 1024px) 100vw, 480px"
+                />
+              </motion.div>
+            </AnimatePresence>
             <div className="absolute inset-0 bg-gradient-to-t from-[#05070a]/75 via-transparent to-transparent" />
             {feature.callouts && (
               <FeatureCallouts callouts={feature.callouts} />
@@ -184,7 +198,7 @@ function FeaturePanel({
             className="relative flex flex-col justify-center lg:max-w-md lg:justify-self-center xl:max-w-lg"
           >
             <span
-              className="feature-watermark pointer-events-none absolute -left-2 top-6 select-none font-display text-[5.5rem] font-bold leading-none text-white/[0.03] sm:text-[7rem] lg:-left-4 lg:text-[8rem]"
+              className="feature-watermark pointer-events-none absolute left-0 top-6 hidden select-none font-display text-[5.5rem] font-bold leading-none text-white/[0.03] sm:text-[7rem] lg:-left-4 lg:block lg:text-[8rem]"
               aria-hidden
             >
               {layout.number}
@@ -247,31 +261,34 @@ export function FeatureHighlights() {
     <CinematicSection
       id="features"
       mood="horizon"
+      aria-labelledby="features-heading"
       className="section-divider -mt-6 sm:-mt-8"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(ellipse_70%_80%_at_50%_0%,rgba(77,223,255,0.08),transparent_70%)]" aria-hidden />
 
       <div className="section-py relative">
-        <Container className="relative mb-4 sm:mb-6">
-          <SectionHeader
-            key={featureSection.heading}
-            tag={featureSection.tag}
-            heading={featureSection.heading}
-            headingAccent={featureSection.headingAccent}
-            description={featureSection.description}
-            pills={featureSection.pillars}
-            size="large"
-            premium
-          />
+        <Container className="relative section-header-gap">
+          <AudienceModeTransition variant="fade">
+            <SectionHeader
+              headingId="features-heading"
+              tag={featureSection.tag}
+              heading={featureSection.heading}
+              headingAccent={featureSection.headingAccent}
+              description={featureSection.description}
+              pills={featureSection.pillars}
+              size="large"
+              premium
+            />
+          </AudienceModeTransition>
         </Container>
 
-        <div className="feature-timeline relative">
+        <AudienceModeTransition variant="slide" className="feature-timeline relative">
           <div className="feature-timeline-spine hidden lg:block" aria-hidden />
 
           <div className="feature-stack">
             {features.map((feature, index) => (
               <FeaturePanel
-                key={feature.title}
+                key={`${feature.title}-${index}`}
                 feature={feature}
                 layout={panelLayouts[index]}
                 index={index}
@@ -279,7 +296,7 @@ export function FeatureHighlights() {
               />
             ))}
           </div>
-        </div>
+        </AudienceModeTransition>
       </div>
     </CinematicSection>
   );

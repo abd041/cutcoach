@@ -252,6 +252,43 @@ export function SecureCloudIcon({ className }: IconProps) {
   );
 }
 
+export function PassportIcon({ className }: IconProps) {
+  return (
+    <IconShell className={className}>
+      <rect
+        x="12"
+        y="14"
+        width="24"
+        height="20"
+        rx="3"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+      <circle cx="19" cy="22" r="3" stroke="currentColor" strokeWidth="1.4" />
+      <path
+        d="M24 28h10M24 32h8"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </IconShell>
+  );
+}
+
+export function QrIcon({ className }: IconProps) {
+  return (
+    <IconShell className={className}>
+      <rect x="13" y="13" width="22" height="22" rx="2.5" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M17 17h5v5h-5v-5ZM26 17h5v5h-5v-5ZM17 26h5v5h-5v-5ZM28 28h2v2h-2v-2ZM31 31h2v2h-2v-2Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+    </IconShell>
+  );
+}
+
 export const TOOL_ICON_MAP = {
   clippers: ClippersIcon,
   trimmers: TrimmersIcon,
@@ -262,6 +299,8 @@ export const TOOL_ICON_MAP = {
   mobile: MobileAppIcon,
   ai: AiIcon,
   cloud: SecureCloudIcon,
+  passport: PassportIcon,
+  qr: QrIcon,
 } as const;
 
 export type ToolIconId = keyof typeof TOOL_ICON_MAP;

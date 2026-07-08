@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, Gauge, Layers, Shield } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -8,11 +7,10 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { AppStoreBadge } from "@/components/ui/AppStoreBadge";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { CinematicSection } from "@/components/ui/CinematicSection";
+import { AudienceModeTransition } from "@/components/ui/AudienceModeTransition";
 import { siteConfig } from "@/lib/data/content";
 import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
 import { useUi } from "@/lib/i18n/LocaleProvider";
-
-const ease = [0.16, 1, 0.3, 1] as const;
 
 const themeIcons = {
   Speed: Gauge,
@@ -39,32 +37,30 @@ export function Testimonials() {
       className="section-divider -mt-6 !overflow-visible sm:-mt-8"
     >
       <Container className="section-py relative overflow-visible">
-        <SectionHeader
-          key={testimonialsSection.heading}
-          tag={testimonialsSection.tag}
-          heading={testimonialsSection.heading}
-          headingAccent={testimonialsSection.headingAccent}
-          description={testimonialsSection.description}
-          pills={testimonialsSection.pillars}
-          premium
-        />
+        <AudienceModeTransition variant="fade">
+          <SectionHeader
+            tag={testimonialsSection.tag}
+            heading={testimonialsSection.heading}
+            headingAccent={testimonialsSection.headingAccent}
+            description={testimonialsSection.description}
+            pills={testimonialsSection.pillars}
+            premium
+          />
 
+          <p className="mx-auto mt-5 max-w-2xl text-center text-xs leading-relaxed text-white/35 sm:mt-6">
+            {ui.earlyAccessDisclaimer}
+          </p>
+        </AudienceModeTransition>
+
+        <AudienceModeTransition variant="slide">
         <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
           {testimonialPreviewThemes.map((theme, index) => {
             const Icon =
               themeIcons[theme.metric as keyof typeof themeIcons] ?? Gauge;
 
             return (
-              <motion.article
+              <article
                 key={theme.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{
-                  duration: 0.6,
-                  delay: index * 0.08,
-                  ease,
-                }}
                 className="testimonial-theme-shell relative overflow-hidden rounded-[1.35rem] p-px sm:rounded-[1.5rem]"
               >
                 <div className="relative flex h-full flex-col overflow-hidden rounded-[1.32rem] bg-[#060a10]/92 p-6 sm:rounded-[1.47rem] sm:p-7">
@@ -101,18 +97,12 @@ export function Testimonials() {
                     </p>
                   </div>
                 </div>
-              </motion.article>
+              </article>
             );
           })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, delay: 0.15, ease }}
-          className="testimonial-cta-shell mx-auto mt-10 max-w-2xl overflow-hidden rounded-[1.35rem] p-px sm:mt-12 sm:rounded-[1.5rem]"
-        >
+        <div className="testimonial-cta-shell mx-auto mt-10 max-w-2xl overflow-hidden rounded-[1.35rem] p-px sm:mt-12 sm:rounded-[1.5rem]">
           <div className="relative flex flex-col items-center gap-6 rounded-[1.32rem] bg-[#060a10]/90 px-6 py-8 text-center sm:rounded-[1.47rem] sm:px-10 sm:py-10">
             <div className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-3 gap-y-2">
               <span className="hidden h-px w-8 bg-[#4DDFFF]/60 sm:block sm:w-10" aria-hidden />
@@ -143,7 +133,8 @@ export function Testimonials() {
             </div>
             <AppStoreBadge />
           </div>
-        </motion.div>
+        </div>
+        </AudienceModeTransition>
       </Container>
     </CinematicSection>
   );

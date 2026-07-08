@@ -4,18 +4,19 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
 import {
-  isLocale,
-  LOCALE_HTML_LANG,
-  LOCALE_STORAGE_KEY,
   type Locale,
 } from "@/lib/i18n/types";
 import { uiCopy, type UiCopy } from "@/lib/i18n/ui";
+import {
+  persistLocale,
+  resolveClientLocale,
+} from "@/lib/preferences/resolve";
 
 interface LocaleContextValue {
   locale: Locale;
@@ -24,22 +25,6 @@ interface LocaleContextValue {
 }
 
 const LocaleContext = createContext<LocaleContextValue | null>(null);
-
-function readLocaleFromLocation(): Locale | null {
-  if (typeof window === "undefined") return null;
-  const param = new URLSearchParams(window.location.search).get("lang");
-  return isLocale(param) ? param : null;
-}
-
-function readStoredLocale(): Locale | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const stored = window.localStorage.getItem(LOCALE_STORAGE_KEY);
-    return isLocale(stored) ? stored : null;
-  } catch {
-    return null;
-  }
-}
 
 function syncLocaleToUrl(locale: Locale) {
   if (typeof window === "undefined") return;
@@ -52,40 +37,31 @@ function syncLocaleToUrl(locale: Locale) {
   window.history.replaceState({}, "", url.toString());
 }
 
-function applyDocumentLang(locale: Locale) {
-  if (typeof document === "undefined") return;
-  document.documentElement.lang = LOCALE_HTML_LANG[locale];
-}
+export function LocaleProvider({
+  children,
+  initialLocale,
+}: {
+  children: ReactNode;
+  initialLocale: Locale;
+}) {
+  const [locale, setLocaleState] = useState(initialLocale);
 
-export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("en");
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    const fromUrl = readLocaleFromLocation();
-    const fromStorage = readStoredLocale();
-    const initial = fromUrl ?? fromStorage ?? "en";
-    setLocaleState(initial);
-    applyDocumentLang(initial);
-    setHydrated(true);
-  }, []);
+  useLayoutEffect(() => {
+    const resolved = resolveClientLocale();
+    if (resolved === initialLocale) {
+      persistLocale(resolved);
+      return;
+    }
+    setLocaleState(resolved);
+    persistLocale(resolved);
+    syncLocaleToUrl(resolved);
+  }, [initialLocale]);
 
   const setLocale = useCallback((next: Locale) => {
     setLocaleState(next);
-    applyDocumentLang(next);
-    try {
-      window.localStorage.setItem(LOCALE_STORAGE_KEY, next);
-    } catch {
-      /* ignore */
-    }
+    persistLocale(next);
     syncLocaleToUrl(next);
   }, []);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    syncLocaleToUrl(locale);
-    applyDocumentLang(locale);
-  }, [hydrated, locale]);
 
   const value = useMemo(
     () => ({

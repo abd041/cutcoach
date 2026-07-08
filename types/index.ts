@@ -1,6 +1,11 @@
 export interface NavLink {
   label: string;
   href: string;
+  /**
+   * When set, clicking switches Barber/Client mode before scrolling.
+   * Used for dual-audience nav items (Barber / Client Passport).
+   */
+  audience?: "barber" | "client";
 }
 
 export interface Feature {
@@ -29,6 +34,8 @@ export interface Step {
     value: string;
     live?: boolean;
   }[];
+  /** Optional app screenshot for How It Works visual panel */
+  screen?: string;
 }
 
 export interface PricingPlan {

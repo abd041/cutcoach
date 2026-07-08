@@ -10,12 +10,12 @@ import {
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CinematicSection } from "@/components/ui/CinematicSection";
-import { BrandLogo } from "@/components/ui/BrandLogo";
+import { AudienceModeTransition } from "@/components/ui/AudienceModeTransition";
 import {
   TOOL_ICON_MAP,
   type ToolIconId,
 } from "@/components/ui/ToolIcons";
-import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
+import { useAudienceContent, useAudienceMode } from "@/lib/audience/AudienceModeProvider";
 import { useUi } from "@/lib/i18n/LocaleProvider";
 import { cn } from "@/lib/cn";
 
@@ -31,14 +31,18 @@ type ToolUiKey =
   | "toolGlasses"
   | "toolMobile"
   | "toolAi"
-  | "toolCloud";
+  | "toolCloud"
+  | "toolPassport"
+  | "toolQr";
 
-/** Brand-neutral tool orbit — no manufacturer names or logos. */
-const ORBIT_TOOLS: {
+type OrbitTool = {
   id: ToolIconId;
   uiKey: ToolUiKey;
   angle: number;
-}[] = [
+};
+
+/** Brand-neutral tool orbit — no manufacturer names or logos. */
+const BARBER_ORBIT_TOOLS: OrbitTool[] = [
   { id: "clippers", uiKey: "toolClippers", angle: -90 },
   { id: "trimmers", uiKey: "toolTrimmers", angle: -50 },
   { id: "guards", uiKey: "toolGuards", angle: -10 },
@@ -48,6 +52,14 @@ const ORBIT_TOOLS: {
   { id: "mobile", uiKey: "toolMobile", angle: 150 },
   { id: "ai", uiKey: "toolAi", angle: 190 },
   { id: "cloud", uiKey: "toolCloud", angle: 230 },
+];
+
+const CLIENT_ORBIT_TOOLS: OrbitTool[] = [
+  { id: "mobile", uiKey: "toolMobile", angle: -90 },
+  { id: "passport", uiKey: "toolPassport", angle: -35 },
+  { id: "qr", uiKey: "toolQr", angle: 20 },
+  { id: "ai", uiKey: "toolAi", angle: 75 },
+  { id: "cloud", uiKey: "toolCloud", angle: 130 },
 ];
 
 function toolPosition(angle: number) {
@@ -68,7 +80,13 @@ function connectorPath(angle: number) {
   return `M 50 50 Q ${cpX} ${cpY} ${x} ${y}`;
 }
 
-function ConnectorLines({ activeTool }: { activeTool: ToolIconId | null }) {
+function ConnectorLines({
+  activeTool,
+  tools,
+}: {
+  activeTool: ToolIconId | null;
+  tools: OrbitTool[];
+}) {
   return (
     <svg
       className="pointer-events-none absolute inset-0 h-full w-full"
@@ -102,7 +120,7 @@ function ConnectorLines({ activeTool }: { activeTool: ToolIconId | null }) {
         </filter>
       </defs>
 
-      {ORBIT_TOOLS.map((tool, index) => {
+      {tools.map((tool, index) => {
         const isActive = activeTool === tool.id;
         const isDimmed = activeTool !== null && !isActive;
 
@@ -186,6 +204,15 @@ function ToolOrbitChip({
   );
 }
 
+function HubBrandMark() {
+  return (
+    <p className="relative z-10 max-w-[5.25rem] text-center font-display text-[0.8125rem] font-extrabold leading-none tracking-[-0.04em] sm:max-w-[5.75rem] sm:text-[0.9rem]">
+      <span className="hero-premium-gradient-text">Cut</span>
+      <span className="text-white">Coach</span>
+    </p>
+  );
+}
+
 function IntegrationHub({ liveLabel }: { liveLabel: string }) {
   return (
     <motion.div
@@ -193,7 +220,7 @@ function IntegrationHub({ liveLabel }: { liveLabel: string }) {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ delay: 0, duration: 0.7, ease }}
-      className="absolute left-1/2 top-1/2 z-30 flex h-[7.25rem] w-[7.25rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center sm:h-32 sm:w-32"
+      className="absolute left-1/2 top-1/2 z-30 flex h-[7.5rem] w-[7.5rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center sm:h-[8.25rem] sm:w-[8.25rem]"
     >
       {[0, 1, 2].map((ring) => (
         <div
@@ -209,17 +236,14 @@ function IntegrationHub({ liveLabel }: { liveLabel: string }) {
         aria-hidden
       />
 
-      <div className="compat-hub relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-full border border-[#4DDFFF]/30 bg-[#05070a]/95 shadow-[0_0_72px_-10px_rgba(77,223,255,0.5)]">
+      <div className="compat-hub relative flex h-full w-full flex-col items-center justify-center gap-1.5 overflow-hidden rounded-full border border-[#4DDFFF]/30 bg-[#05070a]/95 px-3 shadow-[0_0_72px_-10px_rgba(77,223,255,0.5)] sm:gap-2 sm:px-3.5">
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/[0.09] to-transparent"
           aria-hidden
         />
-        <BrandLogo
-          size="orbit"
-          className="relative z-10 h-9 w-auto opacity-95 sm:h-10"
-        />
-        <span className="relative z-10 mt-2 inline-flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-[0.22em] text-[#4DDFFF]/85">
-          <span className="compat-live-dot h-1.5 w-1.5 rounded-full bg-[#4DDFFF]" />
+        <HubBrandMark />
+        <span className="relative z-10 inline-flex items-center gap-1.5 text-[8px] font-semibold uppercase tracking-[0.2em] text-[#4DDFFF]/85 sm:text-[9px]">
+          <span className="compat-live-dot h-1.5 w-1.5 shrink-0 rounded-full bg-[#4DDFFF]" />
           {liveLabel}
         </span>
       </div>
@@ -229,6 +253,8 @@ function IntegrationHub({ liveLabel }: { liveLabel: string }) {
 
 function OrbitDiagram() {
   const ui = useUi();
+  const { mode } = useAudienceMode();
+  const orbitTools = mode === "client" ? CLIENT_ORBIT_TOOLS : BARBER_ORBIT_TOOLS;
   const [activeTool, setActiveTool] = useState<ToolIconId | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
@@ -238,8 +264,7 @@ function OrbitDiagram() {
   const parallaxX = useTransform(springX, [-1, 1], [-10, 10]);
   const parallaxY = useTransform(springY, [-1, 1], [-8, 8]);
 
-  const labelFor = (uiKey: (typeof ORBIT_TOOLS)[number]["uiKey"]) =>
-    ui[uiKey];
+  const labelFor = (uiKey: OrbitTool["uiKey"]) => ui[uiKey];
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const rect = stageRef.current?.getBoundingClientRect();
@@ -275,9 +300,9 @@ function OrbitDiagram() {
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        <ConnectorLines activeTool={activeTool} />
+        <ConnectorLines activeTool={activeTool} tools={orbitTools} />
 
-        {ORBIT_TOOLS.map((tool, index) => {
+        {orbitTools.map((tool, index) => {
           const { x, y } = toolPosition(tool.angle);
           const isActive = activeTool === tool.id;
           const isDimmed = activeTool !== null && !isActive;
@@ -299,9 +324,21 @@ function OrbitDiagram() {
                 top: `${y}%`,
               }}
               onMouseEnter={() => setActiveTool(tool.id)}
+              onFocus={() => setActiveTool(tool.id)}
+              onBlur={() => setActiveTool(null)}
               onClick={() =>
                 setActiveTool((prev) => (prev === tool.id ? null : tool.id))
               }
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  setActiveTool((prev) => (prev === tool.id ? null : tool.id));
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-pressed={isActive}
+              aria-label={labelFor(tool.uiKey)}
             >
               <div
                 className={cn(
@@ -345,27 +382,21 @@ export function PlatformCompatibility() {
   return (
     <CinematicSection
       id="compatibility"
-      mood="horizon"
+      mood="depth"
       className="section-divider -mt-6 !overflow-visible sm:-mt-8"
     >
       <Container className="section-py relative overflow-visible">
-        <SectionHeader
-          key={compatibilitySection.heading}
-          tag={compatibilitySection.tag}
-          heading={compatibilitySection.heading}
-          headingAccent={compatibilitySection.headingAccent}
-          description={compatibilitySection.description}
-          pills={compatibilitySection.pillars}
-          premium
-        />
+        <AudienceModeTransition variant="scale" presenceMode="popLayout" layout>
+          <SectionHeader
+            tag={compatibilitySection.tag}
+            heading={compatibilitySection.heading}
+            headingAccent={compatibilitySection.headingAccent}
+            description={compatibilitySection.description}
+            pills={compatibilitySection.pillars}
+            premium
+          />
 
-        <motion.div
-          initial={{ opacity: 0, y: 28 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, ease }}
-          className="compat-stage-shell mx-auto mt-4 max-w-4xl overflow-hidden rounded-[1.75rem] p-px sm:mt-6"
-        >
+          <div className="compat-stage-shell mx-auto mt-4 max-w-4xl overflow-hidden rounded-[1.75rem] p-px sm:mt-6">
           <div className="relative overflow-hidden rounded-[1.72rem] bg-[#060a10]/94 px-3 py-12 backdrop-blur-2xl sm:px-10 sm:py-14 lg:py-16">
             <div
               className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_72%_62%_at_50%_42%,rgba(77,223,255,0.16),transparent_70%)]"
@@ -382,20 +413,12 @@ export function PlatformCompatibility() {
 
             <OrbitDiagram />
           </div>
-        </motion.div>
+        </div>
 
         <div className="mx-auto mt-10 grid max-w-4xl gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4 lg:gap-5">
-          {compatibilityPlatforms.map((platform, index) => (
-            <motion.div
+          {compatibilityPlatforms.map((platform) => (
+            <div
               key={platform.label}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                delay: 0.15 + index * 0.07,
-                duration: 0.55,
-                ease,
-              }}
               className="compat-platform-chip group"
             >
               <span className="inline-flex items-center gap-2">
@@ -407,9 +430,10 @@ export function PlatformCompatibility() {
               <p className="mt-3 text-sm leading-[1.7] text-white/45 transition-colors group-hover:text-white/62">
                 {platform.description}
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
+        </AudienceModeTransition>
       </Container>
     </CinematicSection>
   );

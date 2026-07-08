@@ -1,18 +1,23 @@
 import { images } from "@/lib/images";
 import { barberContent } from "@/lib/data/audience/barber";
 
+import { isPlaceholderSocialUrl } from "@/lib/social";
+
 /** Shared site/brand config — not audience-specific. */
 export const siteConfig = {
   name: "CutCoach",
   title: "CutCoach | AI Barber Training & Coaching",
+  seoTitle: "CutCoach | One AI Platform for Barbers & Clients",
   description:
-    "CutCoach helps barbers improve speed, consistency, confidence, and client results with AI-powered coaching, haircut analysis, and training tools — plus a free Client Passport for clients.",
+    "One AI-powered platform for barbers and clients. Designed to help barbers improve their craft faster with AI coaching — and help clients get more consistent haircuts with a free Client Passport.",
+  seoDescription:
+    "CutCoach is one AI-powered platform serving two connected audiences: barbers who want to improve their craft faster, and clients who want more consistent haircuts through a free Client Passport.",
   url: "https://www.cutcoachai.com",
   appStoreUrl: "https://apps.apple.com/us/app/cutcoach/id6773789911",
   copyright:
-    "© 2025 All rights reserved. Designed by Matthew Diggs, Founder/CEO.",
+    "© 2026 All rights reserved. Designed by Matthew Diggs, Founder/CEO.",
   footerDescription:
-    "AI training tools built for real barbers, students, clients, and real shop pressure.",
+    "One AI-powered platform for barbers and clients — coaching designed to help barbers improve faster, and a free Client Passport designed to help clients get more consistent haircuts.",
   supportEmail: "hello@cutcoachai.com",
   socialProfiles: [
     "https://facebook.com",
@@ -46,7 +51,7 @@ export const socialLinks = [
     href: "https://linkedin.com",
     icon: images.socialLinkedin,
   },
-];
+].filter((link) => !isPlaceholderSocialUrl(link.href));
 
 /**
  * Legacy barber-only exports for unused showcase sections and gradual migration.
@@ -76,7 +81,7 @@ export const aiFeaturesSection = {
   heading: "Intelligence Built for",
   headingAccent: "Live Haircuts",
   description:
-    "CutCoach gives barbers real-time structure, performance feedback, and pacing intelligence so every client session becomes a training opportunity.",
+    "CutCoach is designed to give barbers real-time structure, performance feedback, and pacing support so client sessions can become learning opportunities.",
 };
 
 export const dashboardSection = {
@@ -84,7 +89,7 @@ export const dashboardSection = {
   heading: "Your Performance,",
   headingAccent: "Visualized",
   description:
-    "CutCoach guides your haircut from start to finish using real-time pacing cues, structured workflow reminders, and AI performance feedback after every session.",
+    "CutCoach is designed to guide your haircut with real-time pacing cues, structured workflow reminders, and AI performance feedback after sessions.",
 };
 
 export const benefitsSection = {
@@ -92,32 +97,32 @@ export const benefitsSection = {
   heading: "Built for Barbers Who",
   headingAccent: "Want to Grow",
   description:
-    "AI training tools built for real barbers, real clients, and real shop pressure. CutCoach helps you move faster, stay consistent, and build confidence behind the chair.",
+    "AI training tools designed to support real barbers, real clients, and real shop pressure. CutCoach is built to help you move faster, stay consistent, and build confidence behind the chair.",
 };
 
 export const benefits = [
   {
     title: "Improve Speed",
     description:
-      "CutCoach tracks pacing, workflow rhythm, and technical consistency so barbers understand how they actually perform — not how they think they perform",
+      "CutCoach is designed to track pacing, workflow rhythm, and technical consistency so barbers can better understand how they perform — not just how they think they perform",
     icon: "speed" as const,
   },
   {
     title: "Stay Consistent",
     description:
-      "Real-time cues help barbers stay on schedule, maintain structure, and reduce hesitation during complex sections of a haircut",
+      "Real-time cues are designed to help barbers stay on schedule, maintain structure, and reduce hesitation during complex sections of a haircut",
     icon: "consistency" as const,
   },
   {
     title: "Build Confidence",
     description:
-      "Receive subtle real-time cues that help you move through each section of the haircut with confidence, reduce hesitation, and maintain professional pacing.",
+      "Receive subtle real-time cues designed to help you move through each section of the haircut with more confidence, reduce hesitation, and maintain professional pacing.",
     icon: "confidence" as const,
   },
   {
     title: "Track Progress",
     description:
-      "After the haircut, CutCoach analyzes your timing efficiency, workflow decisions, and technical consistency - helping you identify mistakes, build confidence, and improve with every real client.",
+      "After the haircut, CutCoach is designed to analyze your timing efficiency, workflow decisions, and technical consistency — helping you identify patterns, build confidence, and improve with real clients.",
     icon: "growth" as const,
   },
 ];

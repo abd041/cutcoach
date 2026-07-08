@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  type MouseEvent,
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,22 +20,24 @@ import { siteConfig } from "@/lib/data/content";
 import { useAudienceContent, useAudienceMode } from "@/lib/audience/AudienceModeProvider";
 import { useUi } from "@/lib/i18n/LocaleProvider";
 import { useEntranceReady } from "@/lib/entrance/EntranceProvider";
+import { applyNavLink, navLinkKey, resolveActiveNavLink } from "@/lib/nav";
 import { useNavScrollSpy } from "@/hooks/useNavScrollSpy";
 import { useScrollSubscription } from "@/hooks/useScrollSubscription";
 import { cn } from "@/lib/cn";
+import type { NavLink } from "@/types";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
   const content = useAudienceContent();
-  const { mode } = useAudienceMode();
+  const { mode, setMode } = useAudienceMode();
   const ui = useUi();
   const entranceReady = useEntranceReady();
   const navLinks = content.navLinks;
   const navCta = mode === "client" ? ui.getPassport : ui.tryFree;
   const sectionIds = useMemo(
-    () => navLinks.map((link) => link.href.replace("#", "")),
+    () => [...new Set(navLinks.map((link) => link.href.replace("#", "")))],
     [navLinks]
   );
   const activeSection = useNavScrollSpy(sectionIds);
@@ -56,6 +64,20 @@ export function Navbar() {
     return "";
   }, [isHome, activeSection]);
 
+  const activeLink = useMemo(
+    () => resolveActiveNavLink(navLinks, activeHref, mode),
+    [navLinks, activeHref, mode]
+  );
+
+  const handleNavClick = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>, link: NavLink) => {
+      event.preventDefault();
+      applyNavLink(link, { mode, setMode, isHome });
+      setIsMobileOpen(false);
+    },
+    [isHome, mode, setMode]
+  );
+
   return (
     <motion.header
       initial={{ y: -24, opacity: 0 }}
@@ -64,7 +86,7 @@ export function Navbar() {
         opacity: entranceReady ? 1 : 0,
       }}
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="pointer-events-none fixed inset-x-0 top-0 z-50 px-4 pt-[calc(0.85rem+var(--safe-top))] sm:px-8 lg:px-10 lg:pt-[calc(1.25rem+var(--safe-top))]"
+      className="pointer-events-none fixed inset-x-0 top-0 z-50 pl-[max(1rem,var(--safe-left))] pr-[max(1rem,var(--safe-right))] pt-[calc(0.85rem+var(--safe-top))] sm:px-8 lg:px-10 lg:pt-[calc(1.25rem+var(--safe-top))]"
     >
       <nav
         aria-label="Main navigation"
@@ -95,7 +117,8 @@ export function Navbar() {
 
             <Link
               href="/"
-              className="relative z-50 flex shrink-0 items-center justify-self-start py-1 pr-3"
+              aria-label="CutCoach home"
+              className="relative z-[2] flex shrink-0 items-center justify-self-start py-1 pr-3"
             >
               <motion.div
                 whileHover={{ scale: 1.03 }}
@@ -113,19 +136,22 @@ export function Navbar() {
               </motion.div>
             </Link>
 
-            <div className="hidden items-center justify-center gap-1 lg:flex">
+            <div className="nav-pill-links relative z-[2] hidden items-center justify-center gap-1.5 lg:flex xl:gap-2">
               {navLinks.map((link, index) => {
-                const isActive = activeHref === link.href;
+                const isActive = activeLink
+                  ? navLinkKey(activeLink) === navLinkKey(link)
+                  : false;
 
                 return (
                   <Link
-                    key={link.href}
+                    key={navLinkKey(link)}
                     href={link.href}
+                    onClick={(event) => handleNavClick(event, link)}
                     className={cn(
-                      "group relative rounded-xl px-3 py-2.5 text-[13px] font-semibold tracking-[0.02em] transition-colors duration-300 xl:px-4",
+                      "group relative whitespace-nowrap rounded-xl px-3 py-2.5 text-[13px] font-semibold tracking-[0.02em] transition-colors duration-300 xl:px-3.5",
                       isActive
                         ? "text-foreground"
-                        : "text-muted/90 hover:text-foreground"
+                        : "text-white/55 hover:text-white/90"
                     )}
                   >
                     <span
@@ -162,7 +188,7 @@ export function Navbar() {
               })}
             </div>
 
-            <div className="hidden items-center justify-self-end gap-2.5 xl:gap-3 lg:flex">
+            <div className="nav-pill-actions relative z-[2] hidden items-center justify-self-end gap-2.5 xl:gap-3 lg:flex">
               <LanguageSelector />
               <AudienceModeToggle />
               <MagneticButton
@@ -181,10 +207,7 @@ export function Navbar() {
               </MagneticButton>
             </div>
 
-            <div className="col-start-3 flex items-center justify-self-end gap-2 lg:hidden">
-              <LanguageSelector />
-              <AudienceModeToggle className="scale-[0.92] sm:scale-100" />
-
+            <div className="col-start-3 flex items-center justify-self-end lg:hidden">
               <button
                 type="button"
                 onClick={() => setIsMobileOpen(!isMobileOpen)}
@@ -228,7 +251,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            className="pointer-events-auto fixed inset-0 z-40 bg-background/94 backdrop-blur-2xl lg:hidden"
+            className="pointer-events-auto fixed inset-0 z-40 mobile-nav-overlay bg-background/94 backdrop-blur-2xl lg:hidden"
             onClick={() => setIsMobileOpen(false)}
           >
             <div className="absolute inset-0 bg-gradient-to-b from-accent/10 via-transparent to-transparent" />
@@ -255,11 +278,13 @@ export function Navbar() {
                 </div>
 
                 {navLinks.map((link, i) => {
-                  const isActive = activeHref === link.href;
+                  const isActive = activeLink
+                    ? navLinkKey(activeLink) === navLinkKey(link)
+                    : false;
 
                   return (
                     <motion.div
-                      key={link.href}
+                      key={navLinkKey(link)}
                       initial={{ opacity: 0, x: -24 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -16 }}
@@ -270,9 +295,9 @@ export function Navbar() {
                     >
                       <Link
                         href={link.href}
-                        onClick={() => setIsMobileOpen(false)}
+                        onClick={(event) => handleNavClick(event, link)}
                         className={cn(
-                          "flex items-baseline gap-4 border-b border-white/[0.06] py-4 sm:py-5",
+                          "flex min-h-11 items-baseline gap-4 border-b border-white/[0.06] py-4 sm:py-5",
                           isActive && "border-accent/20"
                         )}
                       >

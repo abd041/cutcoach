@@ -3,23 +3,24 @@ import type { AudienceContentPack } from "@/lib/data/audience/types";
 
 export const barberContentEs: AudienceContentPack = {
   navLinks: [
-    { label: "Cómo funciona CutCoach", href: "#how-it-works" },
-    { label: "Beneficios reales", href: "#features" },
+    { label: "Cómo funciona", href: "#how-it-works" },
+    { label: "Barbero", href: "#features", audience: "barber" },
+    { label: "Client Passport", href: "#features", audience: "client" },
     { label: "Precios", href: "#pricing" },
-    { label: "Opiniones de barberos", href: "#testimonials" },
     { label: "Preguntas frecuentes", href: "#faq" },
   ],
   footerLinks: [
-    { label: "Cómo funciona CutCoach", href: "#how-it-works" },
-    { label: "Beneficios reales", href: "#features" },
+    { label: "Cómo funciona", href: "#how-it-works" },
+    { label: "Barbero", href: "#features", audience: "barber" },
+    { label: "Client Passport", href: "#features", audience: "client" },
     { label: "Precios", href: "#pricing" },
-    { label: "Opiniones de barberos", href: "#testimonials" },
+    { label: "Preguntas frecuentes", href: "#faq" },
   ],
   hero: {
-    headline: "Corta más rápido. Mantén la consistencia.",
-    headlineAccent: "Gana confianza de verdad.",
+    headline: "Mejora tu oficio",
+    headlineAccent: "Más rápido.",
     subtext:
-      "Coaching de cortes con IA para barberos y estudiantes — guía en vivo, análisis de cortes, revisión por video y seguimiento de progreso, sin maniquíes ni adivinanzas.",
+      "Coaching de cortes con IA diseñado para ayudar a barberos y estudiantes a ganar velocidad, consistencia y confianza con clientes reales.",
     cta: "Empieza a entrenar más inteligente",
     secondaryCta: "Mira cómo funciona",
     eyebrow: "Coaching de cortes con IA",
@@ -40,10 +41,10 @@ export const barberContentEs: AudienceContentPack = {
     columnProof: "Para quién es",
     iosPill: "Gratis en iOS",
     downloadNote: "Sin tarjeta · 25 créditos gratis al registrarte",
-    trustedLabel: "De confianza para barberos",
-    quote: "Por fin un entrenamiento al ritmo de la barbería.",
+    trustedLabel: "Hecho para barberos",
+    quote: "Diseñado para coincidir con el ritmo de una barbería real.",
     mission:
-      "Hecho para la presión del piso — coaching con IA, desarrollo de habilidades y resúmenes de Client Passport detrás de la silla.",
+      "Hecho para la presión del piso — coaching con IA diseñado para apoyar el desarrollo de habilidades y resúmenes de Client Passport detrás de la silla.",
     earlyAccess: "Únete a barberos y estudiantes que entrenan más inteligente con CutCoach.",
     avatars: ["JM", "TD", "KR", "AL"],
     avatarLabel: "Barberos en acceso anticipado",
@@ -54,11 +55,11 @@ export const barberContentEs: AudienceContentPack = {
     { value: 2, suffix: " min", label: "Para empezar a entrenar" },
   ],
   featureSection: {
-    tag: "Por qué funciona CutCoach",
-    heading: "Coaching con IA que eleva",
-    headingAccent: "Cada corte",
+    tag: "Cómo ayuda CutCoach",
+    heading: "Coaching con IA diseñado para",
+    headingAccent: "Apoyar tus sesiones",
     description:
-      "Coaching de cortes con IA, análisis, revisión de video y seguimiento de progreso — para que cada sesión con un cliente real impulse tu habilidad.",
+      "Coaching de cortes con IA, análisis, revisión de video y seguimiento de progreso — diseñado para ayudar a convertir sesiones con clientes reales en oportunidades de aprendizaje.",
     pillars: ["Coaching", "Análisis", "Progreso"],
   },
   features: [
@@ -204,9 +205,9 @@ export const barberContentEs: AudienceContentPack = {
     },
   ],
   testimonialsSection: {
-    tag: "Opiniones reales de barberos",
-    heading: "Los barberos ya están",
-    headingAccent: "Entrenando más inteligente",
+    tag: "Comentarios de acceso anticipado",
+    heading: "Barberos explorando",
+    headingAccent: "CutCoach en barberías reales",
     description:
       "Barberos en acceso anticipado prueban coaching con IA, análisis y seguimiento de progreso en barberías reales.",
     pillars: ["Velocidad", "Consistencia", "Confianza"],
@@ -257,8 +258,8 @@ export const barberContentEs: AudienceContentPack = {
         free: true,
         cta: "Empieza a entrenar más inteligente",
         features: [
-          "25 créditos gratis al registrarte",
-          "Acceso a la pestaña Aprender",
+          "25 créditos gratis",
+          "Pestaña Aprender",
           "Chat del Coach con IA",
           "Guía básica de cortes",
         ],
@@ -273,10 +274,11 @@ export const barberContentEs: AudienceContentPack = {
         highlighted: true,
         badge: "Más popular",
         features: [
-          "150 créditos cada mes",
+          "150 créditos mensuales",
           "Chat del Coach con IA",
           "Análisis de cortes",
-          "Análisis de video y seguimiento de progreso",
+          "Análisis de video subido",
+          "Seguimiento de progreso",
           "Resúmenes con IA de Client Passport",
         ],
       },
@@ -302,7 +304,7 @@ export const barberContentEs: AudienceContentPack = {
     {
       question: "¿Cómo ayuda CutCoach realmente durante un corte?",
       answer:
-        "CutCoach ofrece coaching de cortes con IA en tiempo real mientras cortas. Las señales de flujo con lentes inteligentes te ayudan a avanzar por secciones con estructura, mantener el horario y reducir las dudas. Después del corte, el análisis y el seguimiento de progreso muestran dónde ganaste o perdiste tiempo.",
+        "CutCoach está diseñado para ofrecer coaching de cortes con IA en tiempo real mientras cortas. Las señales de flujo con lentes inteligentes pueden ayudarte a avanzar por secciones con estructura, mantener el horario y reducir las dudas. Después del corte, el análisis y el seguimiento de progreso están diseñados para mostrar dónde ganaste o perdiste tiempo.",
     },
     {
       question: "¿CutCoach es para estudiantes y también para barberos en activo?",
@@ -324,10 +326,25 @@ export const barberContentEs: AudienceContentPack = {
       answer:
         "Después de las sesiones, CutCoach puede generar resúmenes con IA que te ayudan a comunicar preferencias y resultados del corte con más claridad — útiles para tu propio progreso y para la continuidad con el cliente.",
     },
+    {
+      question: "¿CutCoach reemplaza la escuela de barbería?",
+      answer:
+        "No. Apoya el aprendizaje y la mejora en el mundo real, pero no reemplaza la licencia ni la educación formal.",
+    },
+    {
+      question: "¿Necesito lentes inteligentes?",
+      answer:
+        "No. Los lentes inteligentes son opcionales. CutCoach funciona completamente en iPhone.",
+    },
+    {
+      question: "¿Pueden usar CutCoach barberos con experiencia?",
+      answer:
+        "Sí. Está diseñado tanto para principiantes como para profesionales que buscan consistencia y crecimiento continuo.",
+    },
   ],
   finalCta: {
-    heading: "¿Listo para llevar",
-    headingAccent: "Tus cortes al siguiente nivel?",
+    heading: "¿Listo para mejorar",
+    headingAccent: "Tus cortes?",
     primaryCta: "Empieza a entrenar más inteligente",
     secondaryCta: "Mira cómo funciona CutCoach",
   },

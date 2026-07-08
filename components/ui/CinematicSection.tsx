@@ -16,6 +16,8 @@ interface CinematicSectionProps {
   bleed?: boolean;
   /** When false, keeps section fully rendered (required for sticky children). */
   pin?: boolean;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
 }
 
 const moodLights: Record<SectionMood, string> = {
@@ -34,10 +36,14 @@ export function CinematicSection({
   id,
   bleed = false,
   pin = false,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
 }: CinematicSectionProps) {
   return (
     <section
       id={id}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
       className={cn(
         "section-breath relative isolate overflow-hidden",
         !pin && "section-defer",

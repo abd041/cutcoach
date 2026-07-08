@@ -49,18 +49,17 @@ export function BrandLogo({
   const image = (
     <Image
       src={images.logo}
-      alt="CutCoach"
+      alt="CutCoach logo"
       width={config.width}
       height={config.height}
       className={cn(config.className, className)}
       priority={priority}
-      unoptimized
     />
   );
 
   if (href) {
     return (
-      <Link href={href} className="inline-flex shrink-0 items-center bg-transparent">
+      <Link href={href} className="inline-flex shrink-0 items-center bg-transparent" aria-label="CutCoach home">
         {image}
       </Link>
     );

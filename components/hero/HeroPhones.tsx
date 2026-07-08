@@ -20,6 +20,7 @@ import {
   useAudienceMode,
 } from "@/lib/audience/AudienceModeProvider";
 import { cn } from "@/lib/cn";
+import { audienceModeTransition, audienceModeVariants } from "@/lib/audience-motion";
 
 const highlightIcons = [Sparkles, Users, Gauge] as const;
 
@@ -71,7 +72,7 @@ function PhoneFrame({
             height={featured ? 606 : 476}
             className="block h-auto w-full"
             priority={priority}
-            unoptimized
+            sizes={featured ? "(max-width: 1024px) 58vw, 280px" : "220px"}
           />
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-white/[0.06] via-transparent to-transparent" />
         </div>
@@ -114,6 +115,7 @@ export function HeroPhones() {
   const { mode } = useAudienceMode();
   const { hero, mobileHighlights } = useAudienceContent();
   const [activeScreen, setActiveScreen] = useState(0);
+  const [enableParallax, setEnableParallax] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -138,6 +140,14 @@ export function HeroPhones() {
   }));
 
   useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setEnableParallax(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
     setActiveScreen(0);
   }, [mode]);
 
@@ -150,6 +160,7 @@ export function HeroPhones() {
   }, [phoneScreens.length, mode]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!enableParallax) return;
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
     const x = (e.clientX - rect.left) / rect.width;
@@ -174,16 +185,19 @@ export function HeroPhones() {
     >
       <div
         ref={ref}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        onMouseMove={enableParallax ? handleMouseMove : undefined}
+        onMouseLeave={enableParallax ? handleMouseLeave : undefined}
         className="relative h-[min(68vw,300px)] w-full sm:h-[400px] lg:h-[min(50vh,500px)]"
       >
         <motion.div
-          style={{ x: parallaxX, y: parallaxY }}
-          className="relative h-full w-full will-change-transform"
+          style={enableParallax ? { x: parallaxX, y: parallaxY } : undefined}
+          className={cn(
+            "relative h-full w-full",
+            enableParallax && "will-change-transform"
+          )}
         >
           <div
-            className="pointer-events-none absolute left-1/2 top-[34%] -z-10 h-[min(400px,92%)] w-[min(400px,92%)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(0,200,255,0.38)_0%,rgba(0,232,197,0.1)_42%,transparent_72%)] blur-[76px]"
+            className="hero-phone-glow pointer-events-none absolute left-1/2 top-[34%] -z-10 h-[min(400px,92%)] w-[min(400px,92%)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(0,200,255,0.38)_0%,rgba(0,232,197,0.1)_42%,transparent_72%)] blur-3xl sm:blur-[76px]"
             aria-hidden
           />
           <div
@@ -191,13 +205,13 @@ export function HeroPhones() {
             aria-hidden
           />
 
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={`${mode}-sides`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              initial={audienceModeVariants(mode, "scale").initial}
+              animate={audienceModeVariants(mode, "scale").animate}
+              exit={audienceModeVariants(mode, "scale").exit}
+              transition={audienceModeTransition()}
               className="contents"
             >
               {sidePhones.map((phone, index) => (
@@ -224,13 +238,13 @@ export function HeroPhones() {
               }}
             >
               <div className="hero-phone-featured relative overflow-hidden rounded-[1.5rem] border border-white/[0.16] bg-[#0a1016] sm:rounded-[1.85rem]">
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={`${mode}-${active?.src ?? "empty"}`}
-                    initial={{ opacity: 0, scale: 1.03, y: 8 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.98, y: -6 }}
-                    transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                    initial={audienceModeVariants(mode, "scale").initial}
+                    animate={audienceModeVariants(mode, "scale").animate}
+                    exit={audienceModeVariants(mode, "scale").exit}
+                    transition={audienceModeTransition()}
                   >
                     {active && (
                       <Image
@@ -240,7 +254,7 @@ export function HeroPhones() {
                         height={606}
                         className="block h-auto w-full"
                         priority
-                        unoptimized
+                        sizes="(max-width: 1024px) 58vw, 280px"
                       />
                     )}
                   </motion.div>
@@ -262,13 +276,13 @@ export function HeroPhones() {
             </motion.div>
           </div>
 
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={`${mode}-cards`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              initial={audienceModeVariants(mode, "fade").initial}
+              animate={audienceModeVariants(mode, "fade").animate}
+              exit={audienceModeVariants(mode, "fade").exit}
+              transition={audienceModeTransition()}
               className="contents"
             >
               {cards[0] && (
@@ -306,32 +320,41 @@ export function HeroPhones() {
         </motion.div>
       </div>
 
-      <div className="mt-5 grid grid-cols-1 gap-2 sm:hidden">
-        {cards.map((item) => {
-          const Icon = item.icon;
-          return (
-            <div
-              key={`${mode}-${item.title}`}
-              className="hero-glass-card flex items-center gap-3 px-3.5 py-3"
-            >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04] text-[#4DDFFF]">
-                <Icon className="h-3.5 w-3.5" />
-              </span>
-              <div className="min-w-0">
-                <p className="flex items-center gap-1.5 font-display text-sm font-bold text-white">
-                  {item.live && (
-                    <span className="hero-live-dot h-1.5 w-1.5 shrink-0 rounded-full bg-[#4DDFFF]" />
-                  )}
-                  {item.title}
-                </p>
-                <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-white/45">
-                  {item.subtitle}
-                </p>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={`${mode}-mobile-highlights`}
+          initial={audienceModeVariants(mode, "fade").initial}
+          animate={audienceModeVariants(mode, "fade").animate}
+          exit={audienceModeVariants(mode, "fade").exit}
+          transition={audienceModeTransition()}
+          className="mt-5 grid grid-cols-1 gap-2 sm:hidden"
+        >
+          {cards.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={`${mode}-${item.title}`}
+                className="hero-glass-card flex items-center gap-3 px-3.5 py-3"
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04] text-[#4DDFFF]">
+                  <Icon className="h-3.5 w-3.5" />
+                </span>
+                <div className="min-w-0">
+                  <p className="flex items-center gap-1.5 font-display text-sm font-bold text-white">
+                    {item.live && (
+                      <span className="hero-live-dot h-1.5 w-1.5 shrink-0 rounded-full bg-[#4DDFFF]" />
+                    )}
+                    {item.title}
+                  </p>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.14em] text-white/45">
+                    {item.subtitle}
+                  </p>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </motion.div>
+      </AnimatePresence>
     </motion.div>
   );
 }

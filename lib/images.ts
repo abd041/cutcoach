@@ -1,7 +1,7 @@
 const CDN = "https://cdn.prod.website-files.com/69b0a5be386620e60b7874ef";
 
 export const images = {
-  logo: "/images/cutcoach-logo.png",
+  logo: "/images/cutcoach-logo.svg",
   seo: `${CDN}/6929822a7d848669f78740c9/695232241a7c1e461a7deb20_seo%20image.webp`,
   arrow: `${CDN}/69b0a5bf386620e60b7876a2_Frame%20(2).svg`,
   phoneMockup: `${CDN}/69b0a5bf386620e60b7876e0_Frame%202147238324%20(1).webp`,
@@ -24,6 +24,10 @@ export const images = {
   socialInstagram: `${CDN}/69b0a5bf386620e60b7876c7_Frame%202147239564.svg`,
   socialX: `${CDN}/69b0a5bf386620e60b7876cc_Frame%20(1).svg`,
   socialLinkedin: `${CDN}/69b0a5bf386620e60b7876cb_Frame.svg`,
+  /** Client Passport app screens — local assets for client audience mode only. */
+  clientPassportWelcome: "/images/client-passport/passport-welcome.png",
+  clientPassportMyQr: "/images/client-passport/passport-my-qr.png",
+  clientPassportPreferences: "/images/client-passport/passport-preferences.png",
 } as const;
 
 export const APP_STORE_URL =

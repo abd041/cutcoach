@@ -4,38 +4,43 @@ import type { AudienceContentPack } from "@/lib/data/audience/types";
 export const clientContent: AudienceContentPack = {
   navLinks: [
     { label: "How It Works", href: "#how-it-works" },
-    { label: "Your Benefits", href: "#features" },
-    { label: "Client Passport", href: "#pricing" },
-    { label: "Client Stories", href: "#testimonials" },
+    { label: "Barber", href: "#features", audience: "barber" },
+    { label: "Client Passport", href: "#features", audience: "client" },
+    { label: "Pricing", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
   ],
   footerLinks: [
     { label: "How It Works", href: "#how-it-works" },
-    { label: "Your Benefits", href: "#features" },
-    { label: "Client Passport", href: "#pricing" },
-    { label: "Client Stories", href: "#testimonials" },
+    { label: "Barber", href: "#features", audience: "barber" },
+    { label: "Client Passport", href: "#features", audience: "client" },
+    { label: "Pricing", href: "#pricing" },
+    { label: "FAQ", href: "#faq" },
   ],
   hero: {
-    headline: "Get The Cut You Asked For.",
-    headlineAccent: "Every Time.",
+    headline: "More Consistent Haircuts",
+    headlineAccent: "With Client Passport.",
     subtext:
-      "Your Client Passport remembers everything your barber should know—preferences, haircut history, inspiration photos, notes, and more.",
+      "A free Client Passport helps you store preferences, photos, and history — designed to make communication with any barber easier.",
     cta: "Create Your Free Client Passport",
     secondaryCta: "See How It Works",
     eyebrow: "Client Passport",
     eyebrowSecondary: "Free Forever · No Card",
     screens: [
-      { src: images.liveAiSupport, alt: "Client Passport preferences" },
-      { src: images.performanceAwareness, alt: "Haircut history and notes" },
-      { src: images.guidedSession, alt: "Inspiration photos saved" },
+      { src: images.clientPassportMyQr, alt: "Client Passport QR profile" },
+      { src: images.clientPassportPreferences, alt: "Haircut preferences and history" },
+      { src: images.clientPassportWelcome, alt: "Create your Client Passport" },
     ],
     sideScreens: [
       {
-        src: images.performanceAwareness,
-        alt: "Haircut history",
+        src: images.clientPassportPreferences,
+        alt: "Saved preferences and haircut history",
         side: "left",
       },
-      { src: images.guidedSession, alt: "Saved inspiration", side: "right" },
+      {
+        src: images.clientPassportMyQr,
+        alt: "QR profile for any barber",
+        side: "right",
+      },
     ],
   },
   trustBar: {
@@ -44,38 +49,38 @@ export const clientContent: AudienceContentPack = {
     columnProof: "Who it's for",
     iosPill: "Free on iOS",
     downloadNote: "Completely free · No subscription required",
-    trustedLabel: "Client Ready",
-    quote: "Finally, I never explain my haircut from scratch.",
+    trustedLabel: "Built for Clients",
+    quote: "Finally, a way to skip explaining my haircut from scratch.",
     mission:
-      "Preferences, history, QR profile, favorite styles, barber notes, and before & after photos — so any barber starts with clarity.",
+      "Preferences, history, QR profile, favorite styles, barber notes, and before & after photos — designed to help any barber start with more clarity.",
     earlyAccess: "Join clients building their CutCoach Client Passport.",
     avatars: ["AS", "MR", "JL", "DK"],
     avatarLabel: "Early access clients",
   },
   stats: [
-    { value: 0, suffix: "", label: "Cost Forever" },
+    { value: 0, suffix: "", label: "Cost Forever", display: "FREE" },
     { value: 1, suffix: "", label: "QR Profile" },
     { value: 2, suffix: " min", label: "To Set Up" },
   ],
   featureSection: {
-    tag: "Why Clients Love It",
-    heading: "Never Get a",
-    headingAccent: "Bad Haircut Again",
+    tag: "How Client Passport Helps",
+    heading: "Designed to Help You",
+    headingAccent: "Communicate Clearly",
     description:
-      "Client Passport keeps preferences, history, photos, and notes ready — so communication with any barber starts clear.",
+      "Client Passport keeps preferences, history, photos, and notes ready — built to make communication with any barber easier from the start.",
     pillars: ["Preferences", "History", "Clarity"],
   },
   features: [
     {
       title: "Haircut Preferences & Favorite Styles",
       description:
-        "Save the cuts, fades, and favorite styles that define your look — always ready for the next chair.",
+        "Save the cuts, fades, and favorite styles that define your look — ready for your next visit.",
       highlights: [
         "Haircut preferences in one place",
         "Favorite styles you can revisit",
         "AI summaries of your preferences",
       ],
-      image: images.liveAiSupport,
+      image: images.clientPassportPreferences,
       bgImage: images.featureBg1,
       callouts: [
         { label: "Preferences", value: "Saved", live: true },
@@ -91,7 +96,7 @@ export const clientContent: AudienceContentPack = {
         "Before & after photos",
         "Barber notes you can keep",
       ],
-      image: images.liveCutGuidance,
+      image: images.clientPassportPreferences,
       bgImage: images.featureBg2,
       callouts: [
         { label: "History", value: "On file" },
@@ -101,14 +106,14 @@ export const clientContent: AudienceContentPack = {
     {
       title: "QR Profile for Any Barber",
       description:
-        "Share your Client Passport with a QR profile so any barber gets clarity — better communication, less guessing.",
+        "Share your Client Passport with a QR profile so any barber can see your preferences — designed to support clearer communication and less guessing.",
       highlights: [
         "QR profile at the chair",
-        "Better communication with any barber",
+        "Designed to improve communication with any barber",
         "Free setup — no subscription",
       ],
-      image: images.guidedSession,
-      bgImage: images.leftCard,
+      image: images.clientPassportMyQr,
+      bgImage: images.featureBg1,
       callouts: [
         { label: "QR Profile", value: "Ready", live: true },
         { label: "Cost", value: "Free" },
@@ -118,9 +123,9 @@ export const clientContent: AudienceContentPack = {
   howItWorksSection: {
     tag: "How Client Passport Works",
     heading: "Your Look,",
-    headingAccent: "Always Clear",
+    headingAccent: "Easier to Share",
     description:
-      "Three steps. One passport. Preferences, photos, and notes so you never explain from scratch again.",
+      "Three steps. One passport. Preferences, photos, and notes designed to make it easier to share what matters.",
     pillars: ["Create", "Share", "Refine"],
   },
   steps: [
@@ -137,6 +142,7 @@ export const clientContent: AudienceContentPack = {
       ],
       tags: ["Create Passport", "Add Preferences"],
       icon: images.step1Icon,
+      screen: images.clientPassportWelcome,
       callouts: [
         { label: "Passport", value: "Ready", live: true },
         { label: "Cost", value: "Free" },
@@ -150,11 +156,12 @@ export const clientContent: AudienceContentPack = {
         "Show your QR profile so any barber sees preferences, history, and notes with clarity.",
       highlights: [
         "QR profile share at the chair",
-        "Better communication with any barber",
-        "Less re-explaining from scratch",
+        "Designed to support clearer communication with any barber",
+        "Built to reduce re-explaining from scratch",
       ],
       tags: ["Show QR", "Confirm Style"],
       icon: images.step2Icon,
+      screen: images.clientPassportMyQr,
       callouts: [
         { label: "QR", value: "Live", live: true },
         { label: "Clarity", value: "High" },
@@ -173,6 +180,7 @@ export const clientContent: AudienceContentPack = {
       ],
       tags: ["Update Notes", "View History"],
       icon: images.step3Icon,
+      screen: images.clientPassportPreferences,
       callouts: [
         { label: "History", value: "Saved", live: true },
         { label: "Next visit", value: "Ready" },
@@ -199,7 +207,7 @@ export const clientContent: AudienceContentPack = {
     {
       label: "AI Summaries",
       description:
-        "Clear preference summaries so communication starts smarter every visit.",
+        "Clear preference summaries designed to help communication start more easily each visit.",
     },
     {
       label: "Secure Cloud",
@@ -208,20 +216,20 @@ export const clientContent: AudienceContentPack = {
     },
   ],
   testimonialsSection: {
-    tag: "Client Outcomes",
-    heading: "Clients Want",
-    headingAccent: "Consistent Cuts",
+    tag: "What Clients Are Exploring",
+    heading: "Designed to Help Clients",
+    headingAccent: "Share Preferences Clearly",
     description:
-      "Never explain from scratch again — preferences, history, and clearer communication with any barber.",
+      "Built to make it easier to share preferences, history, and context with any barber — without starting from scratch each visit.",
     pillars: ["Clarity", "Consistency", "Control"],
     storiesComingSoon: "Full Client Stories — Coming Soon",
     cta: "Create Your Free Client Passport",
   },
   testimonialPreviewThemes: [
     {
-      title: "Never Explain From Scratch",
+      title: "Explain Less From Scratch",
       description:
-        "Preferences, favorite styles, and history ready at the chair — so you stop repeating your cut every visit.",
+        "Preferences, favorite styles, and history ready at the chair — designed to help you stop repeating your cut every visit.",
       metric: "Clarity",
       outcome: "Preferences ready for any barber",
     },
@@ -235,7 +243,7 @@ export const clientContent: AudienceContentPack = {
     {
       title: "QR Clarity, Your Control",
       description:
-        "Share your QR profile when you’re ready — better communication with any barber, free forever.",
+        "Share your QR profile when you’re ready — designed to support clearer communication with any barber, free to use.",
       metric: "Control",
       outcome: "Share on your terms",
     },
@@ -256,14 +264,17 @@ export const clientContent: AudienceContentPack = {
     freeProduct: {
       name: "Client Passport",
       badge: "Completely Free",
+      priceLabel: "FREE",
       description:
         "Haircut preferences, photos, history, barber notes, and a QR profile — no subscription required.",
       features: [
-        "No subscription required",
-        "Haircut preferences & favorite styles",
-        "Haircut history & before/after photos",
-        "QR profile + barber notes",
-        "AI summaries of your preferences",
+        "Save haircut preferences",
+        "QR profile",
+        "Haircut history",
+        "Inspiration photos",
+        "Barber notes",
+        "AI summaries",
+        "Works with any barber",
       ],
       cta: "Create Your Free Client Passport",
     },
@@ -273,14 +284,14 @@ export const clientContent: AudienceContentPack = {
     heading: "Everything Clients",
     headingAccent: "Want To Know",
     description:
-      "Straight answers about Client Passport, QR profiles, and never explaining from scratch again.",
+      "Straight answers about Client Passport, QR profiles, and sharing your preferences more easily.",
     pillars: ["Getting Started", "Privacy", "Pricing"],
   },
   faqItems: [
     {
       question: "What is Client Passport?",
       answer:
-        "Client Passport stores your haircut preferences, favorite styles, history, before & after photos, and barber notes — plus AI summaries — so every barber starts with clarity.",
+        "Client Passport stores your haircut preferences, favorite styles, history, before & after photos, and barber notes — plus AI summaries — designed to help any barber start with more clarity.",
     },
     {
       question: "How does the QR profile work?",
@@ -300,19 +311,29 @@ export const clientContent: AudienceContentPack = {
     {
       question: "Will this help me avoid bad haircuts?",
       answer:
-        "That’s the goal. Clear preferences, photos, history, and notes mean better communication with any barber — so you’re not explaining your haircut from scratch every time.",
+        "That’s the goal — not a guarantee. Clear preferences, photos, history, and notes are designed to support better communication with any barber, so you’re less likely to explain your haircut from scratch every time.",
+    },
+    {
+      question: "Can I use it with any barber?",
+      answer:
+        "Yes. Client Passport is designed to make your haircut preferences portable and easier to share.",
+    },
+    {
+      question: "Does CutCoach book appointments?",
+      answer:
+        "No. It focuses on haircut memory, communication, and AI-powered coaching rather than scheduling.",
     },
   ],
   finalCta: {
-    heading: "Get The Cut You",
-    headingAccent: "Asked For",
+    heading: "Ready to Share",
+    headingAccent: "Your Preferences?",
     primaryCta: "Create Your Free Client Passport",
     secondaryCta: "See How It Works",
   },
   footerDescription:
-    "Client Passport remembers preferences, history, inspiration photos, and notes — so every barber starts with clarity.",
+    "Client Passport helps store preferences, history, inspiration photos, and notes — designed to help clients communicate more clearly with any barber.",
   mobileHighlights: [
-    { title: "Preferences", subtitle: "Always Remembered", live: true },
+    { title: "Preferences", subtitle: "Ready When You Are", live: true },
     { title: "Cut History", subtitle: "Inspiration Photos" },
     { title: "Barber Notes", subtitle: "Every Visit" },
   ],

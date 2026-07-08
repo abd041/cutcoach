@@ -4,40 +4,41 @@ import type { AudienceContentPack } from "@/lib/data/audience/types";
 export const clientContentFr: AudienceContentPack = {
   navLinks: [
     { label: "Comment ça marche", href: "#how-it-works" },
-    { label: "Vos bénéfices", href: "#features" },
-    { label: "Client Passport", href: "#pricing" },
-    { label: "Histoires clients", href: "#testimonials" },
+    { label: "Barber", href: "#features", audience: "barber" },
+    { label: "Client Passport", href: "#features", audience: "client" },
+    { label: "Tarifs", href: "#pricing" },
     { label: "FAQ", href: "#faq" },
   ],
   footerLinks: [
     { label: "Comment ça marche", href: "#how-it-works" },
-    { label: "Vos bénéfices", href: "#features" },
-    { label: "Client Passport", href: "#pricing" },
-    { label: "Histoires clients", href: "#testimonials" },
+    { label: "Barber", href: "#features", audience: "barber" },
+    { label: "Client Passport", href: "#features", audience: "client" },
+    { label: "Tarifs", href: "#pricing" },
+    { label: "FAQ", href: "#faq" },
   ],
   hero: {
-    headline: "Obtenez la coupe que vous avez demandée.",
-    headlineAccent: "À chaque fois.",
+    headline: "Des coupes plus régulières",
+    headlineAccent: "Avec Client Passport.",
     subtext:
-      "Votre Client Passport se souvient de tout ce que votre barber devrait savoir : préférences, historique de coupes, photos d’inspiration, notes et plus encore.",
+      "Un Client Passport gratuit vous aide à conserver préférences, photos et historique — conçu pour faciliter la communication avec n'importe quel barber.",
     cta: "Créez votre Client Passport gratuit",
     secondaryCta: "Voir comment ça marche",
     eyebrow: "Client Passport",
     eyebrowSecondary: "Gratuit pour toujours · Sans carte",
     screens: [
-      { src: images.liveAiSupport, alt: "Préférences Client Passport" },
-      { src: images.performanceAwareness, alt: "Historique et notes de coupe" },
-      { src: images.guidedSession, alt: "Photos d’inspiration enregistrées" },
+      { src: images.clientPassportMyQr, alt: "Profil QR Client Passport" },
+      { src: images.clientPassportPreferences, alt: "Préférences et historique de coupe" },
+      { src: images.clientPassportWelcome, alt: "Créez votre Client Passport" },
     ],
     sideScreens: [
       {
-        src: images.performanceAwareness,
-        alt: "Historique de coupes",
+        src: images.clientPassportPreferences,
+        alt: "Préférences et historique enregistrés",
         side: "left",
       },
       {
-        src: images.guidedSession,
-        alt: "Inspiration enregistrée",
+        src: images.clientPassportMyQr,
+        alt: "Profil QR pour n'importe quel barber",
         side: "right",
       },
     ],
@@ -48,38 +49,38 @@ export const clientContentFr: AudienceContentPack = {
     columnProof: "Pour qui",
     iosPill: "Gratuit sur iOS",
     downloadNote: "Entièrement gratuit · Sans abonnement",
-    trustedLabel: "Prêt pour les clients",
-    quote: "Enfin, je n'explique plus jamais ma coupe depuis le début.",
+    trustedLabel: "Conçu pour les clients",
+    quote: "Enfin, un moyen d'éviter d'expliquer ma coupe depuis le début.",
     mission:
-      "Préférences, historique, profil QR, styles favoris, notes du barber et photos avant & après — pour que n'importe quel barber commence avec clarté.",
+      "Préférences, historique, profil QR, styles favoris, notes du barber et photos avant & après — conçu pour aider n'importe quel barber à commencer avec plus de clarté.",
     earlyAccess: "Rejoignez les clients qui construisent leur Client Passport CutCoach.",
     avatars: ["AS", "MR", "JL", "DK"],
     avatarLabel: "Clients en accès anticipé",
   },
   stats: [
-    { value: 0, suffix: "", label: "Coût pour toujours" },
+    { value: 0, suffix: "", label: "Coût pour toujours", display: "GRATUIT" },
     { value: 1, suffix: "", label: "Profil QR" },
     { value: 2, suffix: " min", label: "Pour configurer" },
   ],
   featureSection: {
-    tag: "Pourquoi les clients l'adorent",
-    heading: "Plus jamais de",
-    headingAccent: "Mauvaise coupe",
+    tag: "Comment Client Passport aide",
+    heading: "Conçu pour vous aider",
+    headingAccent: "À communiquer clairement",
     description:
-      "Client Passport garde préférences, historique, photos et notes prêts — pour que la communication avec n'importe quel barber commence clairement.",
+      "Client Passport garde préférences, historique, photos et notes prêts — conçu pour faciliter la communication avec n'importe quel barber dès le départ.",
     pillars: ["Préférences", "Historique", "Clarté"],
   },
   features: [
     {
       title: "Préférences de coupe et styles favoris",
       description:
-        "Enregistrez les coupes, fades et styles favoris qui définissent votre look — toujours prêts pour la prochaine chaise.",
+        "Enregistrez les coupes, fades et styles favoris qui définissent votre look — prêts pour votre prochaine visite.",
       highlights: [
         "Préférences de coupe en un seul endroit",
         "Styles favoris que vous pouvez retrouver",
         "Résumés IA de vos préférences",
       ],
-      image: images.liveAiSupport,
+      image: images.clientPassportPreferences,
       bgImage: images.featureBg1,
       callouts: [
         { label: "Préférences", value: "Enregistrées", live: true },
@@ -95,7 +96,7 @@ export const clientContentFr: AudienceContentPack = {
         "Photos avant & après",
         "Des notes du barber que vous conservez",
       ],
-      image: images.liveCutGuidance,
+      image: images.clientPassportPreferences,
       bgImage: images.featureBg2,
       callouts: [
         { label: "Historique", value: "Au dossier" },
@@ -111,8 +112,8 @@ export const clientContentFr: AudienceContentPack = {
         "Meilleure communication avec n'importe quel barber",
         "Configuration gratuite — sans abonnement",
       ],
-      image: images.guidedSession,
-      bgImage: images.leftCard,
+      image: images.clientPassportMyQr,
+      bgImage: images.featureBg1,
       callouts: [
         { label: "Profil QR", value: "Prêt", live: true },
         { label: "Coût", value: "Gratuit" },
@@ -122,9 +123,9 @@ export const clientContentFr: AudienceContentPack = {
   howItWorksSection: {
     tag: "Comment Client Passport fonctionne",
     heading: "Votre look,",
-    headingAccent: "Toujours clair",
+    headingAccent: "Plus facile à partager",
     description:
-      "Trois étapes. Un seul passport. Préférences, photos et notes pour ne plus jamais expliquer depuis le début.",
+      "Trois étapes. Un seul passport. Préférences, photos et notes conçus pour faciliter le partage de l'essentiel.",
     pillars: ["Créer", "Partager", "Affiner"],
   },
   steps: [
@@ -141,6 +142,7 @@ export const clientContentFr: AudienceContentPack = {
       ],
       tags: ["Créer le Passport", "Ajouter des préférences"],
       icon: images.step1Icon,
+      screen: images.clientPassportWelcome,
       callouts: [
         { label: "Passport", value: "Prêt", live: true },
         { label: "Coût", value: "Gratuit" },
@@ -159,6 +161,7 @@ export const clientContentFr: AudienceContentPack = {
       ],
       tags: ["Montrer le QR", "Confirmer le style"],
       icon: images.step2Icon,
+      screen: images.clientPassportMyQr,
       callouts: [
         { label: "QR", value: "En direct", live: true },
         { label: "Clarté", value: "Élevée" },
@@ -177,6 +180,7 @@ export const clientContentFr: AudienceContentPack = {
       ],
       tags: ["Mettre à jour les notes", "Voir l'historique"],
       icon: images.step3Icon,
+      screen: images.clientPassportPreferences,
       callouts: [
         { label: "Historique", value: "Enregistré", live: true },
         { label: "Prochaine visite", value: "Prête" },
@@ -212,18 +216,18 @@ export const clientContentFr: AudienceContentPack = {
     },
   ],
   testimonialsSection: {
-    tag: "Résultats clients",
-    heading: "Les clients veulent",
-    headingAccent: "Des coupes régulières",
+    tag: "Ce que explorent les clients",
+    heading: "Conçu pour aider les clients",
+    headingAccent: "À partager leurs préférences clairement",
     description:
-      "N'expliquez plus jamais depuis le début — préférences, historique et une communication plus claire avec n'importe quel barber.",
+      "Conçu pour faciliter le partage des préférences, de l'historique et du contexte avec n'importe quel barber — sans repartir de zéro à chaque visite.",
     pillars: ["Clarté", "Régularité", "Contrôle"],
     storiesComingSoon: "Histoires clients complètes — Bientôt disponible",
     cta: "Créez votre Client Passport gratuit",
   },
   testimonialPreviewThemes: [
     {
-      title: "Plus jamais depuis le début",
+      title: "Moins d'explications depuis le début",
       description:
         "Préférences, styles favoris et historique prêts à la chaise — pour arrêter de répéter votre coupe à chaque visite.",
       metric: "Clarté",
@@ -239,7 +243,7 @@ export const clientContentFr: AudienceContentPack = {
     {
       title: "Clarté QR, votre contrôle",
       description:
-        "Partagez votre profil QR quand vous êtes prêt — meilleure communication avec n'importe quel barber, gratuit pour toujours.",
+        "Partagez votre profil QR quand vous êtes prêt — conçu pour soutenir une communication plus claire avec n'importe quel barber, gratuit à utiliser.",
       metric: "Contrôle",
       outcome: "Partagez selon vos conditions",
     },
@@ -260,14 +264,17 @@ export const clientContentFr: AudienceContentPack = {
     freeProduct: {
       name: "Client Passport",
       badge: "Entièrement gratuit",
+      priceLabel: "GRATUIT",
       description:
         "Préférences de coupe, photos, historique, notes du barber et un profil QR — sans abonnement.",
       features: [
-        "Sans abonnement",
-        "Préférences de coupe et styles favoris",
-        "Historique de coupe et photos avant/après",
-        "Profil QR + notes du barber",
-        "Résumés IA de vos préférences",
+        "Enregistrez vos préférences de coupe",
+        "Profil QR",
+        "Historique de coupe",
+        "Photos d'inspiration",
+        "Notes du barber",
+        "Résumés IA",
+        "Fonctionne avec n'importe quel barber",
       ],
       cta: "Créez votre Client Passport gratuit",
     },
@@ -277,7 +284,7 @@ export const clientContentFr: AudienceContentPack = {
     heading: "Tout ce que les clients",
     headingAccent: "Veulent savoir",
     description:
-      "Des réponses directes sur Client Passport, les profils QR et le fait de ne plus jamais expliquer depuis le début.",
+      "Des réponses directes sur Client Passport, les profils QR et le partage plus facile de vos préférences.",
     pillars: ["Premiers pas", "Confidentialité", "Tarifs"],
   },
   faqItems: [
@@ -304,19 +311,29 @@ export const clientContentFr: AudienceContentPack = {
     {
       question: "Est-ce que cela m'aidera à éviter les mauvaises coupes ?",
       answer:
-        "C'est l'objectif. Des préférences claires, des photos, un historique et des notes signifient une meilleure communication avec n'importe quel barber — pour ne plus expliquer votre coupe depuis le début à chaque fois.",
+        "C'est l'objectif — pas une garantie. Des préférences claires, des photos, un historique et des notes sont conçus pour soutenir une meilleure communication avec n'importe quel barber, afin que vous ayez moins souvent à expliquer votre coupe depuis le début.",
+    },
+    {
+      question: "Puis-je l'utiliser avec n'importe quel barber ?",
+      answer:
+        "Oui. L'objectif est de rendre vos préférences de coupe portables et faciles à partager.",
+    },
+    {
+      question: "CutCoach prend-il des rendez-vous ?",
+      answer:
+        "Non. Il se concentre sur la mémoire de coupe, la communication et le coaching IA plutôt que sur la prise de rendez-vous.",
     },
   ],
   finalCta: {
-    heading: "Obtenez la coupe",
-    headingAccent: "demandée",
+    heading: "Prêt à partager",
+    headingAccent: "Vos préférences ?",
     primaryCta: "Créez votre Client Passport gratuit",
     secondaryCta: "Voir comment ça marche",
   },
   footerDescription:
     "Client Passport mémorise préférences, historique, photos d’inspiration et notes — pour que chaque barber commence avec clarté.",
   mobileHighlights: [
-    { title: "Préférences", subtitle: "Toujours mémorisées", live: true },
+    { title: "Préférences", subtitle: "Prêtes quand vous en avez besoin", live: true },
     { title: "Historique", subtitle: "Photos d’inspiration" },
     { title: "Notes", subtitle: "Chaque visite" },
   ],

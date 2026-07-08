@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { CinematicSection } from "@/components/ui/CinematicSection";
+import { AudienceModeTransition } from "@/components/ui/AudienceModeTransition";
 import { useAudienceContent } from "@/lib/audience/AudienceModeProvider";
 import { formatUi } from "@/lib/i18n/ui";
 import { useUi } from "@/lib/i18n/LocaleProvider";
@@ -20,11 +21,15 @@ import { cn } from "@/lib/cn";
 import { scrollToElement } from "@/lib/scroll";
 import { useScrollSubscription } from "@/hooks/useScrollSubscription";
 
-const stepImages = [
+const fallbackStepImages = [
   images.guidedSession,
   images.liveCutGuidance,
   images.liveAiSupport,
-];
+] as const;
+
+function resolveStepImage(step: Step, index: number) {
+  return step.screen ?? fallbackStepImages[index] ?? images.guidedSession;
+}
 
 const stepGlows = [
   "rgba(77, 223, 255, 0.22)",
@@ -193,17 +198,16 @@ function StepImageFrame({
       style={{ perspective: 1200 }}
     >
       <div
-        className="pointer-events-none absolute -inset-8 rounded-full blur-[72px] transition-opacity duration-500"
-        style={{ backgroundColor: stepGlows[stepIndex] }}
-        aria-hidden
-      />
-
-      <div
         ref={ref}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         className="feature-frame-shell relative h-full overflow-hidden rounded-[1.35rem] p-px"
       >
+        <div
+          className="pointer-events-none absolute -inset-8 rounded-full blur-[72px] transition-opacity duration-500"
+          style={{ backgroundColor: stepGlows[stepIndex] }}
+          aria-hidden
+        />
         <motion.div
           style={{ rotateX, rotateY }}
           className="relative h-full overflow-hidden rounded-[1.32rem] bg-[#060a10]/92"
@@ -221,7 +225,6 @@ function StepImageFrame({
               fill
               className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.015]"
               sizes="(min-width: 1024px) 40vw, 100vw"
-              unoptimized
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#05070a]/82 via-transparent to-white/[0.02]" />
             {step.callouts && <StepCallouts callouts={step.callouts} />}
@@ -329,7 +332,7 @@ function StickyStepVisual({
                 aria-hidden={activeStep !== index}
               >
                 <StepImageFrame
-                  src={stepImages[index]}
+                  src={resolveStepImage(step, index)}
                   alt={step.title}
                   step={step}
                   stepIndex={index}
@@ -350,7 +353,6 @@ const ScrollStep = memo(function ScrollStep({
   index,
   isActive,
   isLast,
-  stepImage,
   onSelect,
 }: {
   stepRef: (node: HTMLElement | null) => void;
@@ -358,7 +360,6 @@ const ScrollStep = memo(function ScrollStep({
   index: number;
   isActive: boolean;
   isLast: boolean;
-  stepImage: string;
   onSelect: () => void;
 }) {
   const stepNumber = String(index + 1).padStart(2, "0");
@@ -370,24 +371,23 @@ const ScrollStep = memo(function ScrollStep({
       className={cn(
         "how-step-article relative transition-opacity duration-300 ease-out",
         !isLast && "lg:pb-14 xl:pb-16",
-        !isActive && "lg:opacity-50"
+        !isActive && "lg:opacity-65"
       )}
     >
       <button
         type="button"
         onClick={onSelect}
         className={cn(
-          "how-step-card relative flex w-full gap-5 rounded-2xl border text-left transition-[border-color,background-color,box-shadow] duration-300 sm:gap-8",
-          "py-1 sm:py-2",
+          "how-step-card relative flex w-full min-h-11 gap-5 rounded-2xl border px-5 py-5 text-left transition-[border-color,background-color,box-shadow,opacity] duration-300 sm:gap-6 lg:gap-5 lg:py-6",
           isActive
-            ? "border-white/[0.1] bg-white/[0.035] px-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_20px_48px_-28px_rgba(0,0,0,0.65)] sm:px-5"
-            : "border-transparent bg-transparent px-0 hover:border-white/[0.06] hover:bg-white/[0.02] lg:px-3"
+            ? "border-white/[0.1] bg-white/[0.035] shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_20px_48px_-28px_rgba(0,0,0,0.65)]"
+            : "border-transparent bg-transparent hover:border-white/[0.06] hover:bg-white/[0.02]"
         )}
       >
-        <div className="relative hidden shrink-0 lg:block">
+        <div className="relative hidden w-14 shrink-0 lg:block">
           <div
             className={cn(
-              "how-step-node absolute left-[27px] top-8 z-20 hidden -translate-x-1/2 lg:block",
+              "how-step-node absolute left-1/2 top-8 z-20 -translate-x-1/2",
               isActive && "how-step-node--active"
             )}
             aria-hidden
@@ -406,7 +406,7 @@ const ScrollStep = memo(function ScrollStep({
 
         <div className="relative min-w-0 flex-1 pt-1">
           <span
-            className="how-step-watermark pointer-events-none absolute -left-1 top-8 hidden select-none font-display text-[5.5rem] font-bold leading-none text-white/[0.03] lg:block"
+            className="how-step-watermark pointer-events-none absolute left-0 top-6 hidden select-none font-display text-[5.5rem] font-bold leading-none text-white/[0.03] lg:block"
             aria-hidden
           >
             {stepNumber}
@@ -474,15 +474,6 @@ const ScrollStep = memo(function ScrollStep({
               </span>
             ))}
           </div>
-
-          <div className="mt-8 hidden lg:block">
-            <StepImageFrame
-              src={stepImage}
-              alt={step.title}
-              step={step}
-              stepIndex={index}
-            />
-          </div>
         </div>
       </button>
     </article>
@@ -499,6 +490,7 @@ export function HowItWorks() {
       id="how-it-works"
       mood="theater"
       pin
+      aria-labelledby="how-it-works-heading"
       className="section-divider -mt-6 !overflow-visible sm:-mt-8"
     >
       <div
@@ -507,17 +499,20 @@ export function HowItWorks() {
       />
 
       <Container className="section-py relative overflow-visible">
-        <SectionHeader
-          key={howItWorksSection.heading}
-          tag={howItWorksSection.tag}
-          heading={howItWorksSection.heading}
-          headingAccent={howItWorksSection.headingAccent}
-          description={howItWorksSection.description}
-          pills={howItWorksSection.pillars}
-          align="left"
-          premium
-        />
+        <AudienceModeTransition variant="fade">
+          <SectionHeader
+            headingId="how-it-works-heading"
+            tag={howItWorksSection.tag}
+            heading={howItWorksSection.heading}
+            headingAccent={howItWorksSection.headingAccent}
+            description={howItWorksSection.description}
+            pills={howItWorksSection.pillars}
+            align="left"
+            premium
+          />
+        </AudienceModeTransition>
 
+        <AudienceModeTransition variant="slide">
         <MobileStepProgress
           activeStep={activeStep}
           onSelect={scrollToStep}
@@ -526,7 +521,7 @@ export function HowItWorks() {
 
         <div className="mb-8 lg:hidden">
           <StepImageFrame
-            src={stepImages[activeStep]}
+            src={resolveStepImage(steps[activeStep], activeStep)}
             alt={steps[activeStep].title}
             step={steps[activeStep]}
             stepIndex={activeStep}
@@ -542,7 +537,7 @@ export function HowItWorks() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 xl:gap-24">
             <div className="relative lg:order-1">
               <div
-                className="how-step-spine absolute left-[27px] top-0 hidden h-full w-px lg:block"
+                className="how-step-spine pointer-events-none absolute left-[calc(1.25rem+1.75rem)] top-0 hidden h-full w-px -translate-x-1/2 lg:block"
                 aria-hidden
               >
                 <div
@@ -563,7 +558,6 @@ export function HowItWorks() {
                     index={index}
                     isActive={activeStep === index}
                     isLast={index === steps.length - 1}
-                    stepImage={stepImages[index]}
                     onSelect={() => scrollToStep(index)}
                   />
                 ))}
@@ -573,6 +567,7 @@ export function HowItWorks() {
             <StickyStepVisual activeStep={activeStep} steps={steps} />
           </div>
         </div>
+        </AudienceModeTransition>
       </Container>
     </CinematicSection>
   );

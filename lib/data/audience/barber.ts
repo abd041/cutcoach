@@ -3,23 +3,24 @@ import type { AudienceContentPack } from "@/lib/data/audience/types";
 
 export const barberContent: AudienceContentPack = {
   navLinks: [
-    { label: "How CutCoach Works", href: "#how-it-works" },
-    { label: "Real Benefits", href: "#features" },
+    { label: "How It Works", href: "#how-it-works" },
+    { label: "Barber", href: "#features", audience: "barber" },
+    { label: "Client Passport", href: "#features", audience: "client" },
     { label: "Pricing", href: "#pricing" },
-    { label: "Barber Feedback", href: "#testimonials" },
     { label: "FAQ", href: "#faq" },
   ],
   footerLinks: [
-    { label: "How CutCoach Works", href: "#how-it-works" },
-    { label: "Real Benefits", href: "#features" },
+    { label: "How It Works", href: "#how-it-works" },
+    { label: "Barber", href: "#features", audience: "barber" },
+    { label: "Client Passport", href: "#features", audience: "client" },
     { label: "Pricing", href: "#pricing" },
-    { label: "Barber Feedback", href: "#testimonials" },
+    { label: "FAQ", href: "#faq" },
   ],
   hero: {
-    headline: "Cut Faster. Stay Consistent.",
-    headlineAccent: "Build Real Confidence.",
+    headline: "Improve Your Craft",
+    headlineAccent: "Faster.",
     subtext:
-      "AI haircut coaching for barbers and students — live guidance, haircut analysis, video upload review, and progress tracking without mannequins or guesswork.",
+      "AI haircut coaching designed to help barbers and students build speed, consistency, and confidence on real clients.",
     cta: "Start Training Smarter",
     secondaryCta: "See How It Works",
     eyebrow: "AI Haircut Coaching",
@@ -40,10 +41,10 @@ export const barberContent: AudienceContentPack = {
     columnProof: "Who it's for",
     iosPill: "Free on iOS",
     downloadNote: "No card required · 25 free credits at signup",
-    trustedLabel: "Barber Trusted",
-    quote: "Finally training that matches shop pace.",
+    trustedLabel: "Built for Barbers",
+    quote: "Designed to match the pace of a real shop floor.",
     mission:
-      "Built for shop-floor pressure — AI coaching, skill development, and Client Passport summaries behind the chair.",
+      "Built for shop-floor pressure — AI coaching designed to support skill development and Client Passport summaries behind the chair.",
     earlyAccess: "Join barbers and students training smarter with CutCoach.",
     avatars: ["JM", "TD", "KR", "AL"],
     avatarLabel: "Early access barbers",
@@ -54,22 +55,22 @@ export const barberContent: AudienceContentPack = {
     { value: 2, suffix: " min", label: "To Start Training" },
   ],
   featureSection: {
-    tag: "Why CutCoach Works",
-    heading: "AI Coaching that Elevates",
-    headingAccent: "Every Haircut",
+    tag: "How CutCoach Helps",
+    heading: "AI Coaching Designed to",
+    headingAccent: "Support Your Sessions",
     description:
-      "AI haircut coaching, analysis, video review, and progress tracking — so every real client session becomes skill development.",
+      "AI haircut coaching, analysis, video review, and progress tracking — built to help turn real client sessions into learning opportunities.",
     pillars: ["Coaching", "Analysis", "Progress"],
   },
   features: [
     {
       title: "AI Haircut Coaching",
       description:
-        "Live coaching during real sessions — structure, pacing, and confidence without stopping to guess.",
+        "Designed to provide coaching during real sessions — structure, pacing, and confidence support while you work.",
       highlights: [
         "Real-time guidance behind the chair",
         "Smart glasses workflow cues",
-        "Student learning built into every cut",
+        "Designed to support student learning during each cut",
       ],
       image: images.liveAiSupport,
       bgImage: images.featureBg1,
@@ -81,11 +82,11 @@ export const barberContent: AudienceContentPack = {
     {
       title: "Smart Glasses Workflow",
       description:
-        "Stay on schedule and in control during complex sections with subtle, hands-free cues.",
+        "Designed to help you stay on schedule and in control during complex sections with subtle, hands-free cues.",
       highlights: [
         "Hands-free pacing through smart glasses",
         "Section-by-section structure reminders",
-        "Less hesitation, smoother flow",
+        "Built to help reduce hesitation and support smoother flow",
       ],
       image: images.liveCutGuidance,
       bgImage: images.featureBg2,
@@ -97,9 +98,9 @@ export const barberContent: AudienceContentPack = {
     {
       title: "Analysis & Progress Tracking",
       description:
-        "Haircut analysis, video upload review, and Client Passport AI summaries so skill development compounds over time.",
+        "Haircut analysis, video upload review, and Client Passport AI summaries designed to help skill development build over time.",
       highlights: [
-        "Haircut analysis after every session",
+        "Haircut analysis after sessions",
         "Video upload analysis & progress tracking",
         "Client Passport AI summaries",
       ],
@@ -133,6 +134,7 @@ export const barberContent: AudienceContentPack = {
       ],
       tags: ["Begin Session", "View Session Plan"],
       icon: images.step1Icon,
+      screen: images.guidedSession,
       callouts: [
         { label: "Session plan", value: "Ready", live: true },
         { label: "Setup", value: "2 min" },
@@ -143,14 +145,15 @@ export const barberContent: AudienceContentPack = {
       phase: "During the cut",
       title: "Cut with Live AI Guidance",
       description:
-        "Smart glasses workflow cues keep you on pace through every section of the cut.",
+        "Smart glasses workflow cues are designed to help you stay on pace through each section of the cut.",
       highlights: [
         "Live pacing through smart glasses",
         "Workflow reminders per section",
-        "Skill development in real time",
+        "Designed to support skill development in real time",
       ],
       tags: ["Stay On Pace", "View Live Metrics"],
       icon: images.step2Icon,
+      screen: images.liveCutGuidance,
       callouts: [
         { label: "Fade left", value: "4:12" },
         { label: "Cue", value: "Active", live: true },
@@ -159,16 +162,17 @@ export const barberContent: AudienceContentPack = {
     {
       number: "Step 03",
       phase: "After the cut",
-      title: "Analyze, Upload & Level Up",
+      title: "Analyze, Upload & Review Progress",
       description:
         "Haircut analysis, video upload review, progress tracking, and Client Passport AI summaries.",
       highlights: [
         "Haircut analysis & pacing breakdown",
         "Video upload analysis",
-        "Progress tracking after every cut",
+        "Progress tracking after sessions",
       ],
       tags: ["View Analysis", "Track Progress"],
       icon: images.step3Icon,
+      screen: images.liveAiSupport,
       callouts: [
         { label: "Session score", value: "87" },
         { label: "Insights", value: "Ready", live: true },
@@ -191,7 +195,7 @@ export const barberContent: AudienceContentPack = {
     },
     {
       label: "Smart Glasses",
-      description: "Live pacing cues while you cut — hands stay on the client.",
+      description: "Live pacing cues designed to help while you cut — hands stay on the client.",
     },
     {
       label: "Mobile App",
@@ -204,9 +208,9 @@ export const barberContent: AudienceContentPack = {
     },
   ],
   testimonialsSection: {
-    tag: "Real Barber Feedback",
-    heading: "Barbers Are Already",
-    headingAccent: "Training Smarter",
+    tag: "Early Access Feedback",
+    heading: "Barbers Exploring",
+    headingAccent: "CutCoach in Real Shops",
     description:
       "Early access barbers are testing AI coaching, analysis, and progress tracking in real shops.",
     pillars: ["Speed", "Consistency", "Confidence"],
@@ -224,16 +228,16 @@ export const barberContent: AudienceContentPack = {
     {
       title: "Consistent Structure",
       description:
-        "Smart glasses workflow cues helping barbers stay on schedule every cut — same rhythm, every client.",
+        "Smart glasses workflow cues designed to help barbers stay on schedule — supporting a steadier rhythm across clients.",
       metric: "Consistency",
-      outcome: "Workflow cues on every cut",
+      outcome: "Workflow cues during sessions",
     },
     {
       title: "Skill Development",
       description:
-        "Haircut analysis and progress tracking building confidence behind the chair with live clients.",
+        "Haircut analysis and progress tracking designed to help build confidence behind the chair with live clients.",
       metric: "Confidence",
-      outcome: "Progress after every cut",
+      outcome: "Progress tracked after sessions",
     },
   ],
   pricing: {
@@ -257,8 +261,8 @@ export const barberContent: AudienceContentPack = {
         free: true,
         cta: "Start Training Smarter",
         features: [
-          "25 free credits at signup",
-          "Learn tab access",
+          "25 free credits",
+          "Learn Tab",
           "AI Coach Chat",
           "Basic haircut guidance",
         ],
@@ -273,17 +277,18 @@ export const barberContent: AudienceContentPack = {
         highlighted: true,
         badge: "Most popular",
         features: [
-          "150 credits every month",
+          "150 monthly credits",
           "AI Coach Chat",
           "Haircut Analysis",
-          "Video Upload Analysis & Progress Tracking",
+          "Video Upload Analysis",
+          "Progress Tracking",
           "Client Passport AI Summaries",
         ],
       },
     ],
     creditPacksTitle: "Credit Packs",
     creditPacksDescription:
-      "One-time purchases. For barbers who need extra AI credits — no subscription required.",
+      "One-time purchases. Extra AI credits when you need them — no subscription required.",
     creditPacks: [
       { credits: 50, price: "$9.99" },
       { credits: 150, price: "$24.99" },
@@ -295,14 +300,14 @@ export const barberContent: AudienceContentPack = {
     heading: "Everything Barbers",
     headingAccent: "Want To Know",
     description:
-      "Real answers about AI coaching, analysis, smart glasses, and skill development.",
+      "Clear answers about AI coaching, analysis, smart glasses, and skill development.",
     pillars: ["Getting Started", "Privacy", "Billing"],
   },
   faqItems: [
     {
       question: "How does CutCoach actually help during a haircut?",
       answer:
-        "CutCoach gives real-time AI haircut coaching while you cut. Smart glasses workflow cues help you move through sections with structure, stay on schedule, and reduce hesitation. After the haircut, analysis and progress tracking show where you gained or lost time.",
+        "CutCoach is designed to provide real-time AI haircut coaching while you cut. Smart glasses workflow cues can help you move through sections with structure, stay on schedule, and reduce hesitation. After the haircut, analysis and progress tracking are built to show where you gained or lost time.",
     },
     {
       question: "Is CutCoach for students as well as working barbers?",
@@ -324,15 +329,30 @@ export const barberContent: AudienceContentPack = {
       answer:
         "After sessions, CutCoach can generate AI summaries that help you communicate cut preferences and outcomes more clearly — useful for your own progress and for client continuity.",
     },
+    {
+      question: "Does CutCoach replace barber school?",
+      answer:
+        "No. It supports learning and real-world improvement but does not replace licensing or formal education.",
+    },
+    {
+      question: "Do I need smart glasses?",
+      answer:
+        "No. Smart glasses are optional. CutCoach works fully on iPhone.",
+    },
+    {
+      question: "Can experienced barbers use CutCoach?",
+      answer:
+        "Yes. It's designed for both beginners and professionals looking for consistency and continued growth.",
+    },
   ],
   finalCta: {
-    heading: "Ready to Level",
-    headingAccent: "Up Your Cuts?",
+    heading: "Ready to Improve",
+    headingAccent: "Your Cuts?",
     primaryCta: "Start Training Smarter",
     secondaryCta: "See How CutCoach Works",
   },
   footerDescription:
-    "AI haircut coaching for barbers and students — analysis, video review, progress tracking, and smart glasses workflow built for real shop pressure.",
+    "AI haircut coaching designed to help barbers and students — analysis, video review, progress tracking, and smart glasses workflow support for real shop pressure.",
   mobileHighlights: [
     { title: "AI Coaching", subtitle: "Live Sessions", live: true },
     { title: "Analysis", subtitle: "Video + Progress" },

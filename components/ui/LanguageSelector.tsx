@@ -75,7 +75,7 @@ export function LanguageSelector({
                 <span className="text-sm font-bold tracking-[0.08em]">
                   {LOCALE_LABELS[option]}
                 </span>
-                <span className="mt-0.5 text-[9px] font-medium uppercase tracking-[0.12em] opacity-80">
+                <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.12em] opacity-80">
                   {LOCALE_NAMES[option]}
                 </span>
               </button>
@@ -94,7 +94,7 @@ export function LanguageSelector({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={`${ui.language}: ${LOCALE_NAMES[locale]}`}
-        className="focus-premium inline-flex h-9 items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-3 text-[11px] font-bold tracking-[0.1em] text-white/75 transition-colors hover:border-[#4DDFFF]/30 hover:text-white"
+        className="focus-premium inline-flex min-h-11 items-center gap-1.5 rounded-full border border-white/[0.12] bg-white/[0.04] px-3.5 text-[11px] font-bold tracking-[0.1em] text-white/75 transition-colors hover:border-[#4DDFFF]/30 hover:text-white"
       >
         <Languages className="h-3.5 w-3.5 text-[#4DDFFF]/80" aria-hidden />
         <span>{LOCALE_LABELS[locale]}</span>
@@ -152,7 +152,7 @@ function LanguageOption({
       aria-selected={active}
       onClick={onSelect}
       className={cn(
-        "flex w-full items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left transition-colors",
+        "flex w-full min-h-11 items-center justify-between gap-3 rounded-lg px-3 py-3 text-left transition-colors",
         active
           ? "bg-[#4DDFFF]/12 text-white"
           : "text-white/65 hover:bg-white/[0.05] hover:text-white"

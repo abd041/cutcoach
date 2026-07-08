@@ -13,7 +13,7 @@ interface ButtonProps {
   className?: string;
   external?: boolean;
   showArrow?: boolean;
-  size?: "default" | "large" | "nav";
+  size?: "default" | "large" | "nav" | "hero";
 }
 
 export function MagneticButton({
@@ -40,6 +40,7 @@ export function MagneticButton({
     default: "h-[48px] px-6 text-sm rounded-2xl",
     large: "h-[56px] px-8 text-base rounded-2xl sm:h-[60px]",
     nav: "h-9 gap-2 rounded-xl px-4 text-[13px] font-semibold tracking-[0.01em] sm:h-10 sm:px-5",
+    hero: "h-[50px] px-7 text-[15px] rounded-2xl sm:h-[52px] lg:h-[58px] lg:px-8 lg:text-base",
   };
 
   const content = (

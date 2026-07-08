@@ -32,6 +32,8 @@ export interface AudiencePricing {
   freeProduct?: {
     name: string;
     badge: string;
+    /** Display price, e.g. "FREE" — defaults to "$0". */
+    priceLabel?: string;
     description: string;
     features: string[];
     cta: string;
@@ -68,7 +70,7 @@ export interface AudienceContentPack {
     avatars: string[];
     avatarLabel: string;
   };
-  stats: { value: number; suffix: string; label: string }[];
+  stats: { value: number; suffix: string; label: string; display?: string }[];
   featureSection: {
     tag: string;
     heading: string;

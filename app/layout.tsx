@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
 import { Inter, Urbanist } from "next/font/google";
 import "./globals.css";
-import { siteConfig } from "@/lib/data/content";
-import { images } from "@/lib/images";
+import { rootSiteMetadata } from "@/lib/seo/metadata";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { LenisProvider } from "@/components/providers/LenisProvider";
 import { LocaleProvider } from "@/lib/i18n/LocaleProvider";
 import { AudienceModeProvider } from "@/lib/audience/AudienceModeProvider";
+import { preferenceBootstrapScript } from "@/lib/audience/bootstrap-script";
 import { SkipToContent } from "@/components/ui/SkipToContent";
+import { getServerAudienceMode } from "@/lib/preferences/server";
+import { getServerLocale } from "@/lib/preferences/server";
+import { LOCALE_HTML_LANG } from "@/lib/i18n/types";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,72 +29,37 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
+  themeColor: "#05070a",
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    "barber training",
-    "AI barber coaching",
-    "haircut guidance",
-    "barber app",
-    "CutCoach",
-  ],
-  authors: [{ name: "Matthew Diggs" }],
-  creator: "CutCoach",
-  icons: {
-    icon: "/images/cutcoach-logo.png",
-    apple: "/images/cutcoach-logo.png",
-  },
-  openGraph: {
-    title: siteConfig.title,
-    description: siteConfig.description,
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    locale: "en_US",
-    images: [{ url: images.seo, width: 1200, height: 630, alt: siteConfig.title }],
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: siteConfig.title,
-    description: siteConfig.description,
-    images: [images.seo],
-  },
-  alternates: {
-    canonical: siteConfig.url,
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  other: {
-    "apple-itunes-app": "app-id=6773789911",
-  },
-};
+export const metadata: Metadata = rootSiteMetadata;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [initialMode, initialLocale] = await Promise.all([
+    getServerAudienceMode(),
+    getServerLocale(),
+  ]);
+
   return (
     <html
-      lang="en"
+      lang={LOCALE_HTML_LANG[initialLocale]}
+      data-audience-mode={initialMode}
       className={`${inter.variable} ${urbanist.variable}`}
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: preferenceBootstrapScript }}
+        />
         <JsonLd />
       </head>
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
         <LenisProvider>
-        <LocaleProvider>
-        <AudienceModeProvider>
+        <LocaleProvider initialLocale={initialLocale}>
+        <AudienceModeProvider initialMode={initialMode}>
         <SmoothScroll />
         <SkipToContent />
         {children}

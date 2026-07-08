@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useUi } from "@/lib/i18n/LocaleProvider";
 import { useScrollSubscription } from "@/hooks/useScrollSubscription";
 
 export function HeroScrollCue() {
+  const ui = useUi();
   const [visible, setVisible] = useState(true);
 
   useScrollSubscription(({ scrollY }) => {
@@ -27,7 +29,7 @@ export function HeroScrollCue() {
       aria-hidden
     >
       <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/30">
-        Scroll to explore
+        {ui.scrollToExplore}
       </span>
       <motion.div
         animate={{ y: [0, 5, 0] }}

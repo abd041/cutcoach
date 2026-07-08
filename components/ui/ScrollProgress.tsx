@@ -20,7 +20,7 @@ export function ScrollProgress() {
   return (
     <div
       ref={barRef}
-      className="scroll-progress-bar fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-accent via-accent-light to-cyan-300"
+      className="scroll-progress-bar fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-[#4DDFFF] via-[#6ee7fa] to-[#00e8c5]"
       style={{ transform: "scaleX(0)" }}
       aria-hidden
     />
