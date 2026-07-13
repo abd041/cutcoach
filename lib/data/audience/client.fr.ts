@@ -96,7 +96,7 @@ export const clientContentFr: AudienceContentPack = {
         "Photos avant & après",
         "Des notes du barber que vous conservez",
       ],
-      image: images.clientPassportWelcome,
+      image: images.clientPassportOverview,
       bgImage: images.featureBg2,
       callouts: [
         { label: "Historique", value: "Au dossier" },

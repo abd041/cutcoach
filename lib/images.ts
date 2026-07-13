@@ -30,6 +30,7 @@ export const images = {
   clientPassportWelcome: "/images/client-passport/screen-sign-in.png",
   clientPassportMyQr: "/images/client-passport/screen-my-passport.png",
   clientPassportPreferences: "/images/client-passport/screen-preferences.png",
+  clientPassportOverview: "/images/client-passport/screen-passport-overview.png",
 } as const;
 
 export const APP_STORE_URL =

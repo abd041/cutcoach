@@ -96,7 +96,7 @@ export const clientContent: AudienceContentPack = {
         "Before & after photos",
         "Barber notes you can keep",
       ],
-      image: images.clientPassportWelcome,
+      image: images.clientPassportOverview,
       bgImage: images.featureBg2,
       callouts: [
         { label: "History", value: "On file" },

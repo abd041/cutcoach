@@ -18,7 +18,7 @@ export const siteConfig = {
     "© 2026 All rights reserved. Designed by Matthew Diggs, Founder/CEO.",
   footerDescription:
     "One AI-powered platform for barbers and clients — coaching designed to help barbers improve faster, and a free Client Passport designed to help clients get more consistent haircuts.",
-  supportEmail: "hello@cutcoachai.com",
+  supportEmail: "support@cutcoach.app",
   socialProfiles: [
     "https://facebook.com",
     "https://instagram.com",

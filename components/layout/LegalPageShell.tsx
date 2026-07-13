@@ -8,22 +8,26 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/lib/data/content";
 import { useLocale, useUi } from "@/lib/i18n/LocaleProvider";
-import { legalCopy } from "@/lib/i18n/legal";
+import { legalCopy, type LegalSection } from "@/lib/i18n/legal";
 
 interface LegalPageShellProps {
   document: "privacy" | "terms";
 }
 
-function renderParagraph(text: string, name: string, email: string) {
+function fillTokens(text: string, name: string, email: string) {
+  return text.replaceAll("{name}", name).replaceAll("{email}", email);
+}
+
+function renderInlineText(text: string, name: string, email: string) {
   const withName = text.replaceAll("{name}", name);
   const parts = withName.split("{email}");
 
   if (parts.length === 1) {
-    return <p>{withName}</p>;
+    return <>{withName}</>;
   }
 
   return (
-    <p>
+    <>
       {parts[0]}
       <a
         href={`mailto:${email}`}
@@ -32,7 +36,41 @@ function renderParagraph(text: string, name: string, email: string) {
         {email}
       </a>
       {parts.slice(1).join("")}
-    </p>
+    </>
+  );
+}
+
+function LegalSectionBlock({
+  section,
+  name,
+  email,
+}: {
+  section: LegalSection;
+  name: string;
+  email: string;
+}) {
+  return (
+    <section className="space-y-3">
+      {section.heading && (
+        <h2 className="font-display text-lg font-semibold tracking-[-0.02em] text-white sm:text-xl">
+          {section.heading}
+        </h2>
+      )}
+
+      {section.paragraphs?.map((paragraph) => (
+        <p key={fillTokens(paragraph, name, email).slice(0, 72)}>
+          {renderInlineText(paragraph, name, email)}
+        </p>
+      ))}
+
+      {section.items && section.items.length > 0 && (
+        <ul className="list-disc space-y-2 pl-5 marker:text-[#4DDFFF]/70">
+          {section.items.map((item) => (
+            <li key={item}>{fillTokens(item, name, email)}</li>
+          ))}
+        </ul>
+      )}
+    </section>
   );
 }
 
@@ -66,17 +104,18 @@ export function LegalPageShell({ document }: LegalPageShellProps) {
           <h1 className="font-display text-3xl font-bold tracking-[-0.03em] text-white sm:text-4xl lg:text-5xl">
             {doc.title}
           </h1>
-          <p className="mt-4 text-sm text-white/40">{copy.lastUpdated}</p>
+          <p className="mt-4 text-sm text-white/40">
+            {doc.effectiveDate ?? copy.lastUpdated}
+          </p>
 
-          <div className="premium-panel mt-8 space-y-6 p-5 text-sm leading-[1.85] text-white/55 sm:mt-10 sm:p-8 lg:p-10">
-            {doc.paragraphs.map((paragraph) => (
-              <div key={paragraph.slice(0, 48)}>
-                {renderParagraph(
-                  paragraph,
-                  siteConfig.name,
-                  siteConfig.supportEmail
-                )}
-              </div>
+          <div className="premium-panel mt-8 space-y-8 p-5 text-sm leading-[1.85] text-white/55 sm:mt-10 sm:p-8 lg:p-10">
+            {doc.sections.map((section, index) => (
+              <LegalSectionBlock
+                key={`${section.heading ?? "intro"}-${index}`}
+                section={section}
+                name={siteConfig.name}
+                email={siteConfig.supportEmail}
+              />
             ))}
           </div>
 
